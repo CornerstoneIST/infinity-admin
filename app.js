@@ -40,10 +40,18 @@ express.compiler.compilers.less.compile = function(str, fn){
 }
 
 // Routes
+app.set('view options', { pretty: true });
 app.get('/', routes.index);
-app.get('/apps', routes.apps);
-app.get('/zendesk-api', routes.zendeskapi);
-app.get('/freshbooks-api', routes.freshbooksapi);
+app.get('/reports', routes.reports);
+app.get('/users', routes.users);
+  app.get('/new-user', routes.newuser);
+  app.get('/user-profile', routes.userprofile);
+app.get('/clients', routes.clients);
+app.get('/tasks', routes.tasks);
+app.get('/at-a-glance', routes.ataglance);
+app.get('/billing', routes.billing);
+app.get('/connections', routes.connections);
+app.get('/settings', routes.settings);
 app.use(function(req, res, next){
   res.render('404.jade', {title: "404 - Page Not Found", showFullNav: false, status: 404, url: req.url });
 });

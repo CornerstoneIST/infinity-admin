@@ -1,0 +1,94 @@
+.content
+  .container-fluid
+    #pad-wrapper.new-user
+      .row-fluid.header
+        h3 Create a new user
+      .row-fluid.form-wrapper
+        //
+           left column
+        .span9.with-sidebar
+          .container
+            form.new_user_form.inline-input
+              .span12.field-box
+                label Name:
+                input.span9(type='text')
+              .span12.field-box
+                label State:
+                .ui-select.span5
+                  select
+                    option(value='AK') Alaska
+                    option(value='HI') Hawaii
+                    option(value='CA') California
+                    option(value='NV') Nevada
+                    option(value='OR') Oregon
+                    option(value='WA') Washington
+                    option(value='AZ') Arizona
+              .span12.field-box
+                label Company:
+                input.span9(type='text')
+              .span12.field-box
+                label Email:
+                input.span9(type='text')
+              .span12.field-box
+                label Phone:
+                input.span9(type='text')
+              .span12.field-box
+                label Website:
+                input.span9(type='text')
+              .span12.field-box
+                label Address:
+                .address-fields
+                  input.span12(type='text', placeholder='Street address')
+                  input.span12.small(type='text', placeholder='City')
+                  input.span12.small(type='text', placeholder='State')
+                  input.span12.small.last(type='text', placeholder='Postal Code')
+              .span12.field-box.textarea
+                label Notes:
+                textarea.span9
+                span.charactersleft 90 characters remaining. Field limited to 100 characters
+              .span11.field-box.actions
+                input.btn-glow.primary(type='button', value='Create user')
+                span OR
+                input.reset(type='reset', value='Cancel')
+        //
+           side right column
+        .span3.form-sidebar.pull-right
+          .btn-group.toggle-inputs.hidden-tablet
+            button.glow.left.active(data-input='inline') INLINE INPUTS
+            button.glow.right(data-input='normal') NORMAL INPUTS
+          .alert.alert-info.hidden-tablet
+            i.icon-lightbulb.pull-left
+            | Click above to see difference between inline and normal inputs on a form
+          h6 Sidebar text for instructions
+          p Add multiple users at once
+          p Choose one of the following file types:
+          ul
+            li
+              a(href='#') Upload a vCard file
+            li
+              a(href='#') Import from a CSV file
+            li
+              a(href='#') Import from an Excel file
+//
+   end main container
+//
+   scripts
+script(src='http://code.jquery.com/jquery-latest.js')
+script(src='js/bootstrap.min.js')
+script(src='js/theme.js')
+script(type='text/javascript')
+  $(function () {
+  // toggle form between inline and normal inputs
+  var $buttons = $(".toggle-inputs button");
+  var $form = $("form.new_user_form");
+  $buttons.click(function () {
+  var mode = $(this).data("input");
+  $buttons.removeClass("active");
+  $(this).addClass("active");
+  if (mode === "inline") {
+  $form.addClass("inline-input");
+  } else {
+  $form.removeClass("inline-input");
+  }
+  });
+  });

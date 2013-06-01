@@ -8,6 +8,16 @@ i.tool{
   	line-height: 14px;
   	vertical-align: text-top;
 }
+i.arrow-down {
+	background: url("../img/ico-arrow-black.png") no-repeat;
+	width: 9px;
+	height: 6px;
+	display: inline-block;
+	margin-top: 1px;
+  	*margin-right: .3em;
+  	line-height: 14px;
+  	vertical-align: text-top;
+}
 i.shuffle{
 	background: url("../img/btn-shuffle.png") no-repeat;
 	display: inline-block;
@@ -74,16 +84,6 @@ i.gallery-trash{
   	line-height: 14px;
   	vertical-align: text-top;
 }
-i.arrow-down {
-	background: url("../img/ico-arrow-black.png") no-repeat;
-	width: 9px;
-	height: 6px;
-	display: inline-block;
-	margin-top: 1px;
-  	*margin-right: .3em;
-  	line-height: 14px;
-  	vertical-align: text-top;
-}
 i.table-edit{
 	background: url("../img/ico-table-new.png") no-repeat;
 	width: 14px;
@@ -111,37 +111,5 @@ i.table-delete{
   	*margin-right: .3em;
   	line-height: 14px;
   	vertical-align: text-top;
-}
-
-
-i.sidebar-home{
-	background: url("../img/ico-home.png") no-repeat;
-}
-i.sidebar-charts{
-	background: url("../img/ico-charts.png") no-repeat;
-}
-i.sidebar-forms{
-	background: url("../img/ico-forms.png") no-repeat;
-}
-i.sidebar-gallery{
-	background: url("../img/ico-gallery.png") no-repeat;
-}
-i.sidebar-widgets{
-	background: url("../img/ico-widgets.png") no-repeat;
-}
-i.sidebar-calendar{
-	background: url("../img/ico-calendar.png") no-repeat;
-}
-i.sidebar-tables{
-	background: url("../img/ico-tables.png") no-repeat;
-}
-i.sidebar-ui{
-	background: url("../img/ico-ui.png") no-repeat;
-}
-i.sidebar-gear{
-	background: url("../img/ico-gear.png") no-repeat;
-}
-i.sidebar-logout{
-	background: url("../img/ico-logout.png") no-repeat;
 }
 

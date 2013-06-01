@@ -1,0 +1,284 @@
+.content
+  .container-fluid
+    #pad-wrapper
+      //
+         Clients table
+      //
+         the script for the toggle all checkboxes from header is located in js/theme.js
+      .table-wrapper.products-table.section
+        .row-fluid.head
+          .span12
+            h4 Clients
+        .row-fluid.filter-block
+          .pull-right
+            .ui-select
+              select
+                option Filter users
+                option Signed last 30 days
+                option Active users
+            input.search(type='text')
+            a.btn-flat.success.new-product + Add product
+        .row-fluid
+          table.table.table-hover
+            thead
+              tr
+                th.span3
+                  input(type='checkbox')
+                  | Name
+                th.span3
+                  span.line
+                  | Description
+                th.span3
+                  span.line
+                  | Status
+                th.span2
+            tbody
+              //
+                 row
+              tr.first
+                td
+                  input(type='checkbox')
+                  .img
+                    img(src='img/table-img.png')
+                  a.name(href='#') Generate Lorem
+                td.description
+                  | if you are going to use a passage of Lorem Ipsum.
+                td
+                  span.label.label-success Active
+                  ul.actions
+                    li
+                      a(href='#') Edit
+                    li.last
+                      a(href='#') Delete
+              //
+                 row
+              tr
+                td
+                  input(type='checkbox')
+                  .img
+                    img(src='img/table-img.png')
+                  a.name(href='#') Internet tend
+                td.description
+                  | There are many variations of passages.
+                td
+                  ul.actions
+                    li
+                      a(href='#') Edit
+                    li.last
+                      a(href='#') Delete
+              //
+                 row
+              tr
+                td
+                  input(type='checkbox')
+                  .img
+                    img(src='img/table-img.png')
+                  a.name(href='#') Generate Lorem
+                td.description
+                  | if you are going to use a passage of Lorem Ipsum.
+                td
+                  ul.actions
+                    li
+                      a(href='#') Edit
+                    li.last
+                      a(href='#') Delete
+              //
+                 row
+              tr
+                td
+                  input(type='checkbox')
+                  .img
+                    img(src='img/table-img.png')
+                  a.name(href='#') Internet tend
+                td.description
+                  | There are many variations of passages.
+                td
+                  span.label.label-info Standby
+                  ul.actions
+                    li
+                      a(href='#') Edit
+                    li.last
+                      a(href='#') Delete
+              tr
+                td
+                  input(type='checkbox')
+                  .img
+                    img(src='img/table-img.png')
+                  a.name(href='#') Generate Lorem
+                td.description
+                  | if you are going to use a passage of Lorem Ipsum.
+                td
+                  span.label.label-success Active
+                  ul.actions
+                    li
+                      a(href='#') Edit
+                    li.last
+                      a(href='#') Delete
+      //
+         end products table
+      //
+         orders table
+      .table-wrapper.orders-table.section
+        .row-fluid.head
+          .span12
+            h4 Orders
+        .row-fluid.filter-block
+          .pull-right
+            .btn-group.pull-right
+              button.glow.left.large All
+              button.glow.middle.large Pending
+              button.glow.right.large Completed
+            input.search.order-search(type='text', placeholder='Search for an order..')
+        .row-fluid
+          table.table.table-hover
+            thead
+              tr
+                th.span2
+                  | Order ID
+                th.span3
+                  | Date
+                th.span3
+                  span.line
+                  | Name
+                th.span3
+                  span.line
+                  | Status
+                th.span3
+                  span.line
+                  | Items
+                th.span3
+                  span.line
+                  | Total amount
+            tbody
+              //
+                 row
+              tr.first
+                td
+                  a(href='#') #459
+                td
+                  | Jan 03, 2013
+                td
+                  a(href='#') John Smith
+                td
+                  span.label.label-success Completed
+                td
+                  | 3
+                td
+                  | $ 3,500.00
+              tr
+                td
+                  a(href='#') #510
+                td
+                  | Feb 22, 2013
+                td
+                  a(href='#') Anna Richards
+                td
+                  span.label.label-info Pending
+                td
+                  | 5
+                td
+                  | $ 800.00
+              tr
+                td
+                  a(href='#') #590
+                td
+                  | Mar 03, 2013
+                td
+                  a(href='#') Steven McFly
+                td
+                  span.label.label-success Completed
+                td
+                  | 2
+                td
+                  | $ 1,350.00
+              tr
+                td
+                  a(href='#') #618
+                td
+                  | Jan 03, 2013
+                td
+                  a(href='#') George Williams
+                td
+                  span.label Canceled
+                td
+                  | 8
+                td
+                  | $ 3,499.99
+      //
+         end orders table
+      //
+         users table
+      .table-wrapper.users-table.section
+        .row-fluid.head
+          .span12
+            h4 Users
+        .row-fluid.filter-block
+          .pull-right
+            a.btn-flat.pull-right.success.new-product.add-user + Add user
+            input.search.user-search(type='text', placeholder='Search for users..')
+        .row-fluid
+          table.table.table-hover
+            thead
+              tr
+                th.span4
+                  | Name
+                th.span3
+                  span.line
+                  | Signed up
+                th.span2
+                  span.line
+                  | Total spent
+                th.span3.align-right
+                  span.line
+                  | Email
+            tbody
+              //
+                 row
+              tr.first
+                td
+                  img.img-circle.avatar.hidden-phone(src='img/contact-img.png')
+                  a.name(href='user-profile.html') Alejandra Galvan Castillo
+                  span.subtext Graphic Design
+                td
+                  | Jan 11, 2012
+                td
+                  | $ 500.00
+                td.align-right
+                  a(href='#') alejandra@gmail.com
+              tr
+                td
+                  img.img-circle.avatar.hidden-phone(src='img/contact-img2.png')
+                  a.name(href='user-profile.html') Alejandra Galvan Castillo
+                  span.subtext Graphic Design
+                td
+                  | Apr 23, 2012
+                td
+                  | $ 3,210.00
+                td.align-right
+                  a(href='#') alejandra@gmail.com
+              tr
+                td
+                  img.img-circle.avatar.hidden-phone(src='img/contact-img.png')
+                  a.name(href='user-profile.html') Alejandra Galvan Castillo
+                  span.subtext Graphic Design
+                td
+                  | Feb 03, 2013
+                td
+                  | $ 890.00
+                td.align-right
+                  a(href='#') alejandra@gmail.com
+              tr
+                td
+                  img.img-circle.avatar.hidden-phone(src='img/contact-img2.png')
+                  a.name(href='user-profile.html') Alejandra Galvan Castillo
+                  span.subtext Graphic Design
+                td
+                  | Sep 19, 2012
+                td
+                  | $ 899.99
+                td.align-right
+                  a(href='#') alejandra@gmail.com
+      //
+         end users table
+//
+   end main container

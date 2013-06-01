@@ -268,6 +268,11 @@
       background: -o-linear-gradient(top, #389beb 0%, #0078d9 100%);
       background: -ms-linear-gradient(top, #389beb 0%, #0078d9 100%);
       filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='rgb(56, 155, 235)', endColorstr='#0078d9',GradientType=0 ); }
+    .btn-glow.primary[disabled] {
+      border: 0px;
+      box-shadow: none !important;
+      background: #81b7e2 !important;
+      cursor: default; }
   .btn-glow.success {
     background: #96bf48;
     background: linear-gradient(to bottom, #a9d651 0%, #96bf48 100%);
@@ -391,7 +396,7 @@
 
 /* Custom Dialog */
 .pop-dialog {
-  z-index: 100;
+  z-index: 10000;
   display: inline-block; }
   .pop-dialog.is-visible {
     display: block;
@@ -400,7 +405,8 @@
     animation: reveal .2s ease-out; }
   .pop-dialog .pointer {
     position: relative;
-    top: -22px; }
+    top: -22px;
+    /* pop-dialog with pointer to the right */ }
     .pop-dialog .pointer .arrow,
     .pop-dialog .pointer .arrow_border {
       border-color: transparent transparent #fff;
@@ -417,6 +423,12 @@
       top: 4px;
       z-index: 1001;
       left: 24px; }
+    .pop-dialog .pointer.right .arrow {
+      left: auto;
+      right: 25px; }
+    .pop-dialog .pointer.right .arrow_border {
+      left: auto;
+      right: 24px; }
   .pop-dialog .body {
     width: auto;
     background-color: #fff;

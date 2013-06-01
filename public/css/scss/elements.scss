@@ -307,6 +307,12 @@
 			background: -ms-linear-gradient(top, rgb(56, 155, 235) 0%,#0078d9 100%);
 			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='rgb(56, 155, 235)', endColorstr='#0078d9',GradientType=0 );
 		}
+		&[disabled] {
+			border: 0px;
+			box-shadow: none !important;
+			background: rgb(129, 183, 226) !important;
+			cursor: default;
+		}
 	}
 	&.success {
 		background: #96bf48;
@@ -448,7 +454,7 @@
 
 /* Custom Dialog */
 .pop-dialog {
-	z-index: 100;
+	z-index: 10000;
 	display: inline-block;
 
 	&.is-visible {
@@ -477,6 +483,16 @@
 			top: 4px;
 			z-index: 1001;
 			left: 24px;
+		}
+		
+		/* pop-dialog with pointer to the right */
+		&.right .arrow {
+			left: auto;
+			right:25px;
+		}
+		&.right .arrow_border {
+			left: auto;
+			right:24px;
 		}
 	}
 	.body {

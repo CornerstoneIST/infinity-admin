@@ -1,0 +1,115 @@
+.content
+  //
+     settings changer
+  .skins-nav
+    a.skin.first_nav.selected(href='#')
+      span.icon
+      span.text Default
+    a.skin.second_nav(href='#', data-file='css/skins/dark.css')
+      span.icon
+      span.text Dark skin
+  .container-fluid
+    #pad-wrapper.user-profile
+      //
+         header
+      .row-fluid.header
+        .span8
+          img.avatar.img-circle(src='img/contact-profile.png')
+          h3.name Alejandra Galván Castillo
+          span.area Graphic Designer
+        a.btn-flat.icon.pull-right.delete-user(data-toggle='tooltip', title='Delete user', data-placement='top')
+          i.icon-trash
+        a.btn-flat.icon.large.pull-right.edit
+          | Edit this person
+      .row-fluid.profile
+        //
+           bio, new note & orders column
+        .span9.bio
+          .profile-box
+            //
+               biography
+            .span12.section
+              h6 Biography
+              p
+                | There are many variations of passages of Lorem Ipsum available but the majority have humour suffered alteration in believable some formhumour , by injected humour, or randomised words which don't look even slightly believable.
+            h6 Recent orders
+            br
+            //
+               recent orders table
+            table.table.table-hover
+              thead
+                tr
+                  th.span2
+                    | Order ID
+                  th.span3
+                    span.line
+                    | Date
+                  th.span3
+                    span.line
+                    | Items
+                  th.span3
+                    span.line
+                    | Total amount
+              tbody
+                //
+                   row
+                tr.first
+                  td
+                    a(href='#') #459
+                  td
+                    | Jan 03, 2013
+                  td
+                    | 3
+                  td
+                    | $ 3,500.00
+                tr
+                  td
+                    a(href='#') #510
+                  td
+                    | Feb 22, 2013
+                  td
+                    | 5
+                  td
+                    | $ 800.00
+                tr
+                  td
+                    a(href='#') #618
+                  td
+                    | Jan 03, 2013
+                  td
+                    | 8
+                  td
+                    | $ 3,499.99
+            //
+               new comment form
+            .span12.section.comment
+              h6 Add a quick note
+              p Add a note about this user to keep a history of your interactions.
+              textarea
+              a(href='#') Attach files
+              .span12.submit-box.pull-right
+                input.btn-glow.primary(type='submit', value='Add Note')
+                span OR
+                input.reset(type='reset', value='Cancel')
+        //
+           side address column
+        .span3.address.pull-right
+          h6 Address
+          iframe(width='300', height='133', frameborder='0', scrolling='no', marginheight='0', marginwidth='0', src='https://maps.google.com.mx/?ie=UTF8&t=m&ll=19.715081,-155.071421&spn=0.010746,0.025749&z=14&output=embed')
+          ul
+            li 2301 East Lamar Blvd. Suite 140.
+            li City, Arlington. United States,
+            li Zip Code, TX 76006.
+            li.ico-li
+              i.ico-phone
+              | 1817 274 2933
+            li.ico-li
+              i.ico-mail
+              a(href='#') alejandra@detailcanvas.com
+//
+   end main container
+//
+   scripts
+script(src='http://code.jquery.com/jquery-latest.js')
+script(src='js/bootstrap.min.js')
+script(src='js/theme.js')

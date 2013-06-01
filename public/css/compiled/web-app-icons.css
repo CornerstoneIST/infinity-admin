@@ -7,10 +7,12 @@
     margin: 0; }
     .icons-wrapper ul li {
       font-size: 13px;
-      line-height: 32px; }
+      line-height: 32px;
+      margin-right: 10px; }
     .icons-wrapper ul i {
       width: 32px;
-      font-size: 16px; }
+      font-size: 16px;
+      margin-right: 13px; }
 
 .icons-wrapper-border {
   border-top: 1px solid #edeff1;

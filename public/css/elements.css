@@ -250,7 +250,6 @@
 	-moz-box-shadow:0 1px 0 rgba(0,0,0,0.2) inset !important;
 	box-shadow:0 1px 0 rgba(0,0,0,0.2) inset !important;
 }
-
 .btn-glow [class^="icon-"],
 .btn-glow [class*=" icon-"] {
 	margin-right: 3px;
@@ -306,6 +305,12 @@
 	background: -o-linear-gradient(top, rgb(56, 155, 235) 0%,#0078d9 100%);
 	background: -ms-linear-gradient(top, rgb(56, 155, 235) 0%,#0078d9 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='rgb(56, 155, 235)', endColorstr='#0078d9',GradientType=0 );
+}
+.btn-glow.primary[disabled] {
+	border: 0px;
+	box-shadow: none !important;
+	background: rgb(129, 183, 226) !important;
+	cursor: default;
 }
 
 .btn-glow.success {
@@ -446,7 +451,7 @@
 
 /* Custom Dialog */
 .pop-dialog {
-	z-index: 100;
+	z-index: 10000;
 	display: inline-block;
 }
 .pop-dialog.is-visible {
@@ -477,6 +482,10 @@
 	z-index: 1001;
 	left: 24px;
 }
+/* pop-dialog with pointer to the right */
+.pop-dialog .pointer.right .arrow {left: auto;right:25px;}
+.pop-dialog .pointer.right .arrow_border {left: auto;right:24px;}
+
 .pop-dialog .body {
 	width: auto;
 	background-color: #fff;

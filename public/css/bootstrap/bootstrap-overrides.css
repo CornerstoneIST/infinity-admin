@@ -44,7 +44,6 @@ h1,h2,h3,h4,h5,h6{
 /* code*/
 code {
 	color: rgb(78, 153, 223);
-	/*font-family: "Open sans", Monaco, Arial;*/
 }
 
 
@@ -61,7 +60,17 @@ textarea {
 	font-size: 13px;
 	-webkit-box-shadow: inset 0 0px 1px rgba(0, 0, 0, 0.075);
 	   -moz-box-shadow: inset 0 0px 1px rgba(0, 0, 0, 0.075);
-			box-shadow: inset 0 0px 1px rgba(0, 0, 0, 0.075);	
+			box-shadow: inset 0 0px 1px rgba(0, 0, 0, 0.075);
+
+	/*border: none;
+	-webkit-box-shadow: inset rgba(112, 112, 112, 0.3) 0 1px 1px,inset rgba(0,0,0,0.3) 0 0 1px,rgba(255,255,255,0.4) 0 1px 0;
+	-moz-box-shadow: inset rgba(112, 112, 112, 0.3) 0 1px 1px,inset rgba(0,0,0,0.3) 0 0 1px,rgba(255,255,255,0.4) 0 1px 0;
+	box-shadow: inset rgba(112, 112, 112, 0.3) 0 1px 1px,inset rgba(0,0,0,0.3) 0 0 1px,rgba(255,255,255,0.4) 0 1px 0;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	-ms-border-radius: 4px;
+	-o-border-radius: 4px;
+	border-radius: 4px;*/
 }
 .inline-input input[type="text"],
 .inline-input input[type="password"],
@@ -97,6 +106,10 @@ textarea:focus{
 	-webkit-box-shadow: inset 0 0px 1px rgba(0, 0, 0, 0.075), 0 0 4px rgba(82, 168, 236, 0.6);
 	   -moz-box-shadow: inset 0 0px 1px rgba(0, 0, 0, 0.075), 0 0 4px rgba(82, 168, 236, 0.6);
 			box-shadow: inset 0 0px 1px rgba(0, 0, 0, 0.075), 0 0 4px rgba(82, 168, 236, 0.6);
+
+	/*-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 4px rgba(82, 168, 236, 0.6);
+	   -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 4px rgba(82, 168, 236, 0.6);
+			box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 4px rgba(82, 168, 236, 0.6);*/
 }
 input[type="reset"]{
 	text-transform: uppercase;
@@ -111,7 +124,6 @@ input[type="password"]{
 }
 textarea{
 	background: #fff;
-	/*box-shadow: none;*/
 	border-color: #dee3ea;
 }
 select{
@@ -185,6 +197,10 @@ textarea::-webkit-input-placeholder {
 	background: linear-gradient(to bottom,  #2c3742 0%,#28303a 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2c3742', endColorstr='#28303a',GradientType=0 ); /* IE6-9 */
 }
+.navbar-inverse .btn-navbar {
+	float: left;
+	margin-top: 10px;
+}
 .navbar-inverse .brand {
 	color: #ffffff;
 	text-transform: uppercase;
@@ -194,27 +210,12 @@ textarea::-webkit-input-placeholder {
 .navbar-inverse .brand strong {
 	font-weight: normal;
 }
-.navbar-inverse input.search {
-	background: url("../../img/lens.png") #0f1217 no-repeat 95%;
-	border: 1px solid #0f1217;
-	position: relative;
-	border-radius: 4px;
-	top: 8px;
-	padding: 3px 6px;
-	color: #000;
-	font-size: 13px;
-	margin-right: 40px;
-	-webkit-transition: all .3s linear;
-    -moz-transition: all .3s linear;
-    transition: all .3s linear;
-}
-.navbar-inverse input.search:focus {
-	background-color: #fff;
-}
 .navbar-inverse .nav > li > a {
 	padding: 13px 15px 8px;
 	border-left: 1px solid #101417;
 	color: rgb(214, 214, 214);
+	outline: 0px;
+	height: 25px;
 	transition: background .1s linear;
 	-moz-transition: background .1s linear; /* Firefox 4 */
 	-webkit-transition: background .1s linear; /* Safari and Chrome */
@@ -223,6 +224,7 @@ textarea::-webkit-input-placeholder {
 .navbar-inverse .nav > li > a:hover {
 	background: rgba(25, 31, 36,0.6);
 }
+/* TODO: deprecated mobile-menu, ya no se usa, remover despues de migrar todos los htmls al nuevo diseno */
 .navbar-inverse .mobile-menu .nav > li > a {
 	color: #fff;
 	border-left: 0px;
@@ -338,7 +340,6 @@ textarea::-webkit-input-placeholder {
 	font-weight: bold;
 	position: relative;
 	padding-bottom: 20px;
-	/*padding-left: 20px;*/
 	padding-top: 5px;
 	text-transform: uppercase;
 	font-size: 11px;
