@@ -52,6 +52,7 @@ app.get('/at-a-glance', routes.ataglance);
 app.get('/billing', routes.billing);
 app.get('/connections', routes.connections);
 app.get('/settings', routes.settings);
+app.get('/setup', routes.setup);
 app.use(function(req, res, next){
   res.render('404.jade', {title: "404 - Page Not Found", showFullNav: false, status: 404, url: req.url });
 });

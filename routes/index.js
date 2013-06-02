@@ -46,3 +46,7 @@ exports.connections = function(req, res){
 exports.settings = function(req, res){
   res.render('settings', { title: 'Settings' })
 };
+
+exports.setup = function(req, res){
+  res.render('setup', { title: 'First time Setup' })
+};
