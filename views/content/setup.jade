@@ -26,9 +26,9 @@
               li(data-target='#step4')
                 span.step 4
                 span.title
-                  | Select
+                  | Start
                   br
-                  | Plan
+                  | Trial
           .step-content
             #step1.step-pane.active
               .row-fluid.form-wrapper
@@ -416,14 +416,25 @@
             #step4.step-pane
               .row-fluid.form-wrapper.payment-info
                 .span8
-                  form
-                    .field-box
-                      label Subscription Plan:
-                      select#plan.span5
-                        option(value='66') Basic - $5/user per month (USD)
-                        option(value='67') Pro - $9/user per month (USD)
-                        option(value='68') Premium - $12/user per month (USD)
-                    script.stripe-button(src='https://checkout.stripe.com/v2/checkout.js', data-key='pk_test_AHNc6P5vae90qtTuakJeb3rI', data-amount='2000', data-name='Demo Site', data-description='2 widgets ($20.00)', data-currency='usd', data-image='/128x128.png')
+                    .span3.black
+                        .plan
+                                  .wrapper
+                                    h3 Lite
+                                    .price
+                                      span.dollar $
+                                      span.qty 5
+                                      span.month /month per user
+                                    .features
+                                      p
+                                        strong Unlimited
+                                        | Time Tracking
+                                      p
+                                        strong 2 Work
+                                        | types
+                                      p
+                                        strong
+
+                                    script.stripe-button(src='https://checkout.stripe.com/v2/checkout.js', data-name='Infinity Admin', data-label='Start your Trial', data-key='pk_test_sXNhYvC4yLuqun43GYrHhR0I', data-amount='500', data-name='Demo Site', data-description='Lite for ', data-currency='usd', data-image='/img/logo/128x128w.png')
 
           .wizard-actions
             button.btn-glow.primary.btn-prev(type='button', disabled='disabled')
