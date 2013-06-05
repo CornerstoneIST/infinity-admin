@@ -52,10 +52,7 @@
                   form
                     .field-box
                       label Company:
-                      input.span8(type='text', placeholder='ACME Corporation')
-                      span.alert-msg
-                        i.icon-warning-sign
-                        |  Company name cannot be changed later
+                      input.span8(data-toggle='tooltip', data-trigger='focus', title='Company name cannot be changed later', data-placement='right', type='text')
                     .field-box
                       label
                     .field-box
@@ -69,10 +66,10 @@
                       input.span8(type='text', placeholder='Glendale')
                     .field-box
                       label Postal/ZIP code:
-                      input.span3(type='text', placeholder='91203')
+                      input.span4(type='text', placeholder='91203', maxlength='5')
                     .field-box
                       label State or Province:
-                      select.span3
+                      select.select2.span4
                         option(value='') Select your State
                         option(value='AK') Alaska
                         option(value='HI') Hawaii
@@ -126,7 +123,7 @@
                         option(value='WV') West Virginia
                     .field-box
                       label Country:
-                      select.span8
+                      select.select2.span8
                         option(value='') Select your Country
                         option(value='US') United States of America
                         option(value='CA') Canada
@@ -380,7 +377,7 @@
                 .span8
                     .field-box
                       label Security Question 1:
-                      select.span8
+                      select.question1.span8
                         option(value='') Select a security question
                         option(value='Childhood-Nickname') What was your childhood nickname?
                         option(value='City-Met-Spouse') In what city did you meet your spouse/significant other?
@@ -388,14 +385,19 @@
                         option(value='Street-in-3rd') What street did you live on in third grade?
                         option(value='Oldest-Siblings-Middlename') What is your oldest sibling's middle name?
                         option(value='6th-grade-school') What school did you attend for sixth grade?
-                        option(value='Write-Own') Write my own question
+                        option(value='writeOwn1') Write my own question
+
+                    #writeOwn1.customQuestion1(style='display: none;')
+                        .field-box
+                          label
+                          input.span8(placeholder='What is your favorite soft drink?', data-toggle='tooltip', data-trigger='focus', title='Write your security question', data-placement='right', type='text')
                     .field-box
                       label Security Answer 1:
                       input.span8(type='text')
 
                     .field-box
                       label Security Question 2:
-                      select.span8
+                      select.question2.span8
                         option(value='') Select a security question
                         option(value='City-Parents-Met') In what city or town did your mother and father meet?
                         option(value='First-Kiss-Where') Where were you when you had your first kiss?
@@ -403,8 +405,12 @@
                         option(value='Third-Grade-Teacher') What was the last name of your third grade teacher?
                         option(value='City-Nearest-Sibling') In what city does your nearest sibling live?
                         option(value='First-Job-City') In what city or town was your first job?
-                        option(value='Write-Own2') Write my own question
+                        option(value='writeOwn2') Write my own question
 
+                    #writeOwn2.customQuestion2(style='display: none;')
+                        .field-box
+                          label
+                          input.span8(placeholder='What is your favorite color?',data-toggle='tooltip', data-trigger='focus', title='Write your security question', data-placement='right', type='text')
                     .field-box
                       label Security Answer 2:
                       input.span8(type='text')
@@ -445,40 +451,75 @@
               i.icon-chevron-right
             button.btn-glow.success.btn-finish(type='button')
               | Setup your account!
-//
-   end main container
-//
-   scripts for this page
-script(src='http://code.jquery.com/jquery-latest.js')
-script(src='js/bootstrap.min.js')
-script(src='js/theme.js')
-script(src='js/fuelux.wizard.js')
-script(type='text/javascript')
-  $(function () {
-  var $wizard = $('#fuelux-wizard'),
-  $btnPrev = $('.wizard-actions .btn-prev'),
-  $btnNext = $('.wizard-actions .btn-next'),
-  $btnFinish = $(".wizard-actions .btn-finish");
-  $wizard.wizard().on('finished', function(e) {
-  // wizard complete code
-  }).on("changed", function(e) {
-  var step = $wizard.wizard("selectedItem");
-  // reset states
-  $btnNext.removeAttr("disabled");
-  $btnPrev.removeAttr("disabled");
-  $btnNext.show();
-  $btnFinish.hide();
-  if (step.step === 1) {
-  $btnPrev.attr("disabled", "disabled");
-  } else if (step.step === 4) {
-  $btnNext.hide();
-  $btnFinish.show();
-  }
-  });
-  $btnPrev.on('click', function() {
-  $wizard.wizard('previous');
-  });
-  $btnNext.on('click', function() {
-  $wizard.wizard('next');
-  });
-  });
+
+    script(src='js/wysihtml5-0.3.0.js')
+    script(src='http://code.jquery.com/jquery-latest.js')
+    script(src='js/bootstrap.min.js')
+    script(src='js/bootstrap-wysihtml5-0.0.2.js')
+    script(src='js/bootstrap.datepicker.js')
+    script(src='js/jquery.uniform.min.js')
+    script(src='js/select2.min.js')
+    script(src='js/theme.js')
+    script(src='js/fuelux.wizard.js')
+    script(type='text/javascript')
+      $(function () {
+      var $wizard = $('#fuelux-wizard'),
+      $btnPrev = $('.wizard-actions .btn-prev'),
+      $btnNext = $('.wizard-actions .btn-next'),
+      $btnFinish = $(".wizard-actions .btn-finish");
+      $wizard.wizard().on('finished', function(e) {
+      // wizard complete code
+      }).on("changed", function(e) {
+      var step = $wizard.wizard("selectedItem");
+      // reset states
+      $btnNext.removeAttr("disabled");
+      $btnPrev.removeAttr("disabled");
+      $btnNext.show();
+      $btnFinish.hide();
+      if (step.step === 1) {
+      $btnPrev.attr("disabled", "disabled");
+      } else if (step.step === 4) {
+      $btnNext.hide();
+      $btnFinish.show();
+      }
+      });
+      $btnPrev.on('click', function() {
+      $wizard.wizard('previous');
+      });
+      $btnNext.on('click', function() {
+      $wizard.wizard('next');
+      });
+      });
+    //
+       call this page plugins
+    script(type='text/javascript')
+      $(function () {
+      // add uniform plugin styles to html elements
+      $("input:checkbox, input:radio").uniform();
+      // select2 plugin for select elements
+      $(".select2").select2({
+      placeholder: "Select a State"
+      });
+      // datepicker plugin
+      $('.datepicker').datepicker().on('changeDate', function (ev) {
+      $(this).datepicker('hide');
+      });
+      // wysihtml5 plugin on textarea
+      $(".wysihtml5").wysihtml5({
+      "font-styles": false
+      });
+      });
+    script(type='text/javascript')
+        $(function() {
+            $('.question2').change(function(){
+                $('.customQuestion2').hide();
+                $('#' + $(this).val()).show();
+            });
+        });
+    script(type='text/javascript')
+        $(function() {
+            $('.question1').change(function(){
+                $('.customQuestion1').slideUp(1);
+                $('#' + $(this).val()).slideDown(1);
+            });
+        });
