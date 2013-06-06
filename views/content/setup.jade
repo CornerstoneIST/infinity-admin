@@ -420,27 +420,88 @@
                       input.span8(type='email')
 
             #step4.step-pane
-              .row-fluid.form-wrapper.payment-info
-                .span8
-                    .span3.black
-                        .plan
-                                  .wrapper
-                                    h3 Lite
-                                    .price
-                                      span.dollar $
-                                      span.qty 5
-                                      span.month /month per user
-                                    .features
-                                      p
-                                        strong Unlimited
-                                        | Time Tracking
-                                      p
-                                        strong 2 Work
-                                        | types
-                                      p
-                                        strong
-
-                                    script.stripe-button(src='https://checkout.stripe.com/v2/checkout.js', data-name='Infinity Admin', data-label='Start your Trial', data-key='pk_test_sXNhYvC4yLuqun43GYrHhR0I', data-amount='500', data-name='Demo Site', data-description='Lite for ', data-currency='usd', data-image='/img/logo/128x128w.png')
+                #in_pricing2
+                        .row.charts_wrapp
+                          //
+                             Plan Box
+                          .span3.black
+                            .plan
+                              .wrapper
+                                h3 Starter
+                                .price
+                                  span.dollar $
+                                  span.qty 15
+                                  span.month /month
+                                .features
+                                  p
+                                    strong 3
+                                    |  Shared Projects
+                                  p
+                                    strong 3
+                                    |  Team Members
+                                  p
+                                    strong 5
+                                    |  Clients
+                                  p
+                                    strong 2
+                                    | Work Types
+                                  p
+                                a.order.btn-glow.inverse#starter(href='#') START TRIAL
+                          //
+                             Plan Box
+                          .span3.black.ultra
+                            .plan
+                              .wrapper
+                                img.ribbon(src='img/badge.png')
+                                h3 Professional
+                                .price
+                                  span.dollar $
+                                  span.qty 29
+                                  span.month /month
+                                .features
+                                  p
+                                    strong 10
+                                    | Shared Projects
+                                  p
+                                    strong 10
+                                    | Team Members
+                                  p
+                                    strong Unlimited
+                                    | Storage
+                                  p
+                                    strong Plus
+                                    | Phone Support
+                                a.order.btn-glow.inverse#professional(href='#') START TRIAL
+                          //
+                             Plan Box
+                          .span3.black
+                            .plan
+                              .wrapper
+                                h3 Advanced
+                                .price
+                                  span.dollar $
+                                  span.qty 49
+                                  span.month /month
+                                .features
+                                  p
+                                    strong 10
+                                    | Shared Projects
+                                  p
+                                    strong 20
+                                    | Team Members
+                                  p
+                                    strong 10
+                                    | Storage
+                                a.order.btn-glow.inverse#advanced(href='#') START TRIAL
+                          //
+                             Plan Box
+                          .span3.black
+                            .plan
+                              .wrapper
+                                h3 Need more?
+                                h6 Let’s talk.
+                                p If your company needs are larger than any of our plans, let’s talk.
+                                a.order.btn-glow.inverse(href='#') GET IN TOUCH
 
           .wizard-actions
             button.btn-glow.primary.btn-prev(type='button', disabled='disabled')
@@ -449,8 +510,6 @@
             button.btn-glow.primary.btn-next(type='button', data-last='Finish')
               | Next
               i.icon-chevron-right
-            button.btn-glow.success.btn-finish(type='button')
-              | Setup your account!
 
     script(src='js/wysihtml5-0.3.0.js')
     script(src='http://code.jquery.com/jquery-latest.js')
@@ -523,3 +582,56 @@
                 $('#' + $(this).val()).slideDown(1);
             });
         });
+    script(src='https://checkout.stripe.com/v2/checkout.js')
+    script
+      $('#starter').click(function(){
+      var token = function(res){
+      var $input = $('<input type=hidden name=stripeToken />').val(res.id);
+      $('form').append($input).submit();
+      };
+      StripeCheckout.open({
+      key:         'pk_test_sXNhYvC4yLuqun43GYrHhR0I',
+      address:     false,
+      amount:      1500,
+      currency:    'usd',
+      name:        'Starter Package',
+      description: 'A bag of Pistachios',
+      panelLabel:  'Start Trial',
+      token:       token
+      });
+      return false;
+      });
+      $('#professional').click(function(){
+      var token = function(res){
+      var $input = $('<input type=hidden name=stripeToken />').val(res.id);
+      $('form').append($input).submit();
+      };
+      StripeCheckout.open({
+      key:         'pk_test_sXNhYvC4yLuqun43GYrHhR0I',
+      address:     false,
+      amount:      2900,
+      currency:    'usd',
+      name:        'Professional Package',
+      description: 'A bag of Pistachios',
+      panelLabel:  'Start Trial',
+      token:       token
+      });
+      return false;
+      });
+      $('#advanced').click(function(){
+      var token = function(res){
+      var $input = $('<input type=hidden name=stripeToken />').val(res.id);
+      $('form').append($input).submit();
+      };
+      StripeCheckout.open({
+      key:         'pk_test_sXNhYvC4yLuqun43GYrHhR0I',
+      address:     false,
+      amount:      4900,
+      currency:    'usd',
+      name:        'Advanced Package',
+      description: 'A bag of Pistachios',
+      panelLabel:  'Start Trial',
+      token:       token
+      });
+      return false;
+      });
