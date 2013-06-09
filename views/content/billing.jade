@@ -1,191 +1,103 @@
 .content
   .container-fluid
     #pad-wrapper.form-page
-      .row-fluid.form-wrapper
-        //
-           left column
-        .span8.column
-          form
-            .field-box
-              label Normal input:
-              input.span8(type='text')
-            .field-box
-              label Inline input:
-              input.span8.inline-input(placeholder='.inline-input', type='text')
-            .field-box
-              label Inline Password:
-              input.span8.inline-input(type='password', value='blablabla')
-            .field-box
-              label Read only:
-              input.span8.inline-input(type='text', readonly='readonly', value='read only input')
-            .field-box
-              label With tooltip:
-              input.span8.inline-input(data-toggle='tooltip', data-trigger='focus', title='Please insert a valid email address', data-placement='right', type='text')
-            .field-box
-              label Predefined value:
-              .predefined
-                span.value http://
-                input.span8.inline-input(type='text')
-            .field-box
-              label With max length:
-              input.span8.inline-input(type='text', placeholder='max 20 characters here', maxlength='20')
-            .field-box
-              label Textarea:
-              textarea.span8(rows='4')
-            .field-box
-              label Checkboxes:
-              label.checkbox
-                input(type='checkbox')
-                | Option 1
-              label.checkbox
-                input(type='checkbox')
-                | Option 2
-              label.checkbox
-                input(type='checkbox')
-                | Option 3
-            .field-box
-              label Radiobuttons:
-              .span8
-                label.radio
-                  input#optionsRadios1(type='radio', name='optionsRadios', value='option1', checked='checked')
-                  | Option one is this and that—be sure to include why it's great
-                label.radio
-                  input#optionsRadios2(type='radio', name='optionsRadios', value='option2')
-                  | Option two can be something else and selecting it will deselect option one
-            .field-box
-              label Wysiwyg:
-              .wysi-column
-                textarea#wysi.span10.wysihtml5(rows='5')
-        //
-           right column
-        .span4.column.pull-right
-          form
-            .field-box
-              label Select:
-              .ui-select
-                select
-                  option(selected='selected') Dropdown
-                  option Custom selects
-                  option Pure css styles
-            .field-box
-              label Select2 plugin styled:
-              select.select2(style='width: 250px;')
-                option
-                option(value='AK') Alaska
-                option(value='HI') Hawaii
-                option(value='CA') California
-                option(value='NV') Nevada
-                option(value='OR') Oregon
-                option(value='WA') Washington
-                option(value='AZ') Arizona
-                option(value='CO') Colorado
-                option(value='ID') Idaho
-                option(value='MT') Montana
-                option(value='NE') Nebraska
-                option(value='NM') New Mexico
-                option(value='ND') North Dakota
-                option(value='UT') Utah
-                option(value='WY') Wyoming
-                option(value='AL') Alabama
-                option(value='AR') Arkansas
-                option(value='IL') Illinois
-                option(value='IA') Iowa
-                option(value='KS') Kansas
-                option(value='KY') Kentucky
-                option(value='LA') Louisiana
-                option(value='MN') Minnesota
-                option(value='MS') Mississippi
-                option(value='MO') Missouri
-                option(value='OK') Oklahoma
-                option(value='SD') South Dakota
-                option(value='TX') Texas
-                option(value='TN') Tennessee
-                option(value='WI') Wisconsin
-                option(value='CT') Connecticut
-                option(value='DE') Delaware
-                option(value='FL') Florida
-                option(value='GA') Georgia
-                option(value='IN') Indiana
-                option(value='ME') Maine
-                option(value='MD') Maryland
-                option(value='MA') Massachusetts
-                option(value='MI') Michigan
-                option(value='NH') New Hampshire
-                option(value='NJ') New Jersey
-                option(value='NY') New York
-                option(value='NC') North Carolina
-                option(value='OH') Ohio
-                option(value='PA') Pennsylvania
-                option(value='RI') Rhode Island
-                option(value='SC') South Carolina
-                option(value='VT') Vermont
-                option(value='VA') Virginia
-                option(value='WV') West Virginia
-            .field-box
-              label Select2 multiselect:
-              select.select2(style='width: 250px;', multiple='multiple')
-                option
-                option(value='AK') Alaska
-                option(value='HI', selected='selected') Hawaii
-                option(value='CA') California
-                option(value='NV') Nevada
-                option(value='OR') Oregon
-                option(value='WA') Washington
-                option(value='AZ') Arizona
-                option(value='CO') Colorado
-                option(value='ID') Idaho
-                option(value='MT') Montana
-                option(value='NE') Nebraska
-                option(value='NM') New Mexico
-                option(value='ND') North Dakota
-                option(value='UT') Utah
-                option(value='WY') Wyoming
-                option(value='AL') Alabama
-                option(value='AR') Arkansas
-                option(value='IL') Illinois
-                option(value='IA') Iowa
-                option(value='KS') Kansas
-                option(value='KY') Kentucky
-                option(value='LA') Louisiana
-                option(value='MN') Minnesota
-                option(value='MS') Mississippi
-                option(value='MO') Missouri
-                option(value='OK') Oklahoma
-                option(value='SD') South Dakota
-                option(value='TX') Texas
-                option(value='TN') Tennessee
-                option(value='WI') Wisconsin
-                option(value='CT') Connecticut
-                option(value='DE') Delaware
-                option(value='FL') Florida
-                option(value='GA') Georgia
-                option(value='IN') Indiana
-                option(value='ME') Maine
-                option(value='MD') Maryland
-                option(value='MA') Massachusetts
-                option(value='MI') Michigan
-                option(value='NH') New Hampshire
-                option(value='NJ') New Jersey
-                option(value='NY') New York
-                option(value='NC') North Carolina
-                option(value='OH') Ohio
-                option(value='PA') Pennsylvania
-                option(value='RI') Rhode Island
-                option(value='SC') South Carolina
-                option(value='VT') Vermont
-                option(value='VA') Virginia
-                option(value='WV') West Virginia
-            .field-box
-              label Input prepend & append:
-              .input-prepend
-                span.add-on @
-                input.input-large(type='text')
-              .input-append
-                input.input-large(type='text')
-                span.add-on .00
-            .field-box
-              label Datepicker:
-              input.input-large.datepicker(type='text', value='03/29/2013')
+      .row-fluid.head
+        .span12
+          h3 Billing History
+        .row-fluid
+          table.table.table-hover
+            thead
+              tr
+                th.span3
+                  | Transaction ID
+                th.span3
+                  | Date
+                th.span3
+                  span.line
+                  | Plan
+                th.span3
+                  span.line
+                  | Users
+                th.span3
+                  span.line
+                  | Amount
+            tbody
+              //
+                 row
+              tr.first
+                td
+                  a(href='#') #459
+                td
+                  | Jan 03, 2013
+                td
+                  span.label.label-success Starter
+                td
+                  | 3
+                td
+                  | $ 15.00
+              tr
+                td
+                  a(href='#') #510
+                td
+                  | Feb 03, 2013
+                td
+                  span.label.label-info Professional
+                td
+                  | 5
+                td
+                  | $ 50.00
+              tr
+                td
+                  a(href='#') #590
+                td
+                  | Mar 03, 2013
+                td
+                  span.label.label-inverse Advanced
+                td
+                  | 2
+                td
+                  | $ 30.00
+              tr
+                td
+                  a(href='#') #618
+                td
+                  | Apr 03, 2013
+                td
+                  span.label Custom
+                td
+                  | 8
+                td
+                  | $ 160.00
+    .container-fluid
+      .row-fluid.head
+        .span4
+          H3 Plan Details
+            .span
+            h4 You are currently on the <strong>Starter Plan</strong>
+            .price
+              span.dollar $
+              span.qty 5
+              span.month /month
+              |  per user
+            .features
+              p
+                strong 3
+                |  Shared Projects
+              p
+            a.order.btn-glow.inverse#starter(href='#') CHANGE PLAN
+        .span4
+          H3 Billing Cycle
+            .span
+            h4 Your credit card will be charged in <strong>29</strong> days to the credit card ending in <strong>1234</strong>
+            .span
+            a.order.btn-glow.inverse#starter(href='#') CHANGE CARD
+        .span4
+          H3 Users
+            .span
+            h4 You currently have <strong>8 users</strong> billed at <strong>$160.00 per month.</strong>
+            .span
+            a.order.btn-glow.inverse#starter(href='#') ADD USERS
+
 //
    end main container
 //
