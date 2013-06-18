@@ -68,35 +68,55 @@
                   | 8
                 td
                   | $ 160.00
-    .container-fluid
-      .row-fluid.head
-        .span4
-          H3 Plan Details
-            .span
-            h4 You are currently on the <strong>Starter Plan</strong>
-            .price
-              span.dollar $
-              span.qty 5
-              span.month /month
-              |  per user
-            .features
-              p
-                strong 3
-                |  Shared Projects
-              p
-            a.order.btn-glow.inverse#starter(href='#') CHANGE PLAN
-        .span4
-          H3 Billing Cycle
-            .span
-            h4 Your credit card will be charged in <strong>29</strong> days to the credit card ending in <strong>1234</strong>
-            .span
-            a.order.btn-glow.inverse#starter(href='#') CHANGE CARD
-        .span4
-          H3 Users
-            .span
-            h4 You currently have <strong>8 users</strong> billed at <strong>$160.00 per month.</strong>
-            .span
-            a.order.btn-glow.inverse#starter(href='#') ADD USERS
+  .container-fluid
+    //
+    // maybe remove row-fluid.HEAD attribute
+    //
+    .row-fluid.head
+      #in_pricing2
+        .row.charts_wrapp
+          .span4
+            .plan
+              .wrapper
+                h3 Plan
+                  .span
+                  .span
+                    strong  Starter
+                    .span
+                  .price
+                    span.dollar $
+                    span.qty 5
+                    span.month per user
+                    a.order.btn-glow.inverse#starter(href='#') CHANGE PLAN
+          .span4
+            .plan
+              .wrapper
+                h3 Credit Card
+                  .span
+                  h3
+                    strong  &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; 1234
+                    .span
+                  .price
+                    span.qty 29
+                    span.month  days
+                    |  until you get billed
+                    a.order.btn-glow.inverse#starter(href='#') CHANGE CREDIT CARD
+          .span4
+            .plan
+              .wrapper
+                h3 Users
+                  .span
+                  .span
+                    strong  8 Active
+                    .span
+                  .price
+                    span.dollar $
+                    span.qty 40
+                    span.month per month
+                    a.order.btn-glow.inverse#starter(href='#') ADD USERS
+
+
+
 
 //
    end main container
