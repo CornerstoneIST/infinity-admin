@@ -50,3 +50,7 @@ exports.settings = function(req, res){
 exports.setup = function(req, res){
   res.render('setup', { title: 'First time Setup' })
 };
+
+exports.tasksnew = function(req, res){
+  res.render('tasks-new', { title: 'Setup a New Task Template'})
+};

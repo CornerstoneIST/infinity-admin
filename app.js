@@ -48,6 +48,7 @@ app.get('/users', routes.users);
   app.get('/user-profile', routes.userprofile);
 app.get('/clients', routes.clients);
 app.get('/tasks', routes.tasks);
+  app.get('/tasks-new', routes.tasksnew);
 app.get('/at-a-glance', routes.ataglance);
 app.get('/billing', routes.billing);
 app.get('/connections', routes.connections);
