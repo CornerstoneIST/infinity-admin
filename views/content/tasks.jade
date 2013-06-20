@@ -17,71 +17,97 @@
             thead
               tr
                 th.span3
-                th.span3
-                  span.line
                   | Name
                 th.span3
                   span.line
                   | Assigned to
                 th.span3
                   span.line
-                  | Status
+                  | Type
+                th.span3
+                  span.line
             tbody
               //
                  row
               tr.first
-                td
-                  a(href='#') Archive
-                  |
-                  a(href='#') Clone
                 td
                   a(href='#') Standard Contract
                 td
                   btn.btn-glow.success.small(href='#') 7 Clients
                 td
                   span.label.label-success Active
-              tr
                 td
-                  a(href='#') Archive
-                  |
-                  a(href='#') Clone
+                  ul.actions
+                    li
+                      i.table-edit
+                    li
+                      i.table-settings
+                    li.last
+                      i.table-delete
+              tr
                 td
                   a(href='#') Small Business Contract
                 td
                   btn.btn-glow.success.small(href='#') 4 Clients
                 td
                   span.label.label-success Active
-              tr
                 td
-                  a(href='#') Archive
-                  |
-                  a(href='#') Clone
+                  ul.actions
+                    li
+                      i.table-edit
+                    li
+                      i.table-settings
+                    li.last
+                      i.table-delete
+              tr
                 td
                   a(href='#') Enterprise Contract
                 td
                   btn.btn-glow.success.small(href='#') 1 Clients
                 td
                   span.label.label-success Active
-              tr
                 td
-                  a(href='#') Archive
-                  |
-                  a(href='#') Clone
+                  ul.actions
+                    li
+                      i.table-edit
+                    li
+                      i.table-settings
+                    li.last
+                      i.table-delete
+              tr
                 td
                   a(href='#') Custom Contract
                 td
                   btn.btn-glow.success.small(href='#') 2 Clients
                 td
                   span.label.label-success Active
+                td
+                  ul.actions
+                    li
+                      i.table-edit
+                    li
+                      i.table-settings
+                    li.last
+                      i.table-delete
               tr
                 td
-                  a(href='#') Archive
-                  |
-                  a(href='#') Clone
+                  a(href='#') Master Template
                 td
-                  a(href='#') Old Contract
+                  btn.btn-glow.primary.small(href='#') 2 Templates
                 td
-                  btn.btn-glow.primary.small(href='#') 2 Clients
+                  span.label.label-info Master
                 td
-                  span.label.label-info Archived
-      a.btn-flat.success.new-product(href='/tasks-new') + Add New Task Template
+                  ul.actions
+                    li
+                      i.table-edit
+                    li
+                      i.table-settings
+                    li.last
+                      i.table-settings.hidden
+        .row-fluid
+          .btn-group
+              a.button.btn.glow.icon(href='/tasks-master')
+                i.icon-lock  Master Template (Locked)
+          .btn-group
+              a.button.btn.glow.icon(href='/tasks-new')
+                i.icon-magic  Add Template Wizard

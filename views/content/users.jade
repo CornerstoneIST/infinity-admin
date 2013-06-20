@@ -50,13 +50,13 @@
                 | Name
               th.span3.sortable
                 span.line
-                | Signed up
+                | Total Hours Logged
               th.span2.sortable
                 span.line
-                | Total spent
+                | Billable Hours Logged
               th.span3.sortable.align-right
                 span.line
-                | Email
+                | Quota Progress
           tbody
             //
                row
@@ -66,11 +66,12 @@
                 a.name(href='/user-profile') Alejandra Galvan Castillo
                 span.subtext Graphic Design
               td
-                | Mar 13, 2012
+                | 100
               td
-                | $ 4,500.00
+                | 65
               td.align-right
-                a(href='#') alejandra@canvas.com
+                .progress.progress-info.progress-striped(style='margin-bottom: 9px;')
+                  .bar(style='width: 65%;')
             //
                row
             tr
@@ -79,11 +80,12 @@
                 a.name(href='/user-profile') Alejandra Galvan Castillo
                 span.subtext Graphic Design
               td
-                | Jun 03, 2012
+                | 100
               td
-                | $ 549.99
+                | 75
               td.align-right
-                a(href='#') alejandra@canvas.com
+                .progress.progress-info.progress-striped(style='margin-bottom: 9px;')
+                  .bar(style='width: 70%;')
             //
                row
             tr
@@ -92,11 +94,12 @@
                 a.name(href='/user-profile') Alejandra Galvan Castillo
                 span.subtext Graphic Design
               td
-                | Mar 01, 2013
+                | 100
               td
-                | $ 30.00
+                | 75
               td.align-right
-                a(href='#') alejandra@canvas.com
+                .progress.progress-info.progress-striped(style='margin-bottom: 9px;')
+                  .bar(style='width: 75%;')
             //
                row
             tr
@@ -105,11 +108,12 @@
                 a.name(href='/user-profile') Alejandra Galvan Castillo
                 span.subtext Graphic Design
               td
-                | Jan 28, 2012
+                | 100
               td
-                | $ 1,320.00
+                | 90
               td.align-right
-                a(href='#') alejandra@canvas.com
+                .progress.progress-success.progress-striped(style='margin-bottom: 9px;')
+                  .bar(style='width: 90%;')
             //
                row
             tr
@@ -118,11 +122,12 @@
                 a.name(href='/user-profile') Alejandra Galvan Castillo
                 span.subtext Graphic Design
               td
-                | May 16, 2012
+                | 100
               td
-                | $ 89.99
+                | 70
               td.align-right
-                a(href='#') alejandra@canvas.com
+                .progress.progress-info.progress-striped(style='margin-bottom: 9px;')
+                  .bar(style='width: 70%;')
             //
                row
             tr
@@ -131,11 +136,12 @@
                 a.name(href='/user-profile') Alejandra Galvan Castillo
                 span.subtext Graphic Design
               td
-                | Sep 06, 2012
+                | 100
               td
-                | $ 344.00
+                | 55
               td.align-right
-                a(href='#') alejandra@canvas.com
+                .progress.progress-warning.progress-striped(style='margin-bottom: 9px;')
+                  .bar(style='width: 55%;')
             //
                row
             tr
@@ -144,11 +150,12 @@
                 a.name(href='/user-profile') Alejandra Galvan Castillo
                 span.subtext Graphic Design
               td
-                | Jul 13, 2012
+                | 100
               td
-                | $ 800.00
+                | 30
               td.align-right
-                a(href='#') alejandra@canvas.com
+                .progress.progress-warning.progress-striped(style='margin-bottom: 9px;')
+                  .bar(style='width: 30%;')
             //
                row
             tr
@@ -157,11 +164,12 @@
                 a.name(href='/user-profile') Alejandra Galvan Castillo
                 span.subtext Graphic Design
               td
-                | Feb 13, 2013
+                | 100
               td
-                | $ 250.00
+                | 20
               td.align-right
-                a(href='#') alejandra@canvas.com
+                .progress.progress-danger.progress-striped(style='margin-bottom: 9px;')
+                  .bar(style='width: 20%;')
             //
                row
             tr
@@ -170,11 +178,12 @@
                 a.name(href='/user-profile') Alejandra Galvan Castillo
                 span.subtext Graphic Design
               td
-                | Feb 27, 2013
+                | 100
               td
-                | $ 1,300.00
+                | 80
               td.align-right
-                a(href='#') alejandra@canvas.com
+                .progress.progress-success.progress-striped(style='margin-bottom: 9px;')
+                  .bar(style='width: 80%;')
       .pagination.pull-right
         ul
           li

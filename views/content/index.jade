@@ -4,45 +4,48 @@
       .row-fluid.stats-row
         .span3.stat
           .data
-            span.number 2457
-            | visits
-          span.date Today
+            span.icon-dashboard.number
+            span.number 72
+            |Open Tickets
+            span.date
         .span3.stat
           .data
-            span.number 3240
-            | users
-          span.date February 2013
+            span.icon-time.number
+            span.number 23.5
+            | Unbilled
+          span.date Hours
         .span3.stat
           .data
-            span.number 322
-            | orders
-          span.date This week
+            span.icon-ok-sign.number
+            span.number $24,375
+            | Billed
+          span.date This Month
         .span3.stat.last
           .data
-            span.number $2,340
-            | sales
-          span.date last 30 days
+            span.icon-ok-circle.number
+            span.number $12,350
+            | Unbilled
     #pad-wrapper
       .row-fluid.chart
         h4
-          | Statistics
+          | Hours
           .btn-group.pull-right
             button.glow.left DAY
-            button.glow.middle.active MONTH
-            button.glow.right YEAR
+            button.glow.middle MONTH
+            button.glow.right.active YEAR
         .span12
           #statsChart
       .row-fluid.section.ui-elements
-        h4 UI Elements
+        h4 Company Efficiency
         .span5.knobs
           .knob-wrapper
-            input.knob(type='text', value='50', data-thickness='.3', data-inputcolor='#333', data-fgcolor='#30a1ec', data-bgcolor='#d4ecfd', data-width='150')
+            input.knob(type='text', value='81', data-thickness='.3', data-inputcolor='#333', data-fgcolor='#30a1ec', data-bgcolor='#d4ecfd', data-width='150')
             .info
               .param
                 span.line.blue
-                | Active users
+                | Percent of Hours Billable
           .knob-wrapper
-            input.knob.second(type='text', value='75', data-thickness='.3', data-inputcolor='#333', data-fgcolor='#3d88ba', data-bgcolor='#d4ecfd', data-width='150')
+            input.knob.second(type='text', value='81', data-thickness='.3', data-inputcolor='#333', data-fgcolor='#3d88ba', data-bgcolor='#d4ecfd', data-width='150')
             .info
               .param
                 span.line.blue
@@ -235,8 +238,8 @@ script(type='text/javascript')
   var visits = [[1, 50], [2, 40], [3, 45], [4, 23],[5, 55],[6, 65],[7, 61],[8, 70],[9, 65],[10, 75],[11, 57],[12, 59]];
   var visitors = [[1, 25], [2, 50], [3, 23], [4, 48],[5, 38],[6, 40],[7, 47],[8, 55],[9, 43],[10,50],[11,47],[12, 39]];
   var plot = $.plot($("#statsChart"),
-  [ { data: visits, label: "Signups"},
-  { data: visitors, label: "Visits" }], {
+  [ { data: visits, label: "Unbillable"},
+  { data: visitors, label: "Billable" }], {
   series: {
   lines: { show: true,
   lineWidth: 1,
