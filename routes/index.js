@@ -39,8 +39,8 @@ exports.billing = function(req, res){
   res.render('billing', { title: 'Billing & Account' })
 };
 
-exports.connections = function(req, res){
-  res.render('connections', { title: 'API Connections' })
+exports.timeentries = function(req, res){
+  res.render('time-entries', { title: 'Time Entries' })
 };
 
 exports.settings = function(req, res){

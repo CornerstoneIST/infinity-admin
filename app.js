@@ -51,7 +51,7 @@ app.get('/tasks', routes.tasks);
   app.get('/tasks-new', routes.tasksnew);
 app.get('/at-a-glance', routes.ataglance);
 app.get('/billing', routes.billing);
-app.get('/connections', routes.connections);
+app.get('/time-entries', routes.timeentries);
 app.get('/settings', routes.settings);
 app.get('/setup', routes.setup);
 app.use(function(req, res, next){
