@@ -58,5 +58,5 @@ app.use(function(req, res, next){
   res.render('404.jade', {title: "404 - Page Not Found", showFullNav: false, status: 404, url: req.url });
 });
 app.listen(process.env.PORT || 8080, function(){
-  console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
+  console.log("Wuzy Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 });
