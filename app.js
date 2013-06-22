@@ -39,8 +39,9 @@ express.compiler.compilers.less.compile = function(str, fn){
   } catch (err) {fn(err);}
 }
 
-// Routes
+// Prettify the HTML
 app.set('view options', { pretty: true });
+// Set Routes
 app.get('/', routes.index);
 app.get('/reports', routes.reports);
 app.get('/users', routes.users);
@@ -54,9 +55,11 @@ app.get('/billing', routes.billing);
 app.get('/time-entries', routes.timeentries);
 app.get('/settings', routes.settings);
 app.get('/setup', routes.setup);
+// Set 404 Page Not Found
 app.use(function(req, res, next){
   res.render('404.jade', {title: "404 - Page Not Found", showFullNav: false, status: 404, url: req.url });
 });
+// Heroku Port Activated
 app.listen(process.env.PORT || 8080, function(){
   console.log("Wuzy Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 });
