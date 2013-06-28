@@ -27,8 +27,8 @@ exports.clients = function(req, res){
   res.render('clients', { title: 'Clients' })
 };
 
-exports.tasks = function(req, res){
-  res.render('tasks', { title: 'Tasks' })
+exports.rates = function(req, res){
+  res.render('rates', { title: 'Rates' })
 };
 
 exports.ataglance = function(req, res){
@@ -51,6 +51,6 @@ exports.setup = function(req, res){
   res.render('setup', { title: 'First time Setup' })
 };
 
-exports.tasksnew = function(req, res){
-  res.render('tasks-new', { title: 'Setup a New Task Template'})
+exports.ratesnew = function(req, res){
+  res.render('rates-new', { title: 'Setup a New Rate Template'})
 };
