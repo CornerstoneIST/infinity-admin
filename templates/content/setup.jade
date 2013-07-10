@@ -36,40 +36,40 @@
                   form
                     .field-box
                       label First Name:
-                      input.span8(type='text', placeholder='John')
+                      input.span8(type='text', name="first_name", placeholder='John')
                     .field-box
                       label Last Name:
-                      input.span8(type='text', placeholder='Doe')
+                      input.span8(type='text', name="last_name", placeholder='Doe')
                     .field-box
                       label Email:
-                      input.span8(type='email', readonly='readonly', value='{{email}}')
+                      input.span8(type='email', name="email", value='{{email}}')
                     .field-box
                       label Upload a Photo:
-                      input(type='file')
+                      input(type='file', name="avatar")
             #step2.step-pane
               .row-fluid.form-wrapper
                 .span8
                   form
                     .field-box
                       label Company:
-                      input.span8(data-toggle='tooltip', data-trigger='focus', title='Company name cannot be changed later', data-placement='right', type='text')
+                      input.span8(name="name", data-toggle='tooltip', data-trigger='focus', title='Company name cannot be changed later', data-placement='right', type='text')
                     .field-box
                       label
                     .field-box
                       label Address:
-                      input.span8(type='text', placeholder='655 North Central Ave')
+                      input.span8(name="address", type='text', placeholder='655 North Central Ave')
                     .field-box
                       label Floor or Suite/Unit:
-                      input.span8(type='text', placeholder='17th Floor')
+                      input.span8(name="floor", type='text', placeholder='17th Floor')
                     .field-box
                       label City:
-                      input.span8(type='text', placeholder='Glendale')
+                      input.span8(name="city", type='text', placeholder='Glendale')
                     .field-box
                       label Postal/ZIP code:
-                      input.span4(type='text', placeholder='91203', maxlength='5')
+                      input.span4(name="code", type='text', placeholder='91203', maxlength='5')
                     .field-box
                       label State or Province:
-                      select.select2.span4
+                      select.select2.span4(name="province")
                         option(value='') Select your State
                         option(value='AK') Alaska
                         option(value='HI') Hawaii
@@ -123,7 +123,7 @@
                         option(value='WV') West Virginia
                     .field-box
                       label Country:
-                      select.select2.span8
+                      select.select2.span8(name="country")
                         option(value='') Select your Country
                         option(value='US') United States of America
                         option(value='CA') Canada
@@ -377,7 +377,7 @@
                 .span8
                     .field-box
                       label Security Question 1:
-                      select.question1.span8
+                      select.question1.span8(name="sec_quest_1")
                         option(value='') Select a security question
                         option(value='Childhood-Nickname') What was your childhood nickname?
                         option(value='City-Met-Spouse') In what city did you meet your spouse/significant other?
@@ -393,11 +393,11 @@
                           input.span8(placeholder='What is your favorite soft drink?', data-toggle='tooltip', data-trigger='focus', title='Write your security question', data-placement='right', type='text')
                     .field-box
                       label Security Answer 1:
-                      input.span8(type='text')
+                      input.span8(type='text', name="sec_answer_1")
 
                     .field-box
                       label Security Question 2:
-                      select.question2.span8
+                      select.question2.span8(name="sec_quest_2")
                         option(value='') Select a security question
                         option(value='City-Parents-Met') In what city or town did your mother and father meet?
                         option(value='First-Kiss-Where') Where were you when you had your first kiss?
@@ -413,11 +413,11 @@
                           input.span8(placeholder='What is your favorite color?',data-toggle='tooltip', data-trigger='focus', title='Write your security question', data-placement='right', type='text')
                     .field-box
                       label Security Answer 2:
-                      input.span8(type='text')
+                      input.span8(type='text', name="sec_answer_2")
 
                     .field-box
                       label Recovery Email Address
-                      input.span8(type='email')
+                      input.span8(type='email', name="recovery_email")
 
             #step4.step-pane
                 .row.fluid
@@ -517,6 +517,7 @@
     script(src='js/bootstrap-wysihtml5-0.0.2.js')
     script(src='js/bootstrap.datepicker.js')
     script(src='js/jquery.uniform.min.js')
+    script(src='js/jquery.form.min.js')
     script(src='js/select2.min.js')
     script(src='js/theme.js')
     script(src='js/fuelux.wizard.js')
@@ -583,11 +584,24 @@
             });
         });
     script(src='https://checkout.stripe.com/v2/checkout.js')
+    script(type='text/javascript')
+        $(function() {
+            $('form').on('submit', function(){
+                var options = { 
+                    data: $(":input").not('#step1 input').serializeArray(),
+                    url: '/new-owner',
+                    type: 'post'
+                };
+                $(this).ajaxSubmit(options);
+                return false;
+            })
+        });
     script
       $('#starter').click(function(){
       var token = function(res){
-      var $input = $('<input type=hidden name=stripeToken />').val(res.id);
-      $('form').append($input).submit();
+      var $input = $('<input type=hidden name=stripeToken />').val(res.id),
+          $plan = $('<input type=hidden name=plan value=starter />');
+      $('form').first().append($input).append($plan).submit();
       };
       StripeCheckout.open({
       key:         'pk_test_sXNhYvC4yLuqun43GYrHhR0I',
@@ -603,8 +617,9 @@
       });
       $('#professional').click(function(){
       var token = function(res){
-      var $input = $('<input type=hidden name=stripeToken />').val(res.id);
-      $('form').append($input).submit();
+      var $input = $('<input type=hidden name=stripeToken />').val(res.id),
+          $plan = $('<input type=hidden name=plan value=professional />');
+      $('form').first().append($input).append($plan).submit();
       };
       StripeCheckout.open({
       key:         'pk_test_sXNhYvC4yLuqun43GYrHhR0I',
@@ -620,8 +635,9 @@
       });
       $('#advanced').click(function(){
       var token = function(res){
-      var $input = $('<input type=hidden name=stripeToken />').val(res.id);
-      $('form').append($input).submit();
+      var $input = $('<input type=hidden name=stripeToken />').val(res.id),
+          $plan = $('<input type=hidden name=plan value=advanced />');
+      $('form').first().append($input).append($plan).submit();
       };
       StripeCheckout.open({
       key:         'pk_test_sXNhYvC4yLuqun43GYrHhR0I',

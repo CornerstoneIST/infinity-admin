@@ -4,14 +4,17 @@
  */
 
 var express = require('express')
-  , routes = require('./routes');
+  , routes = require('./routes')
+  , mongoose = require('mongoose')
+  , config = require('./config/config').config;
 
 var app = module.exports = express.createServer();
 
 // Configuration
 
 app.configure(function(){
-  app.set('views', __dirname + '/views');
+  app.use(express.logger({ format: '\x1b[1m:method\x1b[0m \x1b[33m:url\x1b[0m :response-time ms' }));
+  app.set('views', __dirname + '/templates');
   app.set('view engine', 'jade');
   app.use(express.bodyParser());
   app.use(express.methodOverride());
@@ -46,6 +49,7 @@ app.get('/', routes.index);
 app.get('/reports', routes.reports);
 app.get('/users', routes.users);
   app.get('/new-user', routes.newuser);
+  app.post('/new-user', routes.newmember);
   app.get('/user-profile', routes.userprofile);
 app.get('/clients', routes.clients);
 app.get('/tasks', routes.tasks);
@@ -55,11 +59,22 @@ app.get('/billing', routes.billing);
 app.get('/time-entries', routes.timeentries);
 app.get('/settings', routes.settings);
 app.get('/setup', routes.setup);
+app.post('/new-owner', routes.newowner);
 // Set 404 Page Not Found
 app.use(function(req, res, next){
   res.render('404.jade', {title: "404 - Page Not Found", showFullNav: false, status: 404, url: req.url });
 });
-// Heroku Port Activated
-app.listen(process.env.PORT || 8080, function(){
-  console.log("Wuzy Express server listening on port %d in %s mode", app.address().port, app.settings.env);
+
+mongoose.connect(config.mongodbUrl, function (err) {
+  if (err) {
+    throw new Error('Unable to connect to MongoDB');
+  }
+
+  console.log('\r\n Connected to MongoDb v.' + mongoose.version);
+
+  // Heroku Port Activated
+  app.listen(process.env.PORT || 8080, function(){
+    console.log("\r\n Wuzy Express server listening on port %d in %s mode", app.address().port, app.settings.env);
+  });
+
 });

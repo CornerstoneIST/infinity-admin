@@ -7,5 +7,7 @@
     ,"mandrill-api":">=1.0.2"
     , "less": ">= 0.0.1"
     , "jade": ">= 0.0.1"
+    , "mongoose": "*"
+    , "password-generator": "*"
   }
 }

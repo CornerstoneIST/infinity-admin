@@ -1,0 +1,30 @@
+link(rel='stylesheet', href='css/compiled/index.css', type='text/css', media='screen')
+link(rel='stylesheet', href='css/compiled/chart-showcase.css', type='text/css', media='screen')
+link(rel='stylesheet', href='css/compiled/user-list.css', type='text/css', media='screen')
+link(rel='stylesheet', href='css/compiled/tables.css', type='text/css', media='screen')
+link(rel='stylesheet', href='css/compiled/user-list.css', type='text/css', media='screen')
+link(rel='stylesheet', href='css/compiled/form-showcase.css', type='text/css', media='screen')
+link(rel='stylesheet', href='css/compiled/ui-elements.css', type='text/css', media='screen')
+include includes/navbar
+include includes/sidemenu
+.content
+  .container-fluid
+script#arrow-template(type='text/html')
+  .pointer
+    .arrow
+    .arrow_border
+script#dashboard-template(type='text/html')
+  include content/index
+script#reports-template(type='text/html')
+  include content/reports
+script#users-template(type='text/html')
+  include content/users
+script#clients-template(type='text/html')
+  include content/clients
+script(type='text/javascript', src='js/app.js')
+script(type='text/javascript', src='js/apps/dashboardApp.js')
+script(type='text/javascript', src='js/apps/reportsApp.js')
+script(type='text/javascript', src='js/apps/usersApp.js')
+script(type='text/javascript', src='js/apps/clientsApp.js')
+script(type='text/javascript')
+  App.start();
