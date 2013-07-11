@@ -1,113 +1,111 @@
-.content
-  .container-fluid
-    #pad-wrapper
-      .table-wrapper.orders-table.section
-        .row-fluid.head
-          .span12
-            h2 Task Templates
-        .row-fluid.filter-block
-          .pull-right
-            .btn-group.pull-right
-              button.glow.left.large.active All
-              button.glow.middle.large Active
-              button.glow.right.large Archived
-            input.search.order-search(type='text', placeholder='Search for a Task')
-        .row-fluid
-          table.table.table-hover
-            thead
-              tr
-                th.span3
-                  | Name
-                th.span3
-                  span.line
-                  | Assigned to
-                th.span3
-                  span.line
-                  | Type
-                th.span3
-                  span.line
-            tbody
-              //
-                 row
-              tr.first
-                td
-                  a(href='#') Standard Contract
-                td
-                  btn.btn-glow.success.small(href='#') 7 Clients
-                td
-                  span.label.label-success Active
-                td
-                  ul.actions
-                    li
-                      i.table-edit
-                    li
-                      i.table-settings
-                    li.last
-                      i.table-delete
-              tr
-                td
-                  a(href='#') Small Business Contract
-                td
-                  btn.btn-glow.success.small(href='#') 4 Clients
-                td
-                  span.label.label-success Active
-                td
-                  ul.actions
-                    li
-                      i.table-edit
-                    li
-                      i.table-settings
-                    li.last
-                      i.table-delete
-              tr
-                td
-                  a(href='#') Enterprise Contract
-                td
-                  btn.btn-glow.success.small(href='#') 1 Clients
-                td
-                  span.label.label-success Active
-                td
-                  ul.actions
-                    li
-                      i.table-edit
-                    li
-                      i.table-settings
-                    li.last
-                      i.table-delete
-              tr
-                td
-                  a(href='#') Custom Contract
-                td
-                  btn.btn-glow.success.small(href='#') 2 Clients
-                td
-                  span.label.label-success Active
-                td
-                  ul.actions
-                    li
-                      i.table-edit
-                    li
-                      i.table-settings
-                    li.last
-                      i.table-delete
-              tr
-                td
-                  a(href='#') Master Template
-                td
-                  btn.btn-glow.primary.small(href='#') 2 Templates
-                td
-                  span.label.label-info Master
-                td
-                  ul.actions
-                    li
-                      i.table-edit
-                    li
-                      i.table-settings
-                    li.last
-                      i.table-settings.hidden
-        .row-fluid
-          .btn-group
-              a.button.btn.glow.icon(href='/tasks-master')
-                i.icon-lock  Master Template (Locked)
-          .btn-group
-              a.button.btn.glow.icon(href='/tasks-new')
-                i.icon-magic  Add Template Wizard
+#pad-wrapper
+  .table-wrapper.orders-table
+    .row-fluid.head
+      .span12
+        h2 Task Templates
+    .row-fluid.filter-block
+      .pull-right
+        .btn-group.pull-right
+          button.glow.left.large.active All
+          button.glow.middle.large Active
+          button.glow.right.large Archived
+        input.search.order-search(type='text', placeholder='Search for a Task')
+    .row-fluid
+      table.table.table-hover
+        thead
+          tr
+            th.span3
+              | Name
+            th.span3
+              span.line
+              | Assigned to
+            th.span3
+              span.line
+              | Type
+            th.span3
+              span.line
+        tbody
+          //
+             row
+          tr.first
+            td
+              a(href='#') Standard Contract
+            td
+              btn.btn-glow.success.small(href='#') 7 Clients
+            td
+              span.label.label-success Active
+            td
+              ul.actions
+                li
+                  i.table-edit
+                li
+                  i.table-settings
+                li.last
+                  i.table-delete
+          tr
+            td
+              a(href='#') Small Business Contract
+            td
+              btn.btn-glow.success.small(href='#') 4 Clients
+            td
+              span.label.label-success Active
+            td
+              ul.actions
+                li
+                  i.table-edit
+                li
+                  i.table-settings
+                li.last
+                  i.table-delete
+          tr
+            td
+              a(href='#') Enterprise Contract
+            td
+              btn.btn-glow.success.small(href='#') 1 Clients
+            td
+              span.label.label-success Active
+            td
+              ul.actions
+                li
+                  i.table-edit
+                li
+                  i.table-settings
+                li.last
+                  i.table-delete
+          tr
+            td
+              a(href='#') Custom Contract
+            td
+              btn.btn-glow.success.small(href='#') 2 Clients
+            td
+              span.label.label-success Active
+            td
+              ul.actions
+                li
+                  i.table-edit
+                li
+                  i.table-settings
+                li.last
+                  i.table-delete
+          tr
+            td
+              a(href='#') Master Template
+            td
+              btn.btn-glow.primary.small(href='#') 2 Templates
+            td
+              span.label.label-info Master
+            td
+              ul.actions
+                li
+                  i.table-edit
+                li
+                  i.table-settings
+                li.last
+                  i.table-settings.hidden
+    .row-fluid
+      .btn-group
+          a.button.btn.glow.icon(href='/tasks-master')
+            i.icon-lock  Master Template (Locked)
+      .btn-group
+          a.button.btn.glow.icon(href='/tasks-new')
+            i.icon-magic  Add Template Wizard

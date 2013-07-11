@@ -1,119 +1,117 @@
-.content
-  .container-fluid
-    #pad-wrapper.form-page
-      .row-fluid.head
-        .span12
-          h3 Billing History
-        .row-fluid
-          table.table.table-hover
-            thead
-              tr
-                th.span3
-                  | Transaction ID
-                th.span3
-                  | Date
-                th.span3
-                  span.line
-                  | Plan
-                th.span3
-                  span.line
-                  | Users
-                th.span3
-                  span.line
-                  | Amount
-            tbody
-              //
-                 row
-              tr.first
-                td
-                  a(href='#') #459
-                td
-                  | Jan 03, 2013
-                td
-                  span.label.label-success Starter
-                td
-                  | 3
-                td
-                  | $ 15.00
-              tr
-                td
-                  a(href='#') #510
-                td
-                  | Feb 03, 2013
-                td
-                  span.label.label-info Professional
-                td
-                  | 5
-                td
-                  | $ 50.00
-              tr
-                td
-                  a(href='#') #590
-                td
-                  | Mar 03, 2013
-                td
-                  span.label.label-inverse Advanced
-                td
-                  | 2
-                td
-                  | $ 30.00
-              tr
-                td
-                  a(href='#') #618
-                td
-                  | Apr 03, 2013
-                td
-                  span.label Custom
-                td
-                  | 8
-                td
-                  | $ 160.00
-  .container-fluid
-    //
-    // maybe remove row-fluid.HEAD attribute
-    //
-    .row-fluid.head
-      #in_pricing2
-        .row.charts_wrapp
-          .span4
-            .plan
-              .wrapper
-                h3 Plan
+#pad-wrapper.form-page
+  .row-fluid.head
+    .span12
+      h3 Billing History
+    .row-fluid
+      table.table.table-hover
+        thead
+          tr
+            th.span3
+              | Transaction ID
+            th.span3
+              | Date
+            th.span3
+              span.line
+              | Plan
+            th.span3
+              span.line
+              | Users
+            th.span3
+              span.line
+              | Amount
+        tbody
+          //
+             row
+          tr.first
+            td
+              a(href='#') #459
+            td
+              | Jan 03, 2013
+            td
+              span.label.label-success Starter
+            td
+              | 3
+            td
+              | $ 15.00
+          tr
+            td
+              a(href='#') #510
+            td
+              | Feb 03, 2013
+            td
+              span.label.label-info Professional
+            td
+              | 5
+            td
+              | $ 50.00
+          tr
+            td
+              a(href='#') #590
+            td
+              | Mar 03, 2013
+            td
+              span.label.label-inverse Advanced
+            td
+              | 2
+            td
+              | $ 30.00
+          tr
+            td
+              a(href='#') #618
+              td
+                | Apr 03, 2013
+              td
+                span.label Custom
+              td
+                | 8
+              td
+                | $ 160.00
+.container-fluid
+  //
+  // maybe remove row-fluid.HEAD attribute
+  //
+  .row-fluid.head
+    #in_pricing2
+      .row.charts_wrapp
+        .span4
+          .plan
+            .wrapper
+              h3 Plan
+                .span
+                .span
+                  strong  Starter
                   .span
-                  .span
-                    strong  Starter
-                    .span
-                  .price
-                    span.dollar $
-                    span.qty 5
-                    span.month per user
-                    a.order.btn-glow.inverse#starter(href='#') CHANGE PLAN
-          .span4
-            .plan
-              .wrapper
-                h3 Credit Card
-                  .span
-                  h3
-                    strong  &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; 1234
-                    .span
-                  .price
-                    span.qty 29
-                    span.month  days
-                    |  until you get billed
-                    a.order.btn-glow.inverse#starter(href='#') CHANGE CREDIT CARD
-          .span4
-            .plan
-              .wrapper
-                h3 Users
-                  .span
-                  .span
-                    strong  8 Active
-                    .span
-                  .price
-                    span.dollar $
-                    span.qty 40
-                    span.month per month
-                    a.order.btn-glow.inverse#starter(href='#') ADD USERS
+                .price
+                  span.dollar $
+                  span.qty 5
+                  span.month per user
+                  a.order.btn-glow.inverse#starter(href='#') CHANGE PLAN
+      .span4
+        .plan
+          .wrapper
+            h3 Credit Card
+              .span
+              h3
+                strong  &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; 1234
+                .span
+              .price
+                span.qty 29
+                span.month  days
+                |  until you get billed
+                a.order.btn-glow.inverse#starter(href='#') CHANGE CREDIT CARD
+      .span4
+        .plan
+          .wrapper
+            h3 Users
+              .span
+              .span
+                strong  8 Active
+                .span
+              .price
+                span.dollar $
+                span.qty 40
+                span.month per month
+                a.order.btn-glow.inverse#starter(href='#') ADD USERS
 
 
 

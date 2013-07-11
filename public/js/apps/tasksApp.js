@@ -1,13 +1,13 @@
-App.UsersApp = function () {
+App.TasksApp = function () {
   var
-    UsersApp = {},
+    TasksApp = {},
     Layout = Backbone.Marionette.Layout.extend({
       className: "container-fluid",
-      template: "#users-template"
+      template: "#tasks-template"
     });
-  UsersApp.initializeLayout = function () {
+  TasksApp.initializeLayout = function () {
     App.content.show(new Layout());
   };
 
-  return UsersApp;
+  return TasksApp;
 }();

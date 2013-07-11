@@ -30,7 +30,6 @@ app.configure('development', function(){
 app.configure('development', function(){
   app.use(express.errorHandler());
 });
-
 // Compatible
 
 // Now less files with @import 'whatever.less' will work(https://github.com/senchalabs/connect/pull/174)
@@ -45,21 +44,24 @@ express.compiler.compilers.less.compile = function(str, fn){
 // Prettify the HTML
 app.set('view options', { pretty: true });
 // Set Routes
+
 app.get('/', routes.index);
-app.get('/reports', routes.reports);
-app.get('/users', routes.users);
-  app.get('/new-user', routes.newuser);
-  app.post('/new-user', routes.newmember);
-  app.get('/user-profile', routes.userprofile);
-app.get('/clients', routes.clients);
-app.get('/tasks', routes.tasks);
-  app.get('/tasks-new', routes.tasksnew);
-app.get('/at-a-glance', routes.ataglance);
-app.get('/billing', routes.billing);
-app.get('/time-entries', routes.timeentries);
-app.get('/settings', routes.settings);
-app.get('/setup', routes.setup);
-app.post('/new-owner', routes.newowner);
+app.get('/dashboard', routes.index);
+// app.get('/reports', routes.reports);
+// app.get('/users', routes.users);
+  // app.get('/new-user', routes.newuser);
+  // app.post('/new-user', routes.newmember);
+  // app.get('/user-profile', routes.userprofile);
+// app.get('/clients', routes.clients);
+// app.get('/tasks', routes.tasks);
+  // app.get('/tasks-new', routes.tasksnew);
+// app.get('/at-a-glance', routes.ataglance);
+// app.get('/billing', routes.billing);
+// app.get('/time-entries', routes.timeentries);
+// app.get('/settings', routes.settings);
+// app.get('/setup', routes.setup);
+// app.post('/new-owner', routes.newowner);
+
 // Set 404 Page Not Found
 app.use(function(req, res, next){
   res.render('404.jade', {title: "404 - Page Not Found", showFullNav: false, status: 404, url: req.url });

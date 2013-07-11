@@ -1,62 +1,60 @@
-.content
-  .container-fluid
-    #pad-wrapper
-      .row-fluid.header
-        h3 Search
-        .span10.pull-right
-          input.span5.search(type='text', title='Type a user\'s name...')
-          //
-             custom popup filter
-          //
-             styles are located in css/elements.css
-          //
-             script that enables this dropdown is located in js/theme.js
-          .ui-dropdown
-            .head(data-toggle='tooltip', title='Click me!')
-              | Filter Results
-              i.arrow-down
-            .dialog
-              .pointer
-                .arrow
-                .arrow_border
-              .body
-                p.title
-                  | Show logs where:
-                .form
-                  select
-                    option Client
-                    option User
-                    option Ticket
-                    option Task
-                    option Hours
-                  select
-                    option is equal to
-                    option is not equal to
-                    option is greater than
-                    option starts with
-                    option contains
-                  input(type='text')
-                  a.btn-flat.small Add filter
-      .row-fluid.calendar-wrapper
-        .span12
-          //
-             div that fullcalendar plugin uses
-          #calendar
-          //
-             edit image pop up
-          .new-event.popup
-            .pointer
-              .arrow
-              .arrow_border
-            i.close-pop.table-delete
-            h5 New event popup example
-            .field
-              | Date:
-              span.date Thu, 18 April
-            .field
-              | Event:
-              input.event-input(type='text')
-            input.btn-glow.primary(type='submit', value='Create')
+#pad-wrapper
+  .row-fluid.header
+    h3 Search
+    .span10.pull-right
+      input.span5.search(type='text', title='Type a user\'s name...')
+      //
+         custom popup filter
+      //
+         styles are located in css/elements.css
+      //
+         script that enables this dropdown is located in js/theme.js
+      .ui-dropdown
+        .head(data-toggle='tooltip', title='Click me!')
+          | Filter Results
+          i.arrow-down
+        .dialog
+          .pointer
+            .arrow
+            .arrow_border
+          .body
+            p.title
+              | Show logs where:
+            .form
+              select
+                option Client
+                option User
+                option Ticket
+                option Task
+                option Hours
+              select
+                option is equal to
+                option is not equal to
+                option is greater than
+                option starts with
+                option contains
+              input(type='text')
+              a.btn-flat.small Add filter
+  .row-fluid.calendar-wrapper
+    .span12
+      //
+         div that fullcalendar plugin uses
+      #calendar
+      //
+         edit image pop up
+      .new-event.popup
+        .pointer
+          .arrow
+          .arrow_border
+        i.close-pop.table-delete
+        h5 New event popup example
+        .field
+          | Date:
+          span.date Thu, 18 April
+        .field
+          | Event:
+          input.event-input(type='text')
+        input.btn-glow.primary(type='submit', value='Create')
 //
    end main container
 //
