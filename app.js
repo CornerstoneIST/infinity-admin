@@ -46,11 +46,10 @@ app.set('view options', { pretty: true });
 // Set Routes
 
 app.get('/', routes.index);
-app.get('/dashboard', routes.index);
 // app.get('/reports', routes.reports);
 // app.get('/users', routes.users);
   // app.get('/new-user', routes.newuser);
-  // app.post('/new-user', routes.newmember);
+  app.post('/new-user', routes.newmember);
   // app.get('/user-profile', routes.userprofile);
 // app.get('/clients', routes.clients);
 // app.get('/tasks', routes.tasks);
@@ -61,6 +60,7 @@ app.get('/dashboard', routes.index);
 // app.get('/settings', routes.settings);
 // app.get('/setup', routes.setup);
 // app.post('/new-owner', routes.newowner);
+app.get('/:action', routes.index);
 
 // Set 404 Page Not Found
 app.use(function(req, res, next){

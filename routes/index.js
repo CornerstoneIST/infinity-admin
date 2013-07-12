@@ -11,15 +11,7 @@ var
  */
 
 exports.index = function(req, res){
-  res.render('index', { title: 'Dashboard' });
-};
-
-exports.reports = function(req, res){
-  res.render('reports', { title: 'Reports' });
-};
-
-exports.users = function(req, res){
-  res.render('users', { title: 'Users' });
+  res.render('index');
 };
 
 exports.userprofile = function(req, res){
@@ -28,6 +20,10 @@ exports.userprofile = function(req, res){
 
 exports.newuser = function(req, res){
   res.render('new-user', { title: 'Create a New User' });
+};
+
+exports.tasksnew = function(req, res){
+  res.render('tasks-new', { title: 'Setup a New Task Template'});
 };
 
 exports.newmember = function(req, res){
@@ -51,37 +47,9 @@ exports.newmember = function(req, res){
         });
         return;
       }
-      res.send();
+      res.send(member);
     })
   });
-};
-
-exports.clients = function(req, res){
-  res.render('clients', { title: 'Clients' });
-};
-
-exports.tasks = function(req, res){
-  res.render('tasks', { title: 'Tasks' });
-};
-
-exports.ataglance = function(req, res){
-  res.render('at-a-glance', { title: 'At a Glance' });
-};
-
-exports.billing = function(req, res){
-  res.render('billing', { title: 'Billing & Account' });
-};
-
-exports.timeentries = function(req, res){
-  res.render('time-entries', { title: 'Time Entries' });
-};
-
-exports.settings = function(req, res){
-  res.render('settings', { title: 'Settings' });
-};
-
-exports.setup = function(req, res){
-  res.render('setup', { title: 'First time Setup' });
 };
 
 exports.newowner = function(req, res){
@@ -159,8 +127,4 @@ exports.newowner = function(req, res){
       });
     });
   });
-};
-
-exports.tasksnew = function(req, res){
-  res.render('tasks-new', { title: 'Setup a New Task Template'});
 };

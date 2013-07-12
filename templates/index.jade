@@ -26,6 +26,10 @@ script#entries-template(type='text/html')
   include content/time-entries
 script#setup-template(type='text/html')
   include content/setup
+script#new-user-template(type='text/html')
+  include content/new-user
+script#profile-user-template(type='text/html')
+  include content/user-profile
 
 script(src='http://code.jquery.com/jquery-latest.js')
 script(src='js/bootstrap.min.js')
@@ -45,8 +49,21 @@ script(src='js/theme.js')
 //
    knob
 script(src='js/jquery.knob.js')
-
-
+//
+   calendar
+script(src='js/fullcalendar.min.js')
+//
+   setup
+script(src='js/wysihtml5-0.3.0.js')
+script(src='js/bootstrap-wysihtml5-0.0.2.js')
+script(src='js/bootstrap.datepicker.js')
+script(src='js/jquery.uniform.min.js')
+script(src='js/jquery.form.min.js')
+script(src='js/select2.min.js')
+script(src='js/fuelux.wizard.js')
+script(src='https://checkout.stripe.com/v2/checkout.js')
+//
+  marione apps
 script(type='text/javascript', src='js/app.js')
 script(type='text/javascript', src='js/apps/dashboardApp.js')
 script(type='text/javascript', src='js/apps/reportsApp.js')
@@ -57,6 +74,7 @@ script(type='text/javascript', src='js/apps/organizerApp.js')
 script(type='text/javascript', src='js/apps/billingApp.js')
 script(type='text/javascript', src='js/apps/entriesApp.js')
 script(type='text/javascript', src='js/apps/setupApp.js')
+
 
 script(type='text/javascript')
   App.start();

@@ -80,11 +80,11 @@ App.ReportsApp = function () {
             lineColors: ["#81d5d9", "#a6e182", "#67bdf8"]
           });
           // Build jQuery Knobs
-          this.$(".knob").knob();
+          $(".knob").knob();
           //  jQuery Flot Chart
           var visits = [[1, 50], [2, 40], [3, 45], [4, 23],[5, 55],[6, 65],[7, 61],[8, 70],[9, 65],[10, 75],[11, 57],[12, 59]];
           var visitors = [[1, 25], [2, 50], [3, 23], [4, 48],[5, 38],[6, 40],[7, 47],[8, 55],[9, 43],[10,50],[11,47],[12, 39]];
-          var plot = $.plot(this.$("#statsChart"),
+          var plot = $.plot($("#statsChart"),
           [ { data: visits, label: "Signups"}, { data: visitors, label: "Visits" }], {
             series: {
               lines: {
@@ -142,11 +142,11 @@ App.ReportsApp = function () {
             }).appendTo("body").fadeIn(200);
           }
           var previousPoint = null;
-          this.$("#statsChart").bind("plothover", function (event, pos, item) {
+          $("#statsChart").bind("plothover", function (event, pos, item) {
             if (item) {
               if (previousPoint != item.dataIndex) {
                 previousPoint = item.dataIndex;
-                this.$("#tooltip").remove();
+                $("#tooltip").remove();
                 var x = item.datapoint[0].toFixed(0),
                 y = item.datapoint[1].toFixed(0);
                 var month = item.series.xaxis.ticks[item.dataIndex].label;
@@ -155,7 +155,7 @@ App.ReportsApp = function () {
               }
             }
             else {
-              this.$("#tooltip").remove();
+              $("#tooltip").remove();
               previousPoint = null;
             }
           });

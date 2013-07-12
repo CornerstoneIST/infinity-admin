@@ -6,19 +6,19 @@ App.DashboardApp = function () {
       template: "#dashboard-template",
       initialize: function () {
         this.on('show', function () {
-          this.$(".knob").knob();
-          this.$(".slider-sample1").slider({
+          $(".knob").knob();
+          $(".slider-sample1").slider({
             value: 100,
             min: 1,
             max: 500
           });
-          this.$(".slider-sample2").slider({
+          $(".slider-sample2").slider({
             range: "min",
             value: 130,
             min: 1,
             max: 500
           });
-          this.$(".slider-sample3").slider({
+          $(".slider-sample3").slider({
             range: true,
             min: 0,
             max: 500,
@@ -27,7 +27,7 @@ App.DashboardApp = function () {
           var visits = [[1, 50], [2, 40], [3, 45], [4, 23],[5, 55],[6, 65],[7, 61],[8, 70],[9, 65],[10, 75],[11, 57],[12, 59]];
           var visitors = [[1, 25], [2, 50], [3, 23], [4, 48],[5, 38],[6, 40],[7, 47],[8, 55],[9, 43],[10,50],[11,47],[12, 39]];
           var plot = $.plot(
-            this.$("#statsChart"),
+            $("#statsChart"),
             [ { data: visits, label: "Unbillable"}, { data: visitors, label: "Billable" }],
             {
               series: {
@@ -83,11 +83,11 @@ App.DashboardApp = function () {
             }).appendTo("body").fadeIn(200);
           }
           var previousPoint = null;
-          this.$("#statsChart").bind("plothover", function (event, pos, item) {
+          $("#statsChart").bind("plothover", function (event, pos, item) {
             if (item) {
               if (previousPoint != item.dataIndex) {
                 previousPoint = item.dataIndex;
-                this.$("#tooltip").remove();
+                $("#tooltip").remove();
                 var x = item.datapoint[0].toFixed(0),
                 y = item.datapoint[1].toFixed(0);
                 var month = item.series.xaxis.ticks[item.dataIndex].label;
@@ -95,7 +95,7 @@ App.DashboardApp = function () {
               }
             }
             else {
-              this.$("#tooltip").remove();
+              $("#tooltip").remove();
               previousPoint = null;
             }
           });
