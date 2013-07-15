@@ -1,7 +1,30 @@
 App = new Backbone.Marionette.Application();
+var ModalRegion = Backbone.Marionette.Region.extend({
+  el: "#modal",
+  constructor: function () {
+    Backbone.Marionette.Region.prototype.constructor.apply(this, arguments);
+    this.on("show", this.showModal, this);
+  },
+
+  getEl: function (selector) {
+    var $el = $(selector);
+    $el.on("hidden", this.close);
+    return $el;
+  },
+
+  showModal: function (view) {
+    view.on("close", this.hideModal, this);
+    this.$el.modal('show');
+  },
+
+  hideModal: function () {
+    this.$el.modal('hide');
+  }
+});
 App.addRegions({
   menu: "#sidebar-nav",
-  content: ".content"
+  content: ".content",
+  modal: ModalRegion
 });
 App.content.on("show", function(view){
   // build all tooltips from data-attributes

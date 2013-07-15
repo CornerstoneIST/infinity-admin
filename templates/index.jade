@@ -2,10 +2,11 @@ include includes/navbar
 include includes/sidemenu
 .content
   .container-fluid
+#modal.modal.fade.hide.in(tabindex="-1", role="dialog", aria-hidden="true")
+script#success-template(type='text/html')
+  include content/success-alert
 script#arrow-template(type='text/html')
-  .pointer
-    .arrow
-    .arrow_border
+  include content/menu-arrow
 script#dashboard-template(type='text/html')
   include content/index
 script#reports-template(type='text/html')
@@ -30,6 +31,10 @@ script#new-user-template(type='text/html')
   include content/new-user
 script#profile-user-template(type='text/html')
   include content/user-profile
+script#users-table-template(type='text/html')
+  include content/users-table
+script#user-item-template(type='text/html')
+  include content/user-item
 
 script(src='http://code.jquery.com/jquery-latest.js')
 script(src='js/bootstrap.min.js')

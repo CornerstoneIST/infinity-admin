@@ -2,54 +2,40 @@ var
   fs = require('fs'),
   config = require('../config/config').config,
   generatePassword = require('password-generator'),
+  MailService = require('../services/Mail');
   User = require('../schemas/user'),
   Plan = require('../schemas/plan'),
-  Company = require('../schemas/company');
+  Company = require('../schemas/company'),
   Member = require('../schemas/member');
-/*
- * GET home page.
- */
 
 exports.index = function(req, res){
   res.render('index');
 };
 
-exports.userprofile = function(req, res){
-  res.render('user-profile', { title: 'View User' });
-};
-
-exports.newuser = function(req, res){
-  res.render('new-user', { title: 'Create a New User' });
-};
-
-exports.tasksnew = function(req, res){
-  res.render('tasks-new', { title: 'Setup a New Task Template'});
-};
-
 exports.newmember = function(req, res){
-  var member = new Member(req.body),
-  tempPath = req.files.avatar.path,
-  newName = generatePassword(10, false) + '_' + req.files.avatar.name,
-  targetPath = config.avatars.path + newName;
-  fs.rename(tempPath, targetPath, function(err) {
+  var member = new Member(req.body);
+  if (req.body.password.length === 0) {
+    member.password = generatePassword(10, false);
+  }
+  member.save(function (err, member) {
     if (err) {
       console.error(err);
-      res.send('error saving Avatar', 500);
+      res.send('error saving Member', 500);
       return;
     }
-    member.avatar = newName;
-    member.save(function (err, member) {
-      if (err) {
-        console.error(err);
-        res.send('error saving Member', 500);
-        fs.unlink(targetPath, function(err) {
-            if (err) throw err;
-        });
-        return;
-      }
-      res.send(member);
-    })
-  });
+    MailService.sendMemberRegisterMail(member);
+    res.send(member);
+  })
+};
+exports.getmembers = function(req, res){
+  Member.find().exec(function (err, members) {
+    if (err) {
+      console.error(err);
+      res.send('Members not found', 400);
+      return;
+    }
+    res.send(members);
+  })
 };
 
 exports.newowner = function(req, res){
