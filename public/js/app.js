@@ -167,7 +167,7 @@ App.Routing = Backbone.Marionette.AppRouter.extend({
     'at-a-glance': 'organizer',
     'billing': 'billing',
     'time-entries': 'entries',
-    'setup': 'billing',
+    'setup': 'setup',
   }
 });
 

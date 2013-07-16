@@ -47,7 +47,10 @@ app.set('view options', { pretty: true });
 
 app.get('/', routes.index);
 app.get('/api/members', routes.getmembers);
+app.get('/api/clients', routes.getclients);
+app.get('/api/tickets', routes.gettickets);
 app.post('/new-user', routes.newmember);
+app.post('/new-owner', routes.newowner);
 // app.get('/reports', routes.reports);
 // app.get('/users', routes.users);
   // app.get('/new-user', routes.newuser);
@@ -60,7 +63,6 @@ app.post('/new-user', routes.newmember);
 // app.get('/time-entries', routes.timeentries);
 // app.get('/settings', routes.settings);
 // app.get('/setup', routes.setup);
-// app.post('/new-owner', routes.newowner);
 app.get('/:action', routes.index);
 
 // Set 404 Page Not Found

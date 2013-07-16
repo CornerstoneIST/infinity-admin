@@ -1,0 +1,35 @@
+thead
+  tr
+    th.span1
+      | Ticket
+    th.span1
+      | Date
+      span.line
+    th.span1
+      span.line
+      | User
+    th.span1
+      span.line
+      | Status
+    th.span1
+      span.line
+      | Hours
+    th.span1
+      span.line
+      | Client
+    th.span1
+      span.line
+      input(type='checkbox')
+      .btn-group.settings
+        button.btn.small.inverse.dropdown-toggle(data-toggle='dropdown')
+          span.caret
+        ul.dropdown-menu
+          li
+            a(href='#') Delete
+          li
+            a(href='#') Archive
+          li
+            a(href='#') Export
+          li
+            a(href='#') Push to Freshbooks
+tbody

@@ -4,8 +4,10 @@ var
   generatePassword = require('password-generator'),
   MailService = require('../services/Mail');
   User = require('../schemas/user'),
+  Client = require('../schemas/client'),
   Plan = require('../schemas/plan'),
   Company = require('../schemas/company'),
+  Ticket = require('../schemas/ticket'),
   Member = require('../schemas/member');
 
 exports.index = function(req, res){
@@ -27,14 +29,59 @@ exports.newmember = function(req, res){
     res.send(member);
   })
 };
+exports.newticket = function(req, res){
+  var ticket = new Ticket(req.body);
+  
+  ticket.save(function (err, ticket) {
+    if (err) {
+      console.error(err);
+      res.send('error saving Ticket', 500);
+      return;
+    }
+    Ticket
+      .findById(ticket.id)
+      .populate('client member')
+      .exec(function (err, ticket) {
+        if (err || !ticket) {
+          console.error(err);
+          res.send('Ticket not found', 400);
+          return;
+        }
+        res.send(ticket);
+      });
+  })
+};
+
 exports.getmembers = function(req, res){
   Member.find().exec(function (err, members) {
-    if (err) {
+    if (err || !members) {
       console.error(err);
       res.send('Members not found', 400);
       return;
     }
     res.send(members);
+  })
+};
+
+exports.gettickets = function(req, res){
+  Ticket.find().populate('client member').exec(function (err, tickets) {
+    if (err || !tickets) {
+      console.error(err);
+      res.send('Tickets not found', 400);
+      return;
+    }
+    res.send(tickets);
+  });
+};
+
+exports.getclients = function(req, res){
+  Client.find().exec(function (err, clients) {
+    if (err || !clients) {
+      console.error(err);
+      res.send('Clients not found', 400);
+      return;
+    }
+    res.send(clients);
   })
 };
 
@@ -76,7 +123,12 @@ exports.newowner = function(req, res){
           console.error(err);
           res.send('error saving User', 500);
           Plan.findById(user._id, function (err, doc) {
-            doc.remove();
+            if (err) {
+              console.error(err);
+            }
+            if (doc) {
+              doc.remove();
+            }
           });
           fs.unlink(targetPath, function(err) {
               if (err) throw err;
@@ -97,10 +149,20 @@ exports.newowner = function(req, res){
             console.error(err);
             res.send('error saving Company', 500);
             User.findById(user._id, function (err, doc) {
-              doc.remove();
+              if (err) {
+                console.error(err);
+              }
+              if (doc) {
+                doc.remove();
+              }
             });
             Plan.findById(user._id, function (err, doc) {
-              doc.remove();
+              if (err) {
+                console.error(err);
+              }
+              if (doc) {
+                doc.remove();
+              }
             });
             fs.unlink(targetPath, function(err) {
                 if (err) throw err;

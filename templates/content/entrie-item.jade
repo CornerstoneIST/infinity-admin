@@ -1,0 +1,19 @@
+td
+  a(href='#') #<%= number %>
+td
+  | <%= moment(date).format("MMM Do YYYY") %>
+td
+  a(href='#') <%= member.name %>
+|<% if (status == 'uncompleted') {%>
+td
+  span.label.label-info In Progress
+|<% } else { %>
+td
+  span.label.label-success Completed
+|<% } %>
+td
+  | <%= hours %>
+td
+  a(href='#') <%= client.name %>
+td
+  input(type='checkbox')
