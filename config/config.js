@@ -1,7 +1,7 @@
 exports.config = {
-  mongodbUrl : 'mongodb://localhost/wuzy',
+  mongodbUrl : 'mongodb://heroku_app14220631:sa8fb17r1tvvijse1atvnrasbl@ds063177.mongolab.com:63177/heroku_app14220631',
   avatars : {
-    url: 'http://localhost:8080/avatars/',
+    url: '/avatars/',
     path: '././public/img/avatars/'
   },
   mail: {
