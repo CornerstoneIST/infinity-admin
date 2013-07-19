@@ -1,6 +1,5 @@
-App.ReportsApp = function () {
+App.module("ReportsApp", function(ReportsApp, App, Backbone, Marionette, $, _){
   var
-    ReportsApp = {},
     Layout = Backbone.Marionette.Layout.extend({
       className: "container-fluid",
       template: "#reports-template",
@@ -161,10 +160,21 @@ App.ReportsApp = function () {
           });
         })
       }
+    }),
+    Router = Marionette.AppRouter.extend({
+      appRoutes: {
+        "reports": "initializeLayout"
+      }
     });
   ReportsApp.initializeLayout = function () {
     App.content.show(new Layout());
+    App.MenuView.setActive('reports');
+    Backbone.history.navigate('reports');
   };
 
-  return ReportsApp;
-}();
+  App.addInitializer(function () {
+    ReportsApp.Router = new Router({
+      controller: ReportsApp
+    });
+  });
+});

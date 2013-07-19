@@ -1,6 +1,5 @@
-App.ClientsApp = function () {
+App.module("ClientsApp", function (ClientsApp, App, Backbone, Marionette, $, _) {
   var
-    ClientsApp = {},
     Client = Backbone.Model.extend({
       urlRoot: '/api/clients',
       idAttribute: "_id"
@@ -28,20 +27,31 @@ App.ClientsApp = function () {
       className: "table table-hover",
       tagName: "table",
       template: "#clients-table-template"
+    }),
+    Router = Marionette.AppRouter.extend({
+      appRoutes: {
+        "clients": "showItems"
+      }
     });
   ClientsApp.showItems = function () {
-    ClientsApp.layout = new Layout();
+    ClientsApp.initializeLayout();
     App.content.show(ClientsApp.layout);
     ClientsApp.layout.table.show(ClientsApp.Table);
+    App.MenuView.setActive('clients');
+    Backbone.history.navigate('clients');
   };
   ClientsApp.initializeLayout = function () {
+    ClientsApp.layout = new Layout();
     ClientsApp.Clients = new Clients();
     ClientsApp.Table = new TableClientsView({
       collection: ClientsApp.Clients
     });
     ClientsApp.Clients.fetch();
-    ClientsApp.showItems();
   };
 
-  return ClientsApp;
-}();
+  App.addInitializer(function () {
+    ClientsApp.Router = new Router({
+      controller: ClientsApp
+    });
+  });
+});

@@ -5,14 +5,8 @@ exports.config = {
     path: '././public/img/avatars/'
   },
   mail: {
-    from: 'WUZY Mailer <wuzy.mailer@gmail.com>', // for SMTP
-    transport: 'SMTP',
-    transportOptions: {
-      service: 'Gmail',
-      auth: {
-        user: 'wuzy.mailer@gmail.com',
-        pass: 'GxxInCME4Y'
-      }
-    }
+    from: 'wuzy.mailer@gmail.com',
+    pass: 'GxxInCME4Y',
+    mandrill_key: "TjwwZUdbJIi41NNZpGNjJw"
   }
 };

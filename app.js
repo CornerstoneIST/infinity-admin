@@ -47,6 +47,7 @@ app.set('view options', { pretty: true });
 
 app.get('/', routes.index);
 app.get('/api/members', routes.getmembers);
+app.get('/api/member', routes.getmember);
 app.get('/api/clients', routes.getclients);
 app.get('/api/tickets', routes.gettickets);
 app.post('/new-user', routes.newmember);
@@ -64,6 +65,7 @@ app.post('/new-owner', routes.newowner);
 // app.get('/settings', routes.settings);
 // app.get('/setup', routes.setup);
 app.get('/:action', routes.index);
+app.get('/users/:action', routes.index);
 
 // Set 404 Page Not Found
 app.use(function(req, res, next){

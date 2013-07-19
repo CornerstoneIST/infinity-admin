@@ -62,6 +62,16 @@ exports.getmembers = function(req, res){
     res.send(members);
   })
 };
+exports.getmember = function(req, res){
+  Member.findById(req.query.id).exec(function (err, member) {
+    if (err || !member) {
+      console.error(err);
+      res.send('Member not found', 400);
+      return;
+    }
+    res.send(member);
+  })
+};
 
 exports.gettickets = function(req, res){
   Ticket.find().populate('client member').exec(function (err, tickets) {

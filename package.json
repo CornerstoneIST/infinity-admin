@@ -9,6 +9,6 @@
     , "jade": ">= 0.0.1"
     , "mongoose": "*"
     , "password-generator": "*"
-    , "nodemailer": "*"
+    , "mailer": "*"
   }
 }

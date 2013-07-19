@@ -1,8 +1,7 @@
-App.UsersApp = function () {
+App.module("UsersApp", function (UsersApp, App, Backbone, Marionette, $, _) {
   var
-    UsersApp = {},
     User = Backbone.Model.extend({
-      urlRoot: '/api/members',
+      urlRoot: '/api/member',
       idAttribute: "_id"
     }),
     Users = Backbone.Collection.extend({
@@ -18,7 +17,7 @@ App.UsersApp = function () {
       template: "#users-template",
       events: {
         'click #new-user' : function (e) {
-          App.content.show(new NewUserView());
+          UsersApp.newItem();
           return false;
         }
       }
@@ -28,9 +27,7 @@ App.UsersApp = function () {
       tagName: 'tr',
       events: {
         'click' : function () {
-          App.content.show(new ProfileUserView({
-            model: this.model
-          }));
+          UsersApp.showItem(this.model.id)
           return false;
         }
       }
@@ -93,20 +90,52 @@ App.UsersApp = function () {
     SuccessView = Backbone.Marionette.ItemView.extend({
       template: "#success-template",
       className: "modal-dialog"
+    }),
+    Router = Marionette.AppRouter.extend({
+      appRoutes: {
+        "users": "showItems",
+        "users/new": "newItem",
+        "users/:id": "showItem",
+      }
     });
+
+  UsersApp.newItem = function () {
+    App.MenuView.setActive('users');
+    App.content.show(new NewUserView());
+    Backbone.history.navigate('users/new');
+  };
+  UsersApp.showItem = function (id) {
+    App.MenuView.setActive('users');
+    var user = new User();
+    user.fetch({
+      data: { id: id },
+      success: function () {
+        App.content.show(new ProfileUserView({
+          model: user
+        }));        
+      }
+    })
+    Backbone.history.navigate('users/' + id);
+  };
   UsersApp.showItems = function () {
-    UsersApp.layout = new Layout();
+    UsersApp.initializeLayout();
     App.content.show(UsersApp.layout);
     UsersApp.layout.table.show(UsersApp.Table);
+    App.MenuView.setActive('users');
+    Backbone.history.navigate('users');
   };
   UsersApp.initializeLayout = function () {
     UsersApp.Users = new Users();
+    UsersApp.layout = new Layout();
     UsersApp.Table = new TableUsersView({
       collection: UsersApp.Users
     });
     UsersApp.Users.fetch();
-    UsersApp.showItems();
   };
 
-  return UsersApp;
-}();
+  App.addInitializer(function () {
+    UsersApp.Router = new Router({
+      controller: UsersApp
+    });
+  });
+});

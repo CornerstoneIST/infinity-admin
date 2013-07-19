@@ -1,6 +1,5 @@
-App.SetupApp = function () {
+App.module("SetupApp", function(SetupApp, App, Backbone, Marionette, $, _){
   var
-    SetupApp = {},
     Layout = Backbone.Marionette.Layout.extend({
       className: "container-fluid",
       template: "#setup-template",
@@ -125,10 +124,21 @@ App.SetupApp = function () {
 
         });
       }
+    }),
+    Router = Marionette.AppRouter.extend({
+      appRoutes: {
+        "setup": "initializeLayout"
+      }
     });
   SetupApp.initializeLayout = function () {
     App.content.show(new Layout());
+    App.MenuView.setActive('setup');
+    Backbone.history.navigate('setup');
   };
 
-  return SetupApp;
-}();
+  App.addInitializer(function () {
+    SetupApp.Router = new Router({
+      controller: SetupApp
+    });
+  });
+});

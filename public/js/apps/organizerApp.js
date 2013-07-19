@@ -1,6 +1,5 @@
-App.OrganizerApp = function () {
+App.module("OrganizerApp", function(OrganizerApp, App, Backbone, Marionette, $, _){
   var
-    OrganizerApp = {},
     Layout = Backbone.Marionette.Layout.extend({
       className: "container-fluid",
       template: "#organizer-template",
@@ -74,10 +73,20 @@ App.OrganizerApp = function () {
           });
         });
       }
+    }),
+    Router = Marionette.AppRouter.extend({
+      appRoutes: {
+        "at-a-glance": "initializeLayout"
+      }
     });
   OrganizerApp.initializeLayout = function () {
     App.content.show(new Layout());
+    App.MenuView.setActive('organizer');
+    Backbone.history.navigate('at-a-glance');
   };
-
-  return OrganizerApp;
-}();
+  App.addInitializer(function () {
+    OrganizerApp.Router = new Router({
+      controller: OrganizerApp
+    });
+  });
+});

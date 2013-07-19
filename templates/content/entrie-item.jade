@@ -2,7 +2,7 @@ td
   a(href='#') #<%= number %>
 td
   | <%= moment(date).format("MMM Do YYYY") %>
-td
+td.user
   a(href='#') <%= member.name %>
 |<% if (status == 'uncompleted') {%>
 td

@@ -1,8 +1,9 @@
 var
-  nodemailer = require('nodemailer'),
   fs = require('fs'),
   jade = require('jade'),
   config = require('../config/config').config,
+  mandrill = require('mandrill-api/mandrill'),
+  mandrill_client = new mandrill.Mandrill(config.mail.mandrill_key),
   tpl;
 tpl = function (templateName, locals) {
   var
@@ -18,30 +19,41 @@ tpl = function (templateName, locals) {
   return fn(locals);
 };
 
-exports.sendMail = function (mailOptions, callback) {
-  var mailTransport = nodemailer.createTransport(config.mail.transport, config.mail.transportOptions);
-
-  mailOptions = mailOptions || {};
-  mailOptions.from = config.mail.from;
-  mailOptions.generateTextFromHTML = true;
-
-  mailTransport.sendMail(mailOptions, callback);
-
-  mailTransport.close();
-};
-exports.sendMemberRegisterMail = function (user, callback) {
+exports.sendMemberRegisterMail = function (user) {
   var
     subject = 'Registration',
-    body;
-
-  body = tpl('memberRegister', {
-    subject: subject,
-    user: user
+    html = tpl('memberRegister', {
+      subject: subject,
+      user: user
+    });
+  
+  var message = {
+      "html": html,
+      "subject": subject,
+      "from_email": config.mail.from,
+      "from_name": "WUZY",
+      "to": [{
+              "email": user.email,
+              "name": user.name
+          }],
+      "important": false,
+      "track_opens": null,
+      "track_clicks": null,
+      "auto_text": null,
+      "auto_html": null,
+      "inline_css": null,
+      "url_strip_qs": null,
+      "preserve_recipients": null,
+      "tracking_domain": null,
+      "signing_domain": null
+  };
+  mandrill_client.messages.send(
+    {"message": message},
+    function(result) {
+        console.log(result);
+    },
+    function(e) {
+        console.log('A mandrill error occurred: ' + e.name + ' - ' + e.message);
   });
-
-  exports.sendMail({
-    to: user.email,
-    subject: subject,
-    html: body
-  }, callback);
 };
+

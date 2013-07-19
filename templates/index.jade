@@ -3,90 +3,90 @@ include includes/sidemenu
 .content
   .container-fluid
 #modal.modal.fade.hide.in(tabindex="-1", role="dialog", aria-hidden="true")
-script#success-template(type='text/html')
+script#success-template(type='text/template')
   include content/success-alert
-script#arrow-template(type='text/html')
+script#arrow-template(type='text/template')
   include content/menu-arrow
-script#dashboard-template(type='text/html')
+script#dashboard-template(type='text/template')
   include content/index
-script#reports-template(type='text/html')
+script#reports-template(type='text/template')
   include content/reports
-script#users-template(type='text/html')
+script#users-template(type='text/template')
   include content/users
-script#clients-template(type='text/html')
+script#clients-template(type='text/template')
   include content/clients
-script#tasks-template(type='text/html')
+script#tasks-template(type='text/template')
   include content/tasks
-script#organizer-template(type='text/html')
+script#organizer-template(type='text/template')
   include content/at-a-glance
-script#billing-template(type='text/html')
+script#billing-template(type='text/template')
   include content/billing
-script#entries-template(type='text/html')
+script#entries-template(type='text/template')
   include content/time-entries
-script#entries-template(type='text/html')
+script#entries-template(type='text/template')
   include content/time-entries
-script#setup-template(type='text/html')
+script#setup-template(type='text/template')
   include content/setup
-script#new-user-template(type='text/html')
+script#new-user-template(type='text/template')
   include content/new-user
-script#profile-user-template(type='text/html')
+script#profile-user-template(type='text/template')
   include content/user-profile
-script#users-table-template(type='text/html')
+script#users-table-template(type='text/template')
   include content/users-table
-script#user-item-template(type='text/html')
+script#user-item-template(type='text/template')
   include content/user-item
-script#clients-table-template(type='text/html')
+script#clients-table-template(type='text/template')
   include content/clients-table
-script#client-item-template(type='text/html')
+script#client-item-template(type='text/template')
   include content/client-item
-script#entries-table-template(type='text/html')
+script#entries-table-template(type='text/template')
   include content/entries-table
-script#entries-item-template(type='text/html')
+script#entries-item-template(type='text/template')
   include content/entrie-item
 
-script(src='js/bootstrap.min.js')
-script(src='js/moment.min.js')
-script(src='js/jquery-ui-1.10.2.custom.min.js')
+script(src='/js/bootstrap.min.js')
+script(src='/js/moment.min.js')
+script(src='/js/jquery-ui-1.10.2.custom.min.js')
 //
    flot charts
-script(src='js/jquery.flot.js')
-script(src='js/jquery.flot.stack.js')
-script(src='js/jquery.flot.resize.js')
+script(src='/js/jquery.flot.js')
+script(src='/js/jquery.flot.stack.js')
+script(src='/js/jquery.flot.resize.js')
 //
    morrisjs
 script(src='http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js')
-script(src='js/morris.min.js')
+script(src='/js/morris.min.js')
 //
    call all plugins
-script(src='js/theme.js')
+script(src='/js/theme.js')
 //
    knob
-script(src='js/jquery.knob.js')
+script(src='/js/jquery.knob.js')
 //
    calendar
-script(src='js/fullcalendar.min.js')
+script(src='/js/fullcalendar.min.js')
 //
    setup
-script(src='js/wysihtml5-0.3.0.js')
-script(src='js/bootstrap-wysihtml5-0.0.2.js')
-script(src='js/bootstrap.datepicker.js')
-script(src='js/jquery.uniform.min.js')
-script(src='js/jquery.form.min.js')
-script(src='js/select2.min.js')
-script(src='js/fuelux.wizard.js')
+script(src='/js/wysihtml5-0.3.0.js')
+script(src='/js/bootstrap-wysihtml5-0.0.2.js')
+script(src='/js/bootstrap.datepicker.js')
+script(src='/js/jquery.uniform.min.js')
+script(src='/js/jquery.form.min.js')
+script(src='/js/select2.min.js')
+script(src='/js/fuelux.wizard.js')
 script(src='https://checkout.stripe.com/v2/checkout.js')
 //
   marione apps
-script(type='text/javascript', src='js/app.js')
-script(type='text/javascript', src='js/apps/dashboardApp.js')
-script(type='text/javascript', src='js/apps/reportsApp.js')
-script(type='text/javascript', src='js/apps/usersApp.js')
-script(type='text/javascript', src='js/apps/clientsApp.js')
-script(type='text/javascript', src='js/apps/tasksApp.js')
-script(type='text/javascript', src='js/apps/organizerApp.js')
-script(type='text/javascript', src='js/apps/billingApp.js')
-script(type='text/javascript', src='js/apps/entriesApp.js')
-script(type='text/javascript', src='js/apps/setupApp.js')
+script(type='text/javascript', src='/js/app.js')
+script(type='text/javascript', src='/js/apps/dashboardApp.js')
+script(type='text/javascript', src='/js/apps/reportsApp.js')
+script(type='text/javascript', src='/js/apps/usersApp.js')
+script(type='text/javascript', src='/js/apps/clientsApp.js')
+script(type='text/javascript', src='/js/apps/tasksApp.js')
+script(type='text/javascript', src='/js/apps/organizerApp.js')
+script(type='text/javascript', src='/js/apps/billingApp.js')
+script(type='text/javascript', src='/js/apps/entriesApp.js')
+script(type='text/javascript', src='/js/apps/setupApp.js')
 
 
 script(type='text/javascript')

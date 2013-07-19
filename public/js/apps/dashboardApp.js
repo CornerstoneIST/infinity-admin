@@ -1,6 +1,5 @@
-App.DashboardApp = function () {
+App.module("DashboardApp", function(DashboardApp, App, Backbone, Marionette, $, _){
   var
-    DashboardApp = {},
     Layout = Backbone.Marionette.Layout.extend({
       className: "container-fluid",
       template: "#dashboard-template",
@@ -101,10 +100,22 @@ App.DashboardApp = function () {
           });
         })
       }
-    });
+    })
+    Router = Marionette.AppRouter.extend({
+      appRoutes: {
+        "": "initializeLayout",
+        "dashboard": "initializeLayout"
+      }
+    });;
   DashboardApp.initializeLayout = function () {
     App.content.show(new Layout());
+    App.MenuView.setActive('dashboard');
+    Backbone.history.navigate('dashboard');
   };
 
-  return DashboardApp;
-}();
+  App.addInitializer(function () {
+    DashboardApp.Router = new Router({
+      controller: DashboardApp
+    });
+  });
+});

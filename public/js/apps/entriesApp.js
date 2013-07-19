@@ -1,6 +1,5 @@
-App.EntriesApp = function () {
+App.module("EntriesApp", function (EntriesApp, App, Backbone, Marionette, $, _) {
   var
-    EntriesApp = {},
     Ticket = Backbone.Model.extend({
       urlRoot: '/api/tickets',
       idAttribute: "_id"
@@ -18,9 +17,6 @@ App.EntriesApp = function () {
       },
       initialize: function () {
         this.on('show', function () {
-           // add uniform plugin styles to html elements
-          // $("input:checkbox, input:radio").uniform();
-          // select2 plugin for select elements
           $(".select2").select2({
             placeholder: "Select a State"
           });
@@ -41,6 +37,12 @@ App.EntriesApp = function () {
     ItemView = Backbone.Marionette.ItemView.extend({
       template: "#entries-item-template",
       tagName: 'tr',
+      events: {
+        'click .user a': function () {
+          App.UsersApp.showItem(this.model.get('member')._id);
+          return false;
+        }
+      },
       onShow: function () {
         // add uniform plugin styles to html elements
         $("input:checkbox, input:radio").uniform();
@@ -53,20 +55,31 @@ App.EntriesApp = function () {
       className: "table table-hover",
       tagName: "table",
       template: "#entries-table-template"
+    }),
+    Router = Marionette.AppRouter.extend({
+      appRoutes: {
+        "time-entries": "showItems"
+      }
     });
   EntriesApp.showItems = function () {
-    EntriesApp.layout = new Layout();
+    EntriesApp.initializeLayout();
     App.content.show(EntriesApp.layout);
     EntriesApp.layout.table.show(EntriesApp.Table);
+    App.MenuView.setActive('entries');
+    Backbone.history.navigate('time-entries');
   };
   EntriesApp.initializeLayout = function () {
     EntriesApp.Tickets = new Tickets();
+    EntriesApp.layout = new Layout();
     EntriesApp.Table = new TableEntriesView({
       collection: EntriesApp.Tickets
     });
     EntriesApp.Tickets.fetch();
-    EntriesApp.showItems();
   };
 
-  return EntriesApp;
-}();
+  App.addInitializer(function () {
+    EntriesApp.Router = new Router({
+      controller: EntriesApp
+    });
+  });
+});

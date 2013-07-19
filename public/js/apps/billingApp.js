@@ -1,6 +1,5 @@
-App.BillingApp = function () {
+App.module("BillingApp", function(BillingApp, App, Backbone, Marionette, $, _){
   var
-    BillingApp = {},
     Layout = Backbone.Marionette.Layout.extend({
       className: "container-fluid",
       template: "#billing-template",
@@ -22,10 +21,21 @@ App.BillingApp = function () {
           });
         });
       }
+    }),
+    Router = Marionette.AppRouter.extend({
+      appRoutes: {
+        "billing": "initializeLayout"
+      }
     });
   BillingApp.initializeLayout = function () {
     App.content.show(new Layout());
+    App.MenuView.setActive('billing');
+    Backbone.history.navigate('billing');
   };
 
-  return BillingApp;
-}();
+  App.addInitializer(function () {
+    BillingApp.Router = new Router({
+      controller: BillingApp
+    });
+  });
+});
