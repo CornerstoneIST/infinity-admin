@@ -1,13 +1,35 @@
 var
   mongoose = require('mongoose'),
   user = new mongoose.Schema({
-  first_name: {
-    type: String,
-    required: true
+  name: {
+    type: String
   },
-  last_name: {
+  company: {
+    type: String
+  },
+  state: {
+    type: String
+  },
+  phone: {
+    type: String
+  },
+  website: {
+    type: String
+  },
+  street: {
+    type: String
+  },
+  city: {
+    type: String
+  },
+  postal: {
+    type: String
+  },
+  notes: {
     type: String,
-    required: true
+  },
+   password: {
+    type: String,
   },
   sso_id: {
     type: Number,
@@ -22,28 +44,22 @@ var
     required: true
   },
   recovery_email: {
-    type: String,
-    required: true
+    type: String
   },
   sec_quest_1: {
-    type: String,
-    required: true
+    type: String
   },
   sec_quest_2: {
-    type: String,
-    required: true
+    type: String
   },
   sec_answer_1: {
-    type: String,
-    required: true
+    type: String
   },
   sec_answer_2: {
-    type: String,
-    required: true
+    type: String
   },
   stripeToken: {
-    type: String,
-    required: true
+    type: String
   }
 });
 

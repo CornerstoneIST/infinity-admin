@@ -1,11 +1,11 @@
 App.module("UsersApp", function (UsersApp, App, Backbone, Marionette, $, _) {
   var
     User = Backbone.Model.extend({
-      urlRoot: '/api/member',
+      urlRoot: '/api/user',
       idAttribute: "_id"
     }),
     Users = Backbone.Collection.extend({
-      url: '/api/members',
+      url: '/api/users',
       model: User
     }),
     Layout = Backbone.Marionette.Layout.extend({
@@ -53,8 +53,8 @@ App.module("UsersApp", function (UsersApp, App, Backbone, Marionette, $, _) {
               App.modal.show(new SuccessView({
                 model: new User(data)
               }));
-              UsersApp.Users.add(data);
               UsersApp.showItems();
+              UsersApp.Users.add(data);
             }
           };
           $('form').ajaxSubmit(options);

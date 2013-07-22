@@ -7,28 +7,49 @@ var
   Client = require('../schemas/client'),
   Plan = require('../schemas/plan'),
   Company = require('../schemas/company'),
-  Ticket = require('../schemas/ticket'),
-  Member = require('../schemas/member');
+  Ticket = require('../schemas/ticket');
 
 exports.index = function(req, res){
   res.render('index');
 };
 
-exports.newmember = function(req, res){
-  var member = new Member(req.body);
+exports.newuser = function(req, res){
+  var user = new User(req.body);
   if (req.body.password.length === 0) {
-    member.password = generatePassword(10, false);
+    user.password = generatePassword(10, false);
   }
-  member.save(function (err, member) {
+  user.save(function (err, user) {
     if (err) {
       console.error(err);
-      res.send('error saving Member', 500);
+      res.send('error saving User', 500);
       return;
     }
-    MailService.sendMemberRegisterMail(member);
-    res.send(member);
+    MailService.sendUserRegisterMail(user);
+    res.send(user);
   })
 };
+
+exports.getusers = function(req, res){
+  User.find().exec(function (err, users) {
+    if (err || !users) {
+      console.error(err);
+      res.send('Users not found', 400);
+      return;
+    }
+    res.send(users);
+  })
+};
+exports.getuser = function(req, res){
+  User.findById(req.query.id).exec(function (err, user) {
+    if (err || !user) {
+      console.error(err);
+      res.send('User not found', 400);
+      return;
+    }
+    res.send(user);
+  })
+};
+
 exports.newticket = function(req, res){
   var ticket = new Ticket(req.body);
   
@@ -40,7 +61,7 @@ exports.newticket = function(req, res){
     }
     Ticket
       .findById(ticket.id)
-      .populate('client member')
+      .populate('client user')
       .exec(function (err, ticket) {
         if (err || !ticket) {
           console.error(err);
@@ -51,30 +72,8 @@ exports.newticket = function(req, res){
       });
   })
 };
-
-exports.getmembers = function(req, res){
-  Member.find().exec(function (err, members) {
-    if (err || !members) {
-      console.error(err);
-      res.send('Members not found', 400);
-      return;
-    }
-    res.send(members);
-  })
-};
-exports.getmember = function(req, res){
-  Member.findById(req.query.id).exec(function (err, member) {
-    if (err || !member) {
-      console.error(err);
-      res.send('Member not found', 400);
-      return;
-    }
-    res.send(member);
-  })
-};
-
 exports.gettickets = function(req, res){
-  Ticket.find().populate('client member').exec(function (err, tickets) {
+  Ticket.find().populate('client user').exec(function (err, tickets) {
     if (err || !tickets) {
       console.error(err);
       res.send('Tickets not found', 400);
@@ -107,8 +106,7 @@ exports.newowner = function(req, res){
       res.send('error saving Plan', 500);
       return;
     }
-    user.first_name = req.body.first_name;
-    user.last_name = req.body.last_name;
+    user.name = req.body.first_name + ' ' + req.body.last_name;
     user.email = req.body.email;
     user.recovery_email = req.body.recovery_email;
     user.sec_quest_1 = req.body.sec_quest_1;

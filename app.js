@@ -46,11 +46,11 @@ app.set('view options', { pretty: true });
 // Set Routes
 
 app.get('/', routes.index);
-app.get('/api/members', routes.getmembers);
-app.get('/api/member', routes.getmember);
+app.get('/api/users', routes.getusers);
+app.get('/api/user', routes.getuser);
 app.get('/api/clients', routes.getclients);
 app.get('/api/tickets', routes.gettickets);
-app.post('/new-user', routes.newmember);
+app.post('/new-user', routes.newuser);
 app.post('/new-owner', routes.newowner);
 // app.get('/reports', routes.reports);
 // app.get('/users', routes.users);

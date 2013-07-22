@@ -10,9 +10,9 @@ var
     'default': Date.now,
     required: true
   },
-  member: {
+  user: {
     type: mongoose.Schema.ObjectId,
-    ref: 'Member',
+    ref: 'User',
     required: true
   },
   status: {

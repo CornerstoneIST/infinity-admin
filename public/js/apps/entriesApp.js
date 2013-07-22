@@ -39,7 +39,7 @@ App.module("EntriesApp", function (EntriesApp, App, Backbone, Marionette, $, _) 
       tagName: 'tr',
       events: {
         'click .user a': function () {
-          App.UsersApp.showItem(this.model.get('member')._id);
+          App.UsersApp.showItem(this.model.get('user')._id);
           return false;
         }
       },

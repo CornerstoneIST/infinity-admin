@@ -3,7 +3,7 @@ td
 td
   | <%= moment(date).format("MMM Do YYYY") %>
 td.user
-  a(href='#') <%= member.name %>
+  a(href='#') <%= user.name %>
 |<% if (status == 'uncompleted') {%>
 td
   span.label.label-info In Progress

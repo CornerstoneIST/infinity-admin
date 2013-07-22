@@ -19,7 +19,7 @@ tpl = function (templateName, locals) {
   return fn(locals);
 };
 
-exports.sendMemberRegisterMail = function (user) {
+exports.sendUserRegisterMail = function (user) {
   var
     subject = 'Registration',
     html = tpl('memberRegister', {
