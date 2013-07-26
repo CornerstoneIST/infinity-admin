@@ -1,0 +1,15 @@
+.btn-group.pull-left
+    label Results Per Page
+    button(value=5).glow.left.large(class!='<%= perPage == 5 ? "active" : ""%>') 5
+    button(value=10).glow.middle.large(class!='<%= perPage == 10 ? "active" : ""%>') 10
+    button(value=25).glow.right.large(class!='<%= perPage == 25 ? "active" : ""%>') 25
+.pagination.pull-right
+  ul
+    li
+      a(href='prev') ‹
+    |<% for(p=1;p<=totalPages;p++){%>
+    li
+      a.page(href='#', class!='<%= p == currentPage ? "active" : ""%>') <%= p %>
+    <% } %>
+    li
+      a(href='next') ›

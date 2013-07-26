@@ -30,13 +30,21 @@ exports.newuser = function(req, res){
 };
 
 exports.getusers = function(req, res){
-  User.find().exec(function (err, users) {
+  User.find().skip(req.query.per_page * (req.query.page - 1)).limit(req.query.per_page).exec(function (err, users) {
     if (err || !users) {
       console.error(err);
       res.send('Users not found', 400);
       return;
     }
-    res.send(users);
+    User.count({}, function( err, count){
+      if (err) {
+        console.error(err);
+      }
+      res.send({
+        collection:  users,
+        count: count
+      });
+    })
   })
 };
 exports.getuser = function(req, res){
@@ -73,24 +81,40 @@ exports.newticket = function(req, res){
   })
 };
 exports.gettickets = function(req, res){
-  Ticket.find().populate('client user').exec(function (err, tickets) {
+  Ticket.find().populate('client user').skip(req.query.per_page * (req.query.page - 1)).limit(req.query.per_page).exec(function (err, tickets) {
     if (err || !tickets) {
       console.error(err);
       res.send('Tickets not found', 400);
       return;
     }
-    res.send(tickets);
-  });
+    Ticket.count({}, function( err, count){
+      if (err) {
+        console.error(err);
+      }
+      res.send({
+        collection:  tickets,
+        count: count
+      });
+    })
+  })
 };
 
 exports.getclients = function(req, res){
-  Client.find().exec(function (err, clients) {
+  Client.find().skip(req.query.per_page * (req.query.page - 1)).limit(req.query.per_page).exec(function (err, clients) {
     if (err || !clients) {
       console.error(err);
       res.send('Clients not found', 400);
       return;
     }
-    res.send(clients);
+    Client.count({}, function( err, count){
+      if (err) {
+        console.error(err);
+      }
+      res.send({
+        collection:  clients,
+        count: count
+      });
+    })
   })
 };
 

@@ -1,19 +1,38 @@
 App.module("ClientsApp", function (ClientsApp, App, Backbone, Marionette, $, _) {
   var
     Client = Backbone.Model.extend({
-      urlRoot: '/api/clients',
+      urlRoot: '/api/client',
       idAttribute: "_id"
     }),
-    Clients = Backbone.Collection.extend({
-      url: '/api/clients',
-      model: Client
+    Clients = Backbone.Paginator.requestPager.extend({
+      model: Client,
+      paginator_core: {
+        type: 'GET',
+        dataType: 'json',
+        url: '/api/clients'
+      },
+      paginator_ui: {
+        firstPage: 1,
+        currentPage: 1,
+        perPage: 5,
+        totalPages: 5
+      },
+      server_api: {
+        'per_page': function() { return this.perPage },
+        'page': function() { return this.currentPage }
+      },
+      parse: function (response) {
+        this.totalRecords = response.count;
+        this.totalPages = Math.ceil(response.count / this.perPage);
+        return response.collection;
+      }
     }),
     Layout = Backbone.Marionette.Layout.extend({
       className: "container-fluid",
       template: "#clients-template",
       regions: {
-        table: "#table"
-        //pagination: ".pagination"
+        table: "#table",
+        pagination: "#pagination"
       }
     }),
     ItemView = Backbone.Marionette.ItemView.extend({
@@ -21,12 +40,20 @@ App.module("ClientsApp", function (ClientsApp, App, Backbone, Marionette, $, _) 
       tagName: 'tr'
     }),
     TableClientsView = Backbone.Marionette.CompositeView.extend({
-      collection: ClientsApp.Clients,
       itemView: ItemView,
       itemViewContainer: "tbody",
       className: "table table-hover",
       tagName: "table",
-      template: "#clients-table-template"
+      template: "#clients-table-template",
+      initialize: function () {
+        this.collection.pager({
+          success: function(){
+            ClientsApp.layout.pagination.show(new App.Common.Views.PaginationView({
+              collection: ClientsApp.Clients
+            }));
+          }
+        });
+      }
     }),
     Router = Marionette.AppRouter.extend({
       appRoutes: {
@@ -46,7 +73,6 @@ App.module("ClientsApp", function (ClientsApp, App, Backbone, Marionette, $, _) 
     ClientsApp.Table = new TableClientsView({
       collection: ClientsApp.Clients
     });
-    ClientsApp.Clients.fetch();
   };
 
   App.addInitializer(function () {

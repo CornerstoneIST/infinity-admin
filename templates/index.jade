@@ -43,8 +43,11 @@ script#entries-table-template(type='text/template')
   include content/entries-table
 script#entries-item-template(type='text/template')
   include content/entrie-item
+script#pagination-template(type='text/template')
+  include content/pagination
 
 script(src='/js/bootstrap.min.js')
+script(src='/js/backbone.paginator.min.js')
 script(src='/js/moment.min.js')
 script(src='/js/jquery-ui-1.10.2.custom.min.js')
 //
@@ -87,7 +90,9 @@ script(type='text/javascript', src='/js/apps/organizerApp.js')
 script(type='text/javascript', src='/js/apps/billingApp.js')
 script(type='text/javascript', src='/js/apps/entriesApp.js')
 script(type='text/javascript', src='/js/apps/setupApp.js')
-
+//
+  marione apps
+script(type='text/javascript', src='/js/common/views.js')
 
 script(type='text/javascript')
   App.start();

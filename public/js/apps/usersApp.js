@@ -4,15 +4,34 @@ App.module("UsersApp", function (UsersApp, App, Backbone, Marionette, $, _) {
       urlRoot: '/api/user',
       idAttribute: "_id"
     }),
-    Users = Backbone.Collection.extend({
-      url: '/api/users',
-      model: User
+    Users = Backbone.Paginator.requestPager.extend({
+      model: User,
+      paginator_core: {
+        type: 'GET',
+        dataType: 'json',
+        url: '/api/users'
+      },
+      paginator_ui: {
+        firstPage: 1,
+        currentPage: 1,
+        perPage: 5,
+        totalPages: 5
+      },
+      server_api: {
+        'per_page': function() { return this.perPage },
+        'page': function() { return this.currentPage }
+      },
+      parse: function (response) {
+        this.totalRecords = response.count;
+        this.totalPages = Math.ceil(response.count / this.perPage);
+        return response.collection;
+      }
     }),
     Layout = Backbone.Marionette.Layout.extend({
       className: "container-fluid",
       regions: {
-        table: "#table"
-        //pagination: ".pagination"
+        table: "#table",
+        pagination: "#pagination"
       },
       template: "#users-template",
       events: {
@@ -38,7 +57,16 @@ App.module("UsersApp", function (UsersApp, App, Backbone, Marionette, $, _) {
       itemViewContainer: "tbody",
       className: "table table-hover",
       tagName: "table",
-      template: "#users-table-template"
+      template: "#users-table-template",
+      initialize: function () {
+        this.collection.pager({
+          success: function(){
+            UsersApp.layout.pagination.show(new App.Common.Views.PaginationView({
+              collection: UsersApp.Users
+            }));
+          }
+        });
+      }
     }),
     NewUserView = Backbone.Marionette.ItemView.extend({
       className: "container-fluid",
@@ -54,7 +82,6 @@ App.module("UsersApp", function (UsersApp, App, Backbone, Marionette, $, _) {
                 model: new User(data)
               }));
               UsersApp.showItems();
-              UsersApp.Users.add(data);
             }
           };
           $('form').ajaxSubmit(options);
@@ -95,10 +122,10 @@ App.module("UsersApp", function (UsersApp, App, Backbone, Marionette, $, _) {
       appRoutes: {
         "users": "showItems",
         "users/new": "newItem",
-        "users/:id": "showItem",
+        "users/:id": "showItem"
       }
     });
-
+  
   UsersApp.newItem = function () {
     App.MenuView.setActive('users');
     App.content.show(new NewUserView());
@@ -130,7 +157,6 @@ App.module("UsersApp", function (UsersApp, App, Backbone, Marionette, $, _) {
     UsersApp.Table = new TableUsersView({
       collection: UsersApp.Users
     });
-    UsersApp.Users.fetch();
   };
 
   App.addInitializer(function () {
