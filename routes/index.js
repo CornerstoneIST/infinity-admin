@@ -15,9 +15,6 @@ exports.index = function(req, res){
 
 exports.newuser = function(req, res){
   var user = new User(req.body);
-  if (req.body.password.length === 0) {
-    user.password = generatePassword(10, false);
-  }
   user.save(function (err, user) {
     if (err) {
       console.error(err);
@@ -55,6 +52,26 @@ exports.getuser = function(req, res){
       return;
     }
     res.send(user);
+  })
+};
+
+exports.activateUser = function(req, res){
+  User.findById(req.query.id).exec(function (err, user) {
+    if (err || !user) {
+      console.error(err);
+      res.send('User not found', 400);
+      return;
+    }
+    user.password = req.body.password;
+    user.activated = true;
+    user.save(function (err, user) {
+      if (err) {
+        console.error(err);
+        res.send('error saving User', 500);
+        return;
+      }
+      res.send(user);
+    })
   })
 };
 
@@ -138,6 +155,7 @@ exports.newowner = function(req, res){
     user.sec_answer_1 = req.body.sec_answer_1;
     user.sec_answer_2 = req.body.sec_answer_2;
     user.stripeToken = req.body.stripeToken;
+    user.activated = true;
 
     var tempPath = req.files.avatar.path,
         newName = generatePassword(10, false) + '_' + req.files.avatar.name,

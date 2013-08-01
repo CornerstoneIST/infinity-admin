@@ -116,6 +116,7 @@ var MenuView = Backbone.Marionette.View.extend({
     App.SetupApp.initializeLayout();
   }
 });
+
 App.MenuView = new MenuView();
 
 App.on("initialize:after", function () {

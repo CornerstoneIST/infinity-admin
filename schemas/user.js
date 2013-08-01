@@ -28,7 +28,7 @@ var
   notes: {
     type: String,
   },
-   password: {
+  password: {
     type: String,
   },
   sso_id: {
@@ -60,6 +60,10 @@ var
   },
   stripeToken: {
     type: String
+  },
+  activated: {
+    type: Boolean,
+    default: false
   }
 });
 

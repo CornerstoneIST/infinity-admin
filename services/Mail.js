@@ -24,7 +24,8 @@ exports.sendUserRegisterMail = function (user) {
     subject = 'Registration',
     html = tpl('memberRegister', {
       subject: subject,
-      user: user
+      user: user,
+      link: config.mail.siteUrl
     });
   
   var message = {

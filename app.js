@@ -66,6 +66,8 @@ app.post('/new-owner', routes.newowner);
 // app.get('/setup', routes.setup);
 app.get('/:action', routes.index);
 app.get('/users/:action', routes.index);
+app.get('/activation/:id', routes.index);
+app.post('/api/activation', routes.activateUser);
 
 // Set 404 Page Not Found
 app.use(function(req, res, next){

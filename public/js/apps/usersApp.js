@@ -44,6 +44,11 @@ App.module("UsersApp", function (UsersApp, App, Backbone, Marionette, $, _) {
     ItemView = Backbone.Marionette.ItemView.extend({
       template: "#user-item-template",
       tagName: 'tr',
+      onRender: function () {
+        if (!this.model.get('activated')) {
+          this.$el.css('background-color', '#FDFDFD')
+        }
+      },
       events: {
         'click' : function () {
           UsersApp.showItem(this.model.id)
@@ -118,10 +123,28 @@ App.module("UsersApp", function (UsersApp, App, Backbone, Marionette, $, _) {
       template: "#success-template",
       className: "modal-dialog"
     }),
+    ActivateView = Backbone.Marionette.ItemView.extend({
+      template: "#activate-user-template",
+      className: "modal-dialog",
+      events: {
+        'click #confirm': function () {
+          var options = {
+              type: 'post',
+              url: '/api/activation?id=' + this.model.get('_id'),
+              data: this.$('form').serialize(),
+              success: function () {
+                console.log('success')
+              }
+            };
+          $.ajax(options);
+        }
+      }
+    }),
     Router = Marionette.AppRouter.extend({
       appRoutes: {
         "users": "showItems",
         "users/new": "newItem",
+        "activation/:id": "activateUser",
         "users/:id": "showItem"
       }
     });
@@ -131,6 +154,19 @@ App.module("UsersApp", function (UsersApp, App, Backbone, Marionette, $, _) {
     App.content.show(new NewUserView());
     Backbone.history.navigate('users/new');
   };
+  UsersApp.activateUser = function (id) {
+    App.MenuView.setActive('users');
+    var user = new User();
+    user.fetch({
+      data: { id: id },
+      success: function () {
+        App.modal.show(new ActivateView({
+          model: user
+        }));
+      }
+    })
+    Backbone.history.navigate('activation/' + id);
+  };
   UsersApp.showItem = function (id) {
     App.MenuView.setActive('users');
     var user = new User();
@@ -139,7 +175,7 @@ App.module("UsersApp", function (UsersApp, App, Backbone, Marionette, $, _) {
       success: function () {
         App.content.show(new ProfileUserView({
           model: user
-        }));        
+        }));
       }
     })
     Backbone.history.navigate('users/' + id);
