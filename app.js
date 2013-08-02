@@ -13,7 +13,7 @@ var app = module.exports = express.createServer();
 // Configuration
 
 app.configure(function(){
-  app.use(express.logger({ format: '\x1b[1m:method\x1b[0m \x1b[33m:url\x1b[0m :response-time ms' }));
+  app.use(express.logger({ format: '\x1b[1m:status \x1b[1m:method \x1b[0m \x1b[33m:url \x1b[0m :response-time ms' }));
   app.set('views', __dirname + '/templates');
   app.set('view engine', 'jade');
   app.use(express.bodyParser());
@@ -66,8 +66,8 @@ app.post('/new-owner', routes.newowner);
 // app.get('/setup', routes.setup);
 app.get('/:action', routes.index);
 app.get('/users/:action', routes.index);
-app.get('/activation/:id', routes.index);
-app.post('/api/activation', routes.activateUser);
+app.get('/activation/:id', routes.activation);
+app.post('/api/activation/:id', routes.activateUser);
 
 // Set 404 Page Not Found
 app.use(function(req, res, next){

@@ -55,11 +55,33 @@ exports.getuser = function(req, res){
   })
 };
 
-exports.activateUser = function(req, res){
-  User.findById(req.query.id).exec(function (err, user) {
+exports.activation = function(req, res){
+  User.findById(req.params.id).exec(function (err, user) {
     if (err || !user) {
       console.error(err);
       res.send('User not found', 400);
+      return;
+    }
+    res.render('activate-user', {
+      layout: false,
+      user: user
+    });
+  })
+};
+
+exports.activateUser = function(req, res){
+  User.findById(req.params.id).exec(function (err, user) {
+    if (err || !user) {
+      console.error(err);
+      res.send('User not found', 400);
+      return;
+    }
+    if (req.body.password != req.body.confpassword) {
+      res.render('activate-user', {
+        layout: false,
+        user: user,
+        error: true
+      });
       return;
     }
     user.password = req.body.password;
@@ -70,7 +92,7 @@ exports.activateUser = function(req, res){
         res.send('error saving User', 500);
         return;
       }
-      res.send(user);
+      res.send();
     })
   })
 };
