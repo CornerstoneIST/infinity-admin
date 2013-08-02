@@ -5,8 +5,8 @@ exports.config = {
     path: '././public/img/avatars/'
   },
   mail: {
-    siteUrl : 'http://admin.wuzy.com'
-    from: 'wuzy.mailer@gmail.com',
+    siteUrl : 'http://admin.wuzy.com',
+    from: 'noreply@wuzy.com',
     pass: 'GxxInCME4Y',
     mandrill_key: "TjwwZUdbJIi41NNZpGNjJw"
   }
