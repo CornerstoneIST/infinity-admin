@@ -127,13 +127,13 @@ App.module("SetupApp", function(SetupApp, App, Backbone, Marionette, $, _){
     }),
     Router = Marionette.AppRouter.extend({
       appRoutes: {
-        "setup": "initializeLayout"
+        "settings": "initializeLayout"
       }
     });
   SetupApp.initializeLayout = function () {
     App.content.show(new Layout());
-    App.MenuView.setActive('setup');
-    Backbone.history.navigate('setup');
+    App.MenuView.setActive('settings');
+    Backbone.history.navigate('settings');
   };
 
   App.addInitializer(function () {

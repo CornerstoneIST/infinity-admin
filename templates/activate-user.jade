@@ -1,37 +1,34 @@
-!!!5
-html
-  head
-    title Activate User
-    meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    link(href='/css/bootstrap/bootstrap.css', rel='stylesheet')
-    link(href='/css/bootstrap/bootstrap-responsive.css', rel='stylesheet')
-    link(href='/css/bootstrap/bootstrap-overrides.css', type='text/css', rel='stylesheet')
-    link(rel='stylesheet', type='text/css', href='/css/layout.css')
-    link(rel='stylesheet', type='text/css', href='/css/elements.css')
-    link(href='/css/lib/uniform.default.css', type='text/css', rel='stylesheet')
-    link(href='/css/lib/jquery-ui-1.10.2.custom.css', rel='stylesheet', type='text/css')
-    link(href='/css/lib/font-awesome.css', type='text/css', rel='stylesheet')
-    link(href='/css/lib/morris.css', type='text/css', rel='stylesheet')
-    link(href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800', rel='stylesheet', type='text/css')
-    link(href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900,300italic,400italic,700italic,900italic', rel='stylesheet', type='text/css')
-  body
-    .conteiner
-      #pad-wrapper
-        .span6.offset6
-          .well(style="background-color: #FFF;")
-            legend User activation
-              p.text-center.lead #{user.name}
-            form#actvUsrForm.form-horizontal(method='post', action='/api/activation/#{user.id}')
-              .control-group
-                label.control-label(for="pass") Choose a password
-                .controls
-                  input#pass.span3(placeholder="password", type="password", name="password", required)
-              .control-group
-                label.control-label(for="conf-pass") Confirm password
-                .controls
-                  input#conf-pass.span3(placeholder="password", type="password", name="confpassword", required)
-              .control-group
-                .controls
-                  button#confirm.btn.btn-success.span1(type="submit", data-dismiss="modal", form='actvUsrForm') ok
-  script(src='http://code.jquery.com/jquery-latest.js')
+extends extends/layout
+block content
+  .span6.offset6
+    .well(style="background-color: #FFF;")
+      legend User activation
+        p.text-center.lead #{user.name}
+      form#actvUsrForm.form-horizontal(method='post', action='/api/activation/#{user.id}')
+        .alert.alert-error(class= !error ? 'hide' : '')
+          |Passwords must match
+        if user.activated
+          .alert.alert-success
+            a.close(data-dismiss="alert", href="#") x
+            |User has been activated
+        .control-group(class= user.activated ? 'hide' : '')
+          label.control-label(for="pass") Choose a password
+          .controls
+            input#pass.span3(placeholder="password", type="password", name="password", required)
+        .control-group(class= user.activated ? 'hide' : '')
+          label.control-label(for="conf-pass") Confirm password
+          .controls
+            input#conf-pass.span3(placeholder="password", type="password", name="confpassword", required)
+        .control-group(class= user.activated ? 'hide' : '')
+          .controls
+            button#confirm.btn.btn-success.span1(type="submit", data-dismiss="modal", form='actvUsrForm') ok
+block scripts
+  script
+    (function($) {
+      $('form').on('submit', function () {
+        if ($('#pass').val() != $('#conf-pass').val()) {
+          $('.alert-error').show();
+          return false;
+        }
+      })
+    })(jQuery);

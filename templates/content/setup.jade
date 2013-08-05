@@ -1,4 +1,4 @@
-#pad-wrapper
+#pad-wrapper(style='padding-bottom: 50px')
   .row-fluid
     .span12
       #fuelux-wizard.wizard.row-fluid
@@ -40,7 +40,7 @@
                   input.span8(type='text', name="last_name", placeholder='Doe')
                 .field-box
                   label Email:
-                  input.span8(type='email', name="email", value='{{email}}')
+                  input.span8(type='email', name="email", placeholder='email')
                 .field-box
                   label Upload a Photo:
                   input(type='file', name="avatar")
@@ -51,8 +51,6 @@
                 .field-box
                   label Company:
                   input.span8(name="name", data-toggle='tooltip', data-trigger='focus', title='Company name cannot be changed later', data-placement='right', type='text')
-                .field-box
-                  label
                 .field-box
                   label Address:
                   input.span8(name="address", type='text', placeholder='655 North Central Ave')
@@ -420,7 +418,9 @@
         #step4.step-pane
             .row.fluid
                 .span
-                    h1 Select a Plan Now!
+                    h1 Select a Plan Now! (
+                      a(href='proceed') or proceed without credit card
+                      )
                     .span
                     h2 You will not be billed until your trial ends
                     .span

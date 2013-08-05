@@ -1,9 +1,144 @@
-link(rel='stylesheet', href='css/compiled/pricing.css', type='text/css', media='screen')
-link(rel='stylesheet', href='css/compiled/form-wizard.css', type='text/css', media='screen')
-link(rel='stylesheet', href='css/compiled/form-showcase.css', type='text/css', media='screen')
-- var selected ='settings';
-include includes/navbar
-.navbar-false(style='opacity: 0.8;height: 48px;margin-top: -48px;z-index: 999;background-color: #ccc;')
-include includes/sidemenu
-.sidemenu-fasle(style='position: absolute;width: 178px;float: left;margin: 0em;padding-top: 5.8em;background-color: #ccc;height: 475px;opacity: 0.8;z-index: 999;')
-include content/setup
+extends extends/layout
+block links
+  link(href='/css/lib/select2.css', type='text/css', rel='stylesheet')
+  link(rel='stylesheet', href='/css/compiled/pricing.css', type='text/css', media='screen')
+  link(rel='stylesheet', href='/css/compiled/form-wizard.css', type='text/css', media='screen')
+  link(rel='stylesheet', href='/css/compiled/form-showcase.css', type='text/css', media='screen')
+block content
+  include content/setup
+block scripts
+  script(src='/js/wysihtml5-0.3.0.js')
+  script(src='/js/bootstrap-wysihtml5-0.0.2.js')
+  script(src='/js/bootstrap.datepicker.js')
+  script(src='/js/jquery.uniform.min.js')
+  script(src='/js/jquery.form.min.js')
+  script(src='/js/select2.min.js')
+  script(src='/js/fuelux.wizard.js')
+  script(src='https://checkout.stripe.com/v2/checkout.js')
+  script(src='/js/theme.js')
+  script
+    (function($) {
+      var $wizard = $('#fuelux-wizard'),
+        $btnPrev = $('.wizard-actions .btn-prev'),
+        $btnNext = $('.wizard-actions .btn-next'),
+        $btnFinish = $(".wizard-actions .btn-finish");
+        $wizard.wizard().on('finished', function(e) {
+        // wizard complete code
+        }).on("changed", function(e) {
+          var step = $wizard.wizard("selectedItem");
+          // reset states
+          $btnNext.removeAttr("disabled");
+          $btnPrev.removeAttr("disabled");
+          $btnNext.show();
+          $btnFinish.hide();
+          if (step.step === 1) {
+            $btnPrev.attr("disabled", "disabled");
+          } else if (step.step === 4) {
+            $btnNext.hide();
+            $btnFinish.show();
+          }
+        });
+        $btnPrev.on('click', function() {
+          $wizard.wizard('previous');
+        });
+        $btnNext.on('click', function() {
+          $wizard.wizard('next');
+        });
+
+        // add uniform plugin styles to html elements
+        $("input:checkbox, input:radio").uniform();
+        // select2 plugin for select elements
+        $(".select2").select2({
+        placeholder: "Select a State"
+        });
+        // datepicker plugin
+        $('.datepicker').datepicker().on('changeDate', function (ev) {
+        $(this).datepicker('hide');
+        });
+        // wysihtml5 plugin on textarea
+        $(".wysihtml5").wysihtml5({
+        "font-styles": false
+        });
+
+        $('.question2').change(function(){
+          $('.customQuestion2').hide();
+          $('#' + $(this).val()).show();
+        });
+
+        $('.question1').change(function(){
+          $('.customQuestion1').slideUp(1);
+          $('#' + $(this).val()).slideDown(1);
+        });
+
+        $('form').on('submit', function(){
+          var options = {
+            data: $(":input").not('#step1 input').serializeArray(),
+            url: '/api/new-owner',
+            type: 'post',
+            success: function () {
+              window.location = '/';
+            }
+          };
+          $(this).ajaxSubmit(options);
+          return false;
+        });
+
+        $('#starter').click(function(){
+            var token = function(res){
+              var $input = $('<input type=hidden name=stripeToken />').val(res.id),
+                  $plan = $('<input type=hidden name=plan value=starter />');
+              $('form').first().append($input).append($plan).submit();
+            };
+            StripeCheckout.open({
+              key:         'pk_test_sXNhYvC4yLuqun43GYrHhR0I',
+              address:     false,
+              amount:      1500,
+              currency:    'usd',
+              name:        'Starter Package',
+              description: 'A bag of Pistachios',
+              panelLabel:  'Start Trial',
+              token:       token
+            });
+            return false;
+          });
+          $('#professional').click(function(){
+            var token = function(res){
+              var $input = $('<input type=hidden name=stripeToken />').val(res.id),
+                  $plan = $('<input type=hidden name=plan value=professional />');
+              $('form').first().append($input).append($plan).submit();
+            };
+            StripeCheckout.open({
+              key:         'pk_test_sXNhYvC4yLuqun43GYrHhR0I',
+              address:     false,
+              amount:      2900,
+              currency:    'usd',
+              name:        'Professional Package',
+              description: 'A bag of Pistachios',
+              panelLabel:  'Start Trial',
+              token:       token
+            });
+            return false;
+          });
+          $('#advanced').click(function(){
+          var token = function(res){
+            var $input = $('<input type=hidden name=stripeToken />').val(res.id),
+                $plan = $('<input type=hidden name=plan value=advanced />');
+            $('form').first().append($input).append($plan).submit();
+          };
+          StripeCheckout.open({
+            key:         'pk_test_sXNhYvC4yLuqun43GYrHhR0I',
+            address:     false,
+            amount:      4900,
+            currency:    'usd',
+            name:        'Advanced Package',
+            description: 'A bag of Pistachios',
+            panelLabel:  'Start Trial',
+            token:       token
+          });
+          return false;
+        });
+        $('a[href=proceed]').click(function (e) {
+          e.preventDefault();
+          $('form').first().submit();
+        })
+    })(jQuery);

@@ -6,6 +6,7 @@
 var express = require('express')
   , routes = require('./routes')
   , mongoose = require('mongoose')
+  , MongoStore = require('connect-mongo')(express)
   , config = require('./config/config').config;
 
 var app = module.exports = express.createServer();
@@ -17,6 +18,14 @@ app.configure(function(){
   app.set('views', __dirname + '/templates');
   app.set('view engine', 'jade');
   app.use(express.bodyParser());
+  app.use(express.cookieParser());
+  app.use(express.session({
+    store: new MongoStore({
+      url: config.mongodbUrl
+    }),
+    cookie: { domain: '.wuzy.com' },
+    secret: 'hMmbCcSLGFPTTvnsqgvDFddQo1d5t5ru'
+  }));
   app.use(express.methodOverride());
 app.use(express.compiler({ src : __dirname + '/public', enable: ['less']}));
   app.use(app.router);
@@ -45,13 +54,13 @@ express.compiler.compilers.less.compile = function(str, fn){
 app.set('view options', { pretty: true });
 // Set Routes
 
-app.get('/', routes.index);
-app.get('/api/users', routes.getusers);
-app.get('/api/user', routes.getuser);
-app.get('/api/clients', routes.getclients);
-app.get('/api/tickets', routes.gettickets);
-app.post('/new-user', routes.newuser);
-app.post('/new-owner', routes.newowner);
+app.get('/', routes.checkUser, routes.index);
+app.get('/api/users', routes.checkUser, routes.getusers);
+app.get('/api/user', routes.checkUser, routes.getuser);
+app.get('/api/clients', routes.checkUser, routes.getclients);
+app.get('/api/tickets', routes.checkUser, routes.gettickets);
+app.post('/new-user', routes.checkUser, routes.newuser);
+app.post('/api/new-owner', routes.checkUser, routes.newowner);
 // app.get('/reports', routes.reports);
 // app.get('/users', routes.users);
   // app.get('/new-user', routes.newuser);
@@ -64,8 +73,9 @@ app.post('/new-owner', routes.newowner);
 // app.get('/time-entries', routes.timeentries);
 // app.get('/settings', routes.settings);
 // app.get('/setup', routes.setup);
-app.get('/:action', routes.index);
-app.get('/users/:action', routes.index);
+app.get('/setup', routes.checkUser, routes.setup);
+app.get('/:action', routes.checkUser, routes.index);
+app.get('/users/:action', routes.checkUser, routes.index);
 app.get('/activation/:id', routes.activation);
 app.post('/api/activation/:id', routes.activateUser);
 

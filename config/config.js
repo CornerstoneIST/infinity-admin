@@ -9,5 +9,6 @@ exports.config = {
     from: 'noreply@wuzy.com',
     pass: 'GxxInCME4Y',
     mandrill_key: "TjwwZUdbJIi41NNZpGNjJw"
-  }
+  },
+  signUrl: "http://beta-local.wuzy.com/signin"
 };

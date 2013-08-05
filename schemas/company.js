@@ -12,32 +12,25 @@ var
   },
   plan: {
     type: mongoose.Schema.ObjectId,
-    ref: 'Plan',
-    required: true
+    ref: 'Plan'
   },
   address: {
-    type: String,
-    required: true
+    type: String
   },
   floor: {
-    type: String,
-    required: true
+    type: String
   },
   code: {
-    type: Number,
-    required: true
+    type: Number
   },
   city: {
-    type: String,
-    required: true
+    type: String
   },
   province: {
     type: String
   },
-  
   country: {
-    type: String,
-    required: true
+    type: String
   }
 });
 
