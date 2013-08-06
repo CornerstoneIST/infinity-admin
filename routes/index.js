@@ -13,10 +13,6 @@ exports.index = function(req, res){
   res.render('index');
 };
 
-exports.showId = function(req, res, next){
-  console.log(req.session.user_id);
-  next();
-};
 exports.checkUser = function (req, res, next) {
   if (req.session && req.session.user_id) {
     User.findById(req.session.user_id, function(err, user) {
@@ -26,7 +22,21 @@ exports.checkUser = function (req, res, next) {
         return;
       }
       if (user.type == 'owner') {
-        next();
+        Company.find({owner : user}).exec(function (err, comp) {
+          if (err) {
+            console.error(err);
+            res.send(err, 400);
+            return;
+          } else if (comp.length === 0 && req.route.path != '/setup' && req.route.path != '/api/new-owner') {
+            res.redirect('/setup');
+            return;
+          } else if (comp.length != 0 && (req.route.path == '/setup' || req.route.path == '/api/new-owner')) {
+            res.redirect('/');
+            return;
+          } else {
+            next();
+          }
+        })
       } else {
         res.redirect(config.signUrl);
       }
@@ -206,106 +216,97 @@ exports.setup = function(req, res){
 };
 
 exports.newowner = function(req, res){
-  var user = new User,
-      company = new Company;
-  user.name = req.body.first_name + ' ' + req.body.last_name;
-  user.email = req.body.email;
-  user.recovery_email = req.body.recovery_email;
-  user.sec_quest_1 = req.body.sec_quest_1;
-  user.sec_quest_2 = req.body.sec_quest_2;
-  user.sec_answer_1 = req.body.sec_answer_1;
-  user.sec_answer_2 = req.body.sec_answer_2;
-  user.stripeToken = req.body.stripeToken;
-  user.activated = true;
-  user.type = 'owner';
-
-  var tempPath = req.files.avatar.path,
-      newName = generatePassword(10, false) + '_' + req.files.avatar.name,
-      targetPath = config.avatars.path + newName;
-  fs.rename(tempPath, targetPath, function(err) {
-    if (err) {
+  var company = new Company;
+  User.findById(req.session.user_id, function(err, user) {
+    if (err || !user) {
       console.error(err);
-      res.send('error saving Avatar', 500);
+      res.send('User not found', 400);
       return;
     }
-    user.avatar = newName;
-
-    user.save(function (err, user) {
+    user.name = req.body.first_name + ' ' + req.body.last_name;
+    user.recovery_email = req.body.recovery_email;
+    user.sec_quest_1 = req.body.sec_quest_1;
+    user.sec_quest_2 = req.body.sec_quest_2;
+    user.sec_answer_1 = req.body.sec_answer_1;
+    user.sec_answer_2 = req.body.sec_answer_2;
+    user.stripeToken = req.body.stripeToken;
+    user.activated = true;
+    user.type = 'owner';
+  
+    var tempPath = req.files.avatar.path,
+        newName = generatePassword(10, false) + '_' + req.files.avatar.name,
+        targetPath = config.avatars.path + newName;
+    fs.rename(tempPath, targetPath, function(err) {
       if (err) {
         console.error(err);
-        res.send('error saving User', 500);
-        fs.unlink(targetPath, function(err) {
-            if (err) throw err;
-        });
+        res.send('error saving Avatar', 500);
         return;
       }
-      company.name = req.body.name;
-      company.address = req.body.address;
-      company.floor = req.body.floor;
-      company.code = req.body.code;
-      company.city = req.body.city;
-      company.province = req.body.province;
-      company.country = req.body.country;
-      company.owner = user;
-      if (req.body.plan) {
-        var plan = new Plan;
-        plan.name = req.body.plan;
-        plan.save(function (err, plan) {
-          if (err) {
-            console.error(err);
-            res.send('error saving Plan', 500);
-            return;
-          }
-        });
-        company.plan = plan;
-        company.save(function (err, company) {
-          if (err) {
-            console.error(err);
-            res.send('error saving Company', 500);
-            User.findById(user._id, function (err, doc) {
-              if (err) {
-                console.error(err);
-              }
-              if (doc) {
-                doc.remove();
-              }
-            });
-            Plan.find({name: plan.name}, function (err, doc) {
-              if (err) {
-                console.error(err);
-              }
-              if (doc) {
-                doc.remove();
-              }
-            });
-            fs.unlink(targetPath, function(err) {
-                if (err) throw err;
-            });
-            return;
-          }
-          res.send();
-          return;
-        });
-      }
-      company.save(function (err, company) {
+      user.avatar = newName;
+  
+      user.save(function (err, user) {
         if (err) {
           console.error(err);
-          res.send('error saving Company', 500);
-          User.findById(user._id, function (err, doc) {
-            if (err) {
-              console.error(err);
-            }
-            if (doc) {
-              doc.remove();
-            }
-          });
+          res.send('error saving User', 500);
           fs.unlink(targetPath, function(err) {
               if (err) throw err;
           });
           return;
         }
-        res.send();
-        return;
+        company.name = req.body.name;
+        company.address = req.body.address;
+        company.floor = req.body.floor;
+        company.code = req.body.code;
+        company.city = req.body.city;
+        company.province = req.body.province;
+        company.country = req.body.country;
+        company.owner = user;
+        
+        if (req.body.plan) {
+          var plan = new Plan;
+          plan.name = req.body.plan;
+          plan.save(function (err, plan) {
+            if (err) {
+              console.error(err);
+              res.send('error saving Plan', 500);
+              return;
+            }
+            company.plan = plan;
+            company.save(function (err, company) {
+              if (err) {
+                console.error(err);
+                res.send('error saving Company', 500);
+                Plan.findById(plan._id, function (err, doc) {
+                  if (err) {
+                    console.error(err);
+                  }
+                  if (doc) {
+                    doc.remove();
+                  }
+                });
+                fs.unlink(targetPath, function(err) {
+                    if (err) throw err;
+                });
+                return;
+              }
+              res.send();
+              return;
+            });
+          });
+        } else {
+          company.save(function (err, company) {
+            if (err) {
+              console.error(err);
+              res.send('error saving Company', 500);
+              fs.unlink(targetPath, function(err) {
+                  if (err) throw err;
+              });
+              return;
+            }
+            res.send();
+            return;
+          });
+        }
       });
     });
   });
