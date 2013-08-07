@@ -10,5 +10,5 @@ exports.config = {
     pass: 'GxxInCME4Y',
     mandrill_key: "TjwwZUdbJIi41NNZpGNjJw"
   },
-  signUrl: "http://beta-local.wuzy.com/signin"
+  signUrl: "http://beta.wuzy.com/signin"
 };
