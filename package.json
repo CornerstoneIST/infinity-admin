@@ -10,5 +10,6 @@
     , "mongoose": "*"
     , "password-generator": "*"
     , "connect-mongo": "*"
+    , "async": "*"
   }
 }

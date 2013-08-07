@@ -1,13 +1,14 @@
 var
-  fs = require('fs'),
-  config = require('../config/config').config,
-  generatePassword = require('password-generator'),
-  MailService = require('../services/Mail');
-  User = require('../schemas/user'),
-  Client = require('../schemas/client'),
-  Plan = require('../schemas/plan'),
-  Company = require('../schemas/company'),
-  Ticket = require('../schemas/ticket');
+  fs = require('fs')
+  , config = require('../config/config').config
+  , generatePassword = require('password-generator')
+  , async = require('async')
+  , MailService = require('../services/Mail')
+  , User = require('../schemas/user')
+  , Client = require('../schemas/client')
+  , Plan = require('../schemas/plan')
+  , Company = require('../schemas/company')
+  , Ticket = require('../schemas/ticket');
 
 exports.index = function(req, res){
   res.render('index');
@@ -216,43 +217,78 @@ exports.setup = function(req, res){
 };
 
 exports.newowner = function(req, res){
-  var company = new Company;
   User.findById(req.session.user_id, function(err, user) {
     if (err || !user) {
       console.error(err);
       res.send('User not found', 400);
       return;
     }
-    user.name = req.body.first_name + ' ' + req.body.last_name;
-    user.recovery_email = req.body.recovery_email;
-    user.sec_quest_1 = req.body.sec_quest_1;
-    user.sec_quest_2 = req.body.sec_quest_2;
-    user.sec_answer_1 = req.body.sec_answer_1;
-    user.sec_answer_2 = req.body.sec_answer_2;
-    user.stripeToken = req.body.stripeToken;
-    user.activated = true;
-    user.type = 'owner';
-  
-    var tempPath = req.files.avatar.path,
-        newName = generatePassword(10, false) + '_' + req.files.avatar.name,
-        targetPath = config.avatars.path + newName;
-    fs.rename(tempPath, targetPath, function(err) {
-      if (err) {
-        console.error(err);
-        res.send('error saving Avatar', 500);
-        return;
-      }
-      user.avatar = newName;
-  
-      user.save(function (err, user) {
-        if (err) {
-          console.error(err);
-          res.send('error saving User', 500);
-          fs.unlink(targetPath, function(err) {
-              if (err) throw err;
+    async.waterfall([
+      function (cb) {//avatar
+        if (req.files.avatar) {
+          var tempPath = req.files.avatar.path
+            , newName = generatePassword(10, false) + '_' + req.files.avatar.name
+            , targetPath = config.avatars.path + newName;
+          fs.rename(tempPath, targetPath, function (err) {
+            if (err) {
+              console.error(err);
+              res.send('error saving Avatar', 500);
+              cb(err);
+            }
+            cb(null, newName);
           });
-          return;
+        } else {
+          cb(null, 'noPhoto');
         }
+      },
+      function (avatar, cb) {//user
+        user.name = req.body.first_name + ' ' + req.body.last_name;
+        user.recovery_email = req.body.recovery_email;
+        user.sec_quest_1 = req.body.sec_quest_1;
+        user.sec_quest_2 = req.body.sec_quest_2;
+        user.sec_answer_1 = req.body.sec_answer_1;
+        user.sec_answer_2 = req.body.sec_answer_2;
+        user.stripeToken = req.body.stripeToken;
+        user.activated = true;
+        user.type = 'owner';
+        user.avatar = avatar;
+        user.save(function (err, user) {
+          if (err) {
+            console.error(err);
+            res.send('error saving User', 500);
+            if (user.avatar != 'noPhoto') {
+              fs.unlink(config.avatars.path + user.avatar, function (err) {
+                  if (err) throw err;
+              });
+            }
+            cb(err);
+          }
+          cb(null, user);
+        });
+      },
+      function (user, cb) {//plan
+        if (req.body.plan) {
+          var plan = new Plan;
+          plan.name = req.body.plan;
+          plan.save(function (err, plan) {
+            if (err) {
+              console.error(err);
+              res.send('error saving Plan', 500);
+              if (user.avatar != 'noPhoto') {
+                fs.unlink(config.avatars.path + user.avatar, function (err) {
+                    if (err) throw err;
+                });
+              }
+              cb(err);
+            }
+          cb(null, user, plan)
+          });
+        } else {
+          cb(null, user, null);
+        }
+      },
+      function (user, plan, cb) {//company
+        var company = new Company;
         company.name = req.body.name;
         company.address = req.body.address;
         company.floor = req.body.floor;
@@ -261,53 +297,34 @@ exports.newowner = function(req, res){
         company.province = req.body.province;
         company.country = req.body.country;
         company.owner = user;
-        
-        if (req.body.plan) {
-          var plan = new Plan;
-          plan.name = req.body.plan;
-          plan.save(function (err, plan) {
-            if (err) {
-              console.error(err);
-              res.send('error saving Plan', 500);
-              return;
+        if (plan) {
+          company.plan = plan;
+        }
+        company.save(function (err, company) {
+          if (err) {
+            console.error(err);
+            res.send('error saving Company', 500);
+            if (plan) {
+              Plan.findById(plan._id, function (err, doc) {
+                if (err) {
+                  console.error(err);
+                }
+                if (doc) {
+                  doc.remove();
+                }
+              });
             }
-            company.plan = plan;
-            company.save(function (err, company) {
-              if (err) {
-                console.error(err);
-                res.send('error saving Company', 500);
-                Plan.findById(plan._id, function (err, doc) {
-                  if (err) {
-                    console.error(err);
-                  }
-                  if (doc) {
-                    doc.remove();
-                  }
-                });
-                fs.unlink(targetPath, function(err) {
-                    if (err) throw err;
-                });
-                return;
-              }
-              res.send();
-              return;
-            });
-          });
-        } else {
-          company.save(function (err, company) {
-            if (err) {
-              console.error(err);
-              res.send('error saving Company', 500);
-              fs.unlink(targetPath, function(err) {
+            if (user.avatar != 'noPhoto') {
+              fs.unlink(config.avatars.path + user.avatar, function (err) {
                   if (err) throw err;
               });
-              return;
             }
-            res.send();
-            return;
-          });
-        }
-      });
-    });
+            cb(err);
+          }
+          res.send();
+          return;
+        });
+      }
+    ]);
   });
 };
