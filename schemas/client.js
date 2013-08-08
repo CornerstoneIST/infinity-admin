@@ -4,6 +4,11 @@ var
   name: {
     type: String,
     required: true
+  },
+  company: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Company',
+    required: true
   }
 });
 

@@ -48,34 +48,55 @@ exports.checkUser = function (req, res, next) {
 };
 
 exports.newuser = function(req, res){
-  var user = new User(req.body);
-  user.type = 'user';
-  user.save(function (err, user) {
-    if (err) {
+  User.findById(req.session.user_id, function(err, MasterUser) {
+    if (err || !MasterUser) {
       console.error(err);
-      res.send('error saving User', 500);
+      res.send('User not found', 400);
       return;
     }
-    MailService.sendUserRegisterMail(user);
-    res.send(user);
+    var user = new User(req.body);
+    user.type = 'user';
+    user.company = MasterUser.company;
+    user.save(function (err, user) {
+      if (err) {
+        console.error(err);
+        res.send('error saving User', 500);
+        return;
+      }
+      MailService.sendUserRegisterMail(user);
+      res.send(user);
+    })
   })
 };
 
 exports.getusers = function(req, res){
-  User.find().skip(req.query.per_page * (req.query.page - 1)).limit(req.query.per_page).exec(function (err, users) {
-    if (err || !users) {
+  User.findById(req.session.user_id, function(err, MasterUser) {
+    if (err || !MasterUser) {
       console.error(err);
-      res.send('Users not found', 400);
+      res.send('User not found', 400);
       return;
     }
-    User.count({}, function( err, count){
-      if (err) {
-        console.error(err);
-      }
-      res.send({
-        collection:  users,
-        count: count
-      });
+    User
+      .find({
+        company: MasterUser.company
+      })
+      .skip(req.query.per_page * (req.query.page - 1))
+      .limit(req.query.per_page)
+      .exec(function (err, users) {
+        if (err || !users) {
+          console.error(err);
+          res.send('Users not found', 400);
+          return;
+        }
+        User.where('company', MasterUser.company).count(function (err, count) {
+          if (err) {
+            console.error(err);
+          }
+          res.send({
+            collection:  users,
+            count: count
+          });
+        })
     })
   })
 };
@@ -150,61 +171,123 @@ exports.activateUser = function(req, res){
 };
 
 exports.newticket = function(req, res){
-  var ticket = new Ticket(req.body);
-  
-  ticket.save(function (err, ticket) {
-    if (err) {
+  User.findById(req.session.user_id, function(err, MasterUser) {
+    if (err || !MasterUser) {
       console.error(err);
-      res.send('error saving Ticket', 500);
+      res.send('User not found', 400);
       return;
     }
-    Ticket
-      .findById(ticket.id)
-      .populate('client user')
-      .exec(function (err, ticket) {
-        if (err || !ticket) {
-          console.error(err);
-          res.send('Ticket not found', 400);
-          return;
-        }
-        res.send(ticket);
-      });
-  })
-};
-exports.gettickets = function(req, res){
-  Ticket.find().populate('client user').skip(req.query.per_page * (req.query.page - 1)).limit(req.query.per_page).exec(function (err, tickets) {
-    if (err || !tickets) {
-      console.error(err);
-      res.send('Tickets not found', 400);
-      return;
-    }
-    Ticket.count({}, function( err, count){
+    var ticket = new Ticket(req.body);
+    ticket.company = MasterUser.company;
+    ticket.save(function (err, ticket) {
       if (err) {
         console.error(err);
+        res.send('error saving Ticket', 500);
+        return;
       }
-      res.send({
-        collection:  tickets,
-        count: count
-      });
+      Ticket
+        .findById(ticket.id)
+        .populate('client user')
+        .exec(function (err, ticket) {
+          if (err || !ticket) {
+            console.error(err);
+            res.send('Ticket not found', 400);
+            return;
+          }
+          res.send(ticket);
+        });
     })
   })
 };
-
-exports.getclients = function(req, res){
-  Client.find().skip(req.query.per_page * (req.query.page - 1)).limit(req.query.per_page).exec(function (err, clients) {
-    if (err || !clients) {
+exports.gettickets = function(req, res){
+  User.findById(req.session.user_id, function(err, MasterUser) {
+    if (err || !MasterUser) {
       console.error(err);
-      res.send('Clients not found', 400);
+      res.send('User not found', 400);
       return;
     }
-    Client.count({}, function( err, count){
+    Ticket
+      .find({
+        company: MasterUser.company
+      })
+      .populate('client user')
+      .skip(req.query.per_page * (req.query.page - 1))
+      .limit(req.query.per_page)
+      .exec(function (err, tickets) {
+        if (err || !tickets) {
+          console.error(err);
+          res.send('Tickets not found', 400);
+          return;
+        }
+        Ticket.where('company', MasterUser.company).count(function (err, count) {
+          if (err) {
+            console.error(err);
+          }
+          res.send({
+            collection:  tickets,
+            count: count
+          });
+        })
+      })
+  })
+};
+
+exports.newclient = function(req, res){
+  User.findById(req.session.user_id, function(err, MasterUser) {
+    if (err || !MasterUser) {
+      console.error(err);
+      res.send('User not found', 400);
+      return;
+    }
+    var client = new Client(req.body);
+    client.company = MasterUser.company;
+    client.save(function (err, client) {
       if (err) {
         console.error(err);
+        res.send('error saving Client', 500);
+        return;
       }
-      res.send({
-        collection:  clients,
-        count: count
-      });
+      Client
+        .findById(client.id)
+        .exec(function (err, client) {
+          if (err || !client) {
+            console.error(err);
+            res.send('Client not found', 400);
+            return;
+          }
+          res.send(client);
+        });
+    })
+  })
+};
+exports.getclients = function(req, res){
+   User.findById(req.session.user_id, function(err, MasterUser) {
+    if (err || !MasterUser) {
+      console.error(err);
+      res.send('User not found', 400);
+      return;
+    }
+    Client
+      .find({
+        company: MasterUser.company
+      })
+      .skip(req.query.per_page * (req.query.page - 1))
+      .limit(req.query.per_page)
+      .exec(function (err, clients) {
+        if (err || !clients) {
+          console.error(err);
+          res.send('Clients not found', 400);
+          return;
+        }
+        Client.where('company', MasterUser.company).count(function (err, count) {
+          if (err) {
+            console.error(err);
+          }
+          res.send({
+            collection:  clients,
+            count: count
+          });
+        })
     })
   })
 };
@@ -217,56 +300,14 @@ exports.setup = function(req, res){
 };
 
 exports.newowner = function(req, res){
-  User.findById(req.session.user_id, function(err, user) {
+  User.findById(req.session.user_id, function (err, user) {
     if (err || !user) {
       console.error(err);
       res.send('User not found', 400);
       return;
     }
     async.waterfall([
-      function (cb) {//avatar
-        if (req.files.avatar) {
-          var tempPath = req.files.avatar.path
-            , newName = generatePassword(10, false) + '_' + req.files.avatar.name
-            , targetPath = config.avatars.path + newName;
-          fs.rename(tempPath, targetPath, function (err) {
-            if (err) {
-              console.error(err);
-              res.send('error saving Avatar', 500);
-              cb(err);
-            }
-            cb(null, newName);
-          });
-        } else {
-          cb(null, 'noPhoto');
-        }
-      },
-      function (avatar, cb) {//user
-        user.name = req.body.first_name + ' ' + req.body.last_name;
-        user.recovery_email = req.body.recovery_email;
-        user.sec_quest_1 = req.body.sec_quest_1;
-        user.sec_quest_2 = req.body.sec_quest_2;
-        user.sec_answer_1 = req.body.sec_answer_1;
-        user.sec_answer_2 = req.body.sec_answer_2;
-        user.stripeToken = req.body.stripeToken;
-        user.activated = true;
-        user.type = 'owner';
-        user.avatar = avatar;
-        user.save(function (err, user) {
-          if (err) {
-            console.error(err);
-            res.send('error saving User', 500);
-            if (user.avatar != 'noPhoto') {
-              fs.unlink(config.avatars.path + user.avatar, function (err) {
-                  if (err) throw err;
-              });
-            }
-            cb(err);
-          }
-          cb(null, user);
-        });
-      },
-      function (user, cb) {//plan
+      function (cb) {//plan
         if (req.body.plan) {
           var plan = new Plan;
           plan.name = req.body.plan;
@@ -274,20 +315,16 @@ exports.newowner = function(req, res){
             if (err) {
               console.error(err);
               res.send('error saving Plan', 500);
-              if (user.avatar != 'noPhoto') {
-                fs.unlink(config.avatars.path + user.avatar, function (err) {
-                    if (err) throw err;
-                });
-              }
               cb(err);
+              return;
             }
-          cb(null, user, plan)
+          cb(null, plan)
           });
         } else {
-          cb(null, user, null);
+          cb(null, null);
         }
       },
-      function (user, plan, cb) {//company
+      function (plan, cb) {//company
         var company = new Company;
         company.name = req.body.name;
         company.address = req.body.address;
@@ -314,17 +351,71 @@ exports.newowner = function(req, res){
                 }
               });
             }
-            if (user.avatar != 'noPhoto') {
+            cb(err);
+            return;
+          }
+          cb(null, company);
+        });
+      },
+      function (company, cb) {//avatar
+        if (req.files.avatar) {
+          var tempPath = req.files.avatar.path
+            , newName = generatePassword(10, false) + '_' + req.files.avatar.name
+            , targetPath = config.avatars.path + newName;
+          fs.rename(tempPath, targetPath, function (err) {
+            if (err) {
+              console.error(err);
+            }
+            cb(null, company, newName);
+          });
+        } else {
+          cb(null, company, 'noPhoto');
+        }
+      },
+      function (company, avatar, cb) {//user
+        user.name = req.body.first_name + ' ' + req.body.last_name;
+        user.recovery_email = req.body.recovery_email;
+        user.sec_quest_1 = req.body.sec_quest_1;
+        user.sec_quest_2 = req.body.sec_quest_2;
+        user.sec_answer_1 = req.body.sec_answer_1;
+        user.sec_answer_2 = req.body.sec_answer_2;
+        user.stripeToken = req.body.stripeToken;
+        user.activated = true;
+        user.type = 'owner';
+        user.avatar = avatar;
+        user.company = company;
+        user.save(function (err, user) {
+          if (err) {
+            console.error(err);
+            res.send('error saving User', 500);
+            if (avatar != 'noPhoto') {
               fs.unlink(config.avatars.path + user.avatar, function (err) {
                   if (err) throw err;
               });
             }
-            cb(err);
+            if (company.plan) {
+              Plan.findById(company.plan._id, function (err, doc) {
+                if (err) {
+                  console.error(err);
+                }
+                if (doc) {
+                  doc.remove();
+                }
+              });
+            }
+            Company.findById(company._id, function (err, doc) {
+              if (err) {
+                console.error(err);
+              }
+              if (doc) {
+                doc.remove();
+              }
+            });            
           }
           res.send();
           return;
         });
-      }
+      },
     ]);
   });
 };
