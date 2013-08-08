@@ -3,6 +3,7 @@ var
   , config = require('../config/config').config
   , generatePassword = require('password-generator')
   , async = require('async')
+  , bcrypt = require('bcrypt')
   , MailService = require('../services/Mail')
   , User = require('../schemas/user')
   , Client = require('../schemas/client')
@@ -152,21 +153,23 @@ exports.activateUser = function(req, res){
       });
       return;
     }
-    user.password = req.body.password;
-    user.activated = true;
-    user.save(function (err, user) {
-      if (err) {
-        console.error(err);
-        res.send('error saving User', 500);
-        return;
-      }
-      res.render('activate-user', {
-        title: "Activate User",
-        layout: false,
-        user: user,
-        error: false
-      });
-    })
+    bcrypt.hash(req.body.password, 8, function(err, hash) {
+      user.password = hash;
+      user.activated = true;
+      user.save(function (err, user) {
+        if (err) {
+          console.error(err);
+          res.send('error saving User', 500);
+          return;
+        }
+        res.render('activate-user', {
+          title: "Activate User",
+          layout: false,
+          user: user,
+          error: false
+        });
+      })
+    });
   })
 };
 
@@ -410,7 +413,7 @@ exports.newowner = function(req, res){
               if (doc) {
                 doc.remove();
               }
-            });            
+            });
           }
           res.send();
           return;

@@ -11,5 +11,6 @@
     , "password-generator": "*"
     , "connect-mongo": "*"
     , "async": "*"
+    , "bcrypt" : "*"
   }
 }
