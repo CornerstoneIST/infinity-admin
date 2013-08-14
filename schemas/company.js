@@ -31,6 +31,24 @@ var
   },
   country: {
     type: String
+  },
+  integration: {
+    zendesk: {
+      apiKey: {
+        type: String
+      },
+      subDomain: {
+        type: String
+      }
+    },
+    freshbooks: {
+      apiKey: {
+        type: String
+      },
+      subDomain: {
+        type: String
+      }
+    }
   }
 });
 

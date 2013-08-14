@@ -15,6 +15,12 @@ script#users-template(type='text/template')
   include content/users
 script#clients-template(type='text/template')
   include content/clients
+script#clients-table-template(type='text/template')
+  include content/clients-table
+script#client-item-template(type='text/template')
+  include content/client-item
+script#import-clients-template(type='text/template')
+  include content/import-clients-modal
 script#tasks-template(type='text/template')
   include content/tasks
 script#organizer-template(type='text/template')
@@ -25,8 +31,12 @@ script#entries-template(type='text/template')
   include content/time-entries
 script#entries-template(type='text/template')
   include content/time-entries
-script#setup-template(type='text/template')
-  include content/setup
+script#settings-template(type='text/template')
+  include content/settings
+script#save-app-template(type='text/template')
+  include content/save-app-modal
+script#delete-app-template(type='text/template')
+  include content/delete-app-modal
 script#new-user-template(type='text/template')
   include content/new-user
 script#profile-user-template(type='text/template')
@@ -35,10 +45,6 @@ script#users-table-template(type='text/template')
   include content/users-table
 script#user-item-template(type='text/template')
   include content/user-item
-script#clients-table-template(type='text/template')
-  include content/clients-table
-script#client-item-template(type='text/template')
-  include content/client-item
 script#entries-table-template(type='text/template')
   include content/entries-table
 script#entries-item-template(type='text/template')
@@ -89,7 +95,7 @@ script(type='text/javascript', src='/js/apps/tasksApp.js')
 script(type='text/javascript', src='/js/apps/organizerApp.js')
 script(type='text/javascript', src='/js/apps/billingApp.js')
 script(type='text/javascript', src='/js/apps/entriesApp.js')
-script(type='text/javascript', src='/js/apps/setupApp.js')
+script(type='text/javascript', src='/js/apps/settingsApp.js')
 //
   marione apps
 script(type='text/javascript', src='/js/common/views.js')

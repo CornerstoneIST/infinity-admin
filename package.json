@@ -12,5 +12,6 @@
     , "connect-mongo": "*"
     , "async": "*"
     , "bcrypt" : "*"
+    , "freshbooks" : "*"
   }
 }

@@ -1,0 +1,30 @@
+#pad-wrapper
+  .row-fluid.header
+    .span12
+      h2 App Integration
+  .row-fluid
+    p.span2
+      |<% if (typeof integration != 'undefined' && typeof integration.zendesk != 'undefined' && integration.zendesk.apiKey != '') { %>
+      i.icon-ok 
+      strong ZENDESK
+      .btn-group
+        a.btn.btn-flat.danger(href='zendesk') Delete
+        a#zendesk.btn.btn-flat.success(href='zendesk') Edit
+      |<% } else { %>
+      a#zendesk.btn-glow.primary(href='zendesk', style="width: 124px;")
+        i.icon-plus.icon-white
+        |ADD ZENDESK
+      |<% } %>
+  .row-fluid
+    p.span2
+      |<% if (typeof integration != 'undefined' && typeof integration.freshbooks != 'undefined' && integration.freshbooks.apiKey != '') { %>
+      i.icon-ok 
+      strong FRESHBOOKS
+      .btn-group
+        a.btn.btn-flat.danger(href='freshbooks') Delete
+        a#freshbooks.btn.btn-flat.success(href='freshbooks') Edit
+      |<% } else {%>
+      a#freshbooks.btn-glow.primary(href='freshbooks')
+        i.icon-plus.icon-white
+        |ADD FRESHBOOKS
+      |<% } %>

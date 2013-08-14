@@ -4,6 +4,7 @@ App.module("ClientsApp", function (ClientsApp, App, Backbone, Marionette, $, _) 
       urlRoot: '/api/client',
       idAttribute: "_id"
     }),
+
     Clients = Backbone.Paginator.requestPager.extend({
       model: Client,
       paginator_core: {
@@ -27,18 +28,47 @@ App.module("ClientsApp", function (ClientsApp, App, Backbone, Marionette, $, _) 
         return response.collection;
       }
     }),
+
+    ImportClientsView = Backbone.Marionette.ItemView.extend({
+      template: "#import-clients-template",
+      className: "modal-dialog",
+      events: {
+        'click #confirm': 'deleteApp'
+      },
+      onRender: function () {
+        $('#modal').width('660px')
+      }
+    }),
+
     Layout = Backbone.Marionette.Layout.extend({
       className: "container-fluid",
       template: "#clients-template",
       regions: {
         table: "#table",
         pagination: "#pagination"
+      },
+      events: {
+        'click #freshbooks': 'freshBooksImport'
+      },
+      freshBooksImport: function () {
+        var options = {
+            type: 'get',
+            url: '/api/import-freshbooks',
+            success: function (clients) {
+              App.modal.show(new ImportClientsView({
+                collection: new Backbone.Collection(clients)
+              }))
+            }
+          };
+        $.ajax(options);
       }
     }),
+
     ItemView = Backbone.Marionette.ItemView.extend({
       template: "#client-item-template",
       tagName: 'tr'
     }),
+
     TableClientsView = Backbone.Marionette.CompositeView.extend({
       itemView: ItemView,
       itemViewContainer: "tbody",
@@ -60,6 +90,7 @@ App.module("ClientsApp", function (ClientsApp, App, Backbone, Marionette, $, _) 
         "clients": "showItems"
       }
     });
+
   ClientsApp.showItems = function () {
     ClientsApp.initializeLayout();
     App.content.show(ClientsApp.layout);

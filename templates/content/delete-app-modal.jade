@@ -1,0 +1,8 @@
+.modal-content
+  .modal-header
+    button.close(type="button", data-dismiss="modal", aria-hidden="true") &times;
+    h4.modal-title Delete <%= app %>
+  .modal-body
+   h4.text-error Remove <%= app %> app?
+  .modal-footer.form-actions
+    button#confirm.btn.btn-success(type="submit", data-dismiss="modal") REMOVE

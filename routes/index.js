@@ -4,6 +4,7 @@ var
   , generatePassword = require('password-generator')
   , async = require('async')
   , bcrypt = require('bcrypt')
+  , FreshBooks = require('freshbooks')
   , MailService = require('../services/Mail')
   , User = require('../schemas/user')
   , Client = require('../schemas/client')
@@ -66,8 +67,8 @@ exports.newuser = function(req, res){
       }
       MailService.sendUserRegisterMail(user);
       res.send(user);
-    })
-  })
+    });
+  });
 };
 
 exports.getusers = function(req, res){
@@ -97,10 +98,11 @@ exports.getusers = function(req, res){
             collection:  users,
             count: count
           });
-        })
-    })
-  })
+        });
+    });
+  });
 };
+
 exports.getuser = function(req, res){
   User.findById(req.query.id).exec(function (err, user) {
     if (err || !user) {
@@ -109,7 +111,45 @@ exports.getuser = function(req, res){
       return;
     }
     res.send(user);
-  })
+  });
+};
+
+exports.getcompany = function(req, res){
+  User.findById(req.session.user_id, function(err, MasterUser) {
+    if (err || !MasterUser) {
+      console.error(err);
+      res.send('User not found', 400);
+      return;
+    }
+    Company.findById(MasterUser.company, function(err, company) {
+      if (err || !company) {
+        console.error(err);
+        res.send('Company not found', 400);
+        return;
+      }
+      res.send(company);
+    });
+  });
+};
+
+exports.sineapp = function(req, res){
+  Company.findById(req.body.companyId, function(err, company) {
+    if (err || !company) {
+      console.error(err);
+      res.send('Company not found', 400);
+      return;
+    }
+    company.integration[req.body.app].apiKey = req.body.apiKey;
+    company.integration[req.body.app].subDomain = req.body.subDomain;
+    company.save(function (err, user) {
+      if (err) {
+        console.error(err);
+        res.send('error saving Company', 500);
+        return;
+      }
+      res.send(company);
+    });
+  });
 };
 
 exports.activation = function(req, res){
@@ -125,7 +165,7 @@ exports.activation = function(req, res){
       user: user,
       error: false
     });
-  })
+  });
 };
 
 exports.activateUser = function(req, res){
@@ -168,9 +208,9 @@ exports.activateUser = function(req, res){
           user: user,
           error: false
         });
-      })
+      });
     });
-  })
+  });
 };
 
 exports.newticket = function(req, res){
@@ -199,8 +239,8 @@ exports.newticket = function(req, res){
           }
           res.send(ticket);
         });
-    })
-  })
+    });
+  });
 };
 exports.gettickets = function(req, res){
   User.findById(req.session.user_id, function(err, MasterUser) {
@@ -230,9 +270,9 @@ exports.gettickets = function(req, res){
             collection:  tickets,
             count: count
           });
-        })
-      })
-  })
+        });
+      });
+  });
 };
 
 exports.newclient = function(req, res){
@@ -260,9 +300,10 @@ exports.newclient = function(req, res){
           }
           res.send(client);
         });
-    })
-  })
+    });
+  });
 };
+
 exports.getclients = function(req, res){
    User.findById(req.session.user_id, function(err, MasterUser) {
     if (err || !MasterUser) {
@@ -290,9 +331,38 @@ exports.getclients = function(req, res){
             collection:  clients,
             count: count
           });
-        })
-    })
-  })
+        });
+    });
+  });
+};
+
+exports.importFreshbooks = function(req, res){
+  User.findById(req.session.user_id, function(err, MasterUser) {
+    if (err || !MasterUser) {
+      console.error(err);
+      res.send('User not found', 400);
+      return;
+    }
+    Company.findById(MasterUser.company, function(err, company) {
+      if (err || !company) {
+        console.error(err);
+        res.send('Company not found', 400);
+        return;
+      }
+      var freshbooks = new FreshBooks(company.integration.freshbooks.subDomain, company.integration.freshbooks.apiKey)
+      , client = new freshbooks.Client();
+    
+      client.list({folder: 'active'}, function(err, clients) {
+        if (err) {
+          console.log(err);
+          res.send('Clients not found', 400);
+          return;
+        } else {
+          res.send(clients);
+        }
+      });
+    });
+  });
 };
 
 exports.setup = function(req, res){
@@ -418,7 +488,7 @@ exports.newowner = function(req, res){
           res.send();
           return;
         });
-      },
+      }
     ]);
   });
 };

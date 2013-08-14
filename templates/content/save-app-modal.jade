@@ -1,0 +1,18 @@
+.modal-content
+  .modal-header
+    button.close(type="button", data-dismiss="modal", aria-hidden="true") &times;
+    h4.modal-title Add <%= app %>
+  .modal-body
+    form#addApp.form-horizontal
+      .control-group
+        label.control-label(for="apiKey") Api Key
+        .controls
+          input#apiKey.span3(placeholder="Api Key", type="text", name="apiKey", required, value!='<%= typeof integration != "undefined" && integration[app] ? integration[app].apiKey : "" %>')
+      .control-group
+        label.control-label(for="subDomain") Sub Domain
+        .controls
+          input#subDomain.span3(placeholder="Domain", type="text", name="subDomain", required, value!='<%= typeof integration != "undefined" && integration[app] ? integration[app].subDomain : "" %>')
+    .alert.alert-error.hide
+      |Fill all of the fields
+  .modal-footer.form-actions
+    button#confirm.btn.btn-success(type="submit", data-dismiss="modal") SAVE
