@@ -2,6 +2,9 @@
     "name": "Infinity-Admin"
   , "version": "0.0.1"
   , "private": true
+  , "scripts": {
+    "start": "forever app.js"
+  }
   , "dependencies": {
      "express": "2.5.8"
     ,"mandrill-api":">=1.0.2"

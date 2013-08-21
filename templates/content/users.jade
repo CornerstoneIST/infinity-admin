@@ -41,4 +41,18 @@
   //
      Users table
   #table.row-fluid
+  .row-fluid
+      .btn-group
+          button.btn.glow.icon
+            i.icon-plus  Add Users
+          button.btn.glow.dropdown-toggle(data-toggle='dropdown')
+            span.caret
+          ul.dropdown-menu
+            li
+              a#zendesk(href='#') Import from Zendesk
+            li
+              a#freshbooks(href='#') Import from FreshBooks
+            li
+              a#manually(href='#') Add Manually
+        .span
   #pagination

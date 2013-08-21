@@ -19,8 +19,6 @@ script#clients-table-template(type='text/template')
   include content/clients-table
 script#client-item-template(type='text/template')
   include content/client-item
-script#import-clients-template(type='text/template')
-  include content/import-clients-modal
 script#tasks-template(type='text/template')
   include content/tasks
 script#organizer-template(type='text/template')
@@ -45,6 +43,8 @@ script#users-table-template(type='text/template')
   include content/users-table
 script#user-item-template(type='text/template')
   include content/user-item
+script#import-users-template(type='text/template')
+  include content/import-users-modal
 script#entries-table-template(type='text/template')
   include content/entries-table
 script#entries-item-template(type='text/template')
@@ -55,7 +55,7 @@ script#pagination-template(type='text/template')
 script(src='/js/bootstrap.min.js')
 script(src='/js/backbone.paginator.min.js')
 script(src='/js/moment.min.js')
-script(src='/js/jquery-ui-1.10.2.custom.min.js')
+script(src='/js/jquery-ui-1.10.3.custom.min.js')
 //
    flot charts
 script(src='/js/jquery.flot.js')

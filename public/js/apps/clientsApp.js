@@ -29,16 +29,6 @@ App.module("ClientsApp", function (ClientsApp, App, Backbone, Marionette, $, _) 
       }
     }),
 
-    ImportClientsView = Backbone.Marionette.ItemView.extend({
-      template: "#import-clients-template",
-      className: "modal-dialog",
-      events: {
-        'click #confirm': 'deleteApp'
-      },
-      onRender: function () {
-        $('#modal').width('660px')
-      }
-    }),
 
     Layout = Backbone.Marionette.Layout.extend({
       className: "container-fluid",
@@ -46,21 +36,6 @@ App.module("ClientsApp", function (ClientsApp, App, Backbone, Marionette, $, _) 
       regions: {
         table: "#table",
         pagination: "#pagination"
-      },
-      events: {
-        'click #freshbooks': 'freshBooksImport'
-      },
-      freshBooksImport: function () {
-        var options = {
-            type: 'get',
-            url: '/api/import-freshbooks',
-            success: function (clients) {
-              App.modal.show(new ImportClientsView({
-                collection: new Backbone.Collection(clients)
-              }))
-            }
-          };
-        $.ajax(options);
       }
     }),
 

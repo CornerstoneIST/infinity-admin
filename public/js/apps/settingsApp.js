@@ -13,10 +13,7 @@ App.module("SettingsApp", function(SettingsApp, App, Backbone, Marionette, $, _)
         }
       },
       addApp: function (e) {
-        this.model.set('app', $(e.target).attr('href'), {silent: true});
-        App.modal.show(new SaveAppView({
-          model: this.model
-        }));
+        SettingsApp.addApp($(e.target).attr('href'))
         return false;
       },
       deleteApp: function (e) {
@@ -49,7 +46,7 @@ App.module("SettingsApp", function(SettingsApp, App, Backbone, Marionette, $, _)
           this.$('.alert').show();
           return false;
         }
-        this.model.save({}, options);
+        SettingsApp.Company.save({}, options);
       }
     }),
     DeleteAppView = Backbone.Marionette.ItemView.extend({
@@ -68,9 +65,9 @@ App.module("SettingsApp", function(SettingsApp, App, Backbone, Marionette, $, _)
           },
           options = {
             type: 'post',
-            url: '/api/save-app'
+            url: '/api/save-app',
           };
-        this.model.save(data, options);
+        SettingsApp.Company.save(data, options);
       }
     }),
     Router = Marionette.AppRouter.extend({
@@ -78,7 +75,17 @@ App.module("SettingsApp", function(SettingsApp, App, Backbone, Marionette, $, _)
         "settings": "initializeLayout"
       }
     });
-  SettingsApp.initializeLayout = function () {
+  SettingsApp.addApp = function (appType) {
+    function addApp () {
+      SettingsApp.Company.set('app', appType, {silent: true});
+      App.modal.show(new SaveAppView({
+        model: SettingsApp.Company
+      }));
+    };
+    SettingsApp.initializeLayout(addApp);
+  },
+
+  SettingsApp.initializeLayout = function (cb) {
     var options = {
           type: 'get',
           url: '/api/get-company',
@@ -87,10 +94,11 @@ App.module("SettingsApp", function(SettingsApp, App, Backbone, Marionette, $, _)
             App.content.show(new Layout({
               model: SettingsApp.Company
             }));
+            if (cb) {
+              cb();
+            }
           }
       };
-      
-
     $.ajax(options);
     App.MenuView.setActive('settings');
     Backbone.history.navigate('settings');

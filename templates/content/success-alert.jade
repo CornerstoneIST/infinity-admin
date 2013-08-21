@@ -4,6 +4,6 @@
     h4.modal-title Success
   .modal-body
     p
-      h3 <%= name + ' added' %>
+      h3 <%= name||'Users' %>  added
   .modal-footer.form-actions
-    button#confirm.btn.btn-success(type="button", data-dismiss="modal") ok
+    button#confirm.btn.btn-success.span1.pull-right(type="button", data-dismiss="modal") OK

@@ -5,6 +5,9 @@ var
     type: String,
     required: true
   },
+  email: {
+    type: String,
+  },
   company: {
     type: mongoose.Schema.ObjectId,
     ref: 'Company',

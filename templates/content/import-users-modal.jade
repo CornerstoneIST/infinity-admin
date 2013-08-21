@@ -1,0 +1,13 @@
+.modal-content
+  .modal-header
+    button.close(type="button", data-dismiss="modal", aria-hidden="true") &times;
+    h4.modal-title Drag and drop to add
+  .modal-body
+    .alert.alert-error.hide
+    h4.span.offset1 Selected
+    h4.offset4 Available
+    .selected
+    .available.offset3
+      img.offset1(src="/img/ajax-loader.gif")
+  .modal-footer
+    button#confirm.btn.btn-success(data-dismiss="modal") SAVE

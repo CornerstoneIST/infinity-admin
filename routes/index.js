@@ -56,17 +56,30 @@ exports.newuser = function(req, res){
       res.send('User not found', 400);
       return;
     }
-    var user = new User(req.body);
-    user.type = 'user';
-    user.company = MasterUser.company;
-    user.save(function (err, user) {
+    User.find({
+      company: MasterUser.company,
+      email: req.body.email
+    }).count(function (err, count) {
       if (err) {
         console.error(err);
-        res.send('error saving User', 500);
+        return
+      } else if (count > 0) {
+        res.send('This email is in use', 500);
         return;
+      } else {
+        var user = new User(req.body);
+        user.type = 'user';
+        user.company = MasterUser.company;
+        user.save(function (err, user) {
+          if (err) {
+            console.error(err);
+            res.send('error saving User', 500);
+            return;
+          }
+          MailService.sendUserRegisterMail(user);
+          res.send(user);
+        });
       }
-      MailService.sendUserRegisterMail(user);
-      res.send(user);
     });
   });
 };
@@ -336,7 +349,7 @@ exports.getclients = function(req, res){
   });
 };
 
-exports.importFreshbooks = function(req, res){
+exports.getFreshbooksClients = function(req, res){
   User.findById(req.session.user_id, function(err, MasterUser) {
     if (err || !MasterUser) {
       console.error(err);
@@ -349,19 +362,74 @@ exports.importFreshbooks = function(req, res){
         res.send('Company not found', 400);
         return;
       }
-      var freshbooks = new FreshBooks(company.integration.freshbooks.subDomain, company.integration.freshbooks.apiKey)
-      , client = new freshbooks.Client();
-    
-      client.list({folder: 'active'}, function(err, clients) {
-        if (err) {
-          console.log(err);
-          res.send('Clients not found', 400);
-          return;
-        } else {
-          res.send(clients);
-        }
-      });
+      if (!company.integration.freshbooks.subDomain || !company.integration.freshbooks.apiKey) {
+        res.send('Freshbooks params not found', 400);
+        return;
+      } else {
+        var freshbooks = new FreshBooks(company.integration.freshbooks.subDomain, company.integration.freshbooks.apiKey)
+        , client = new freshbooks.Client();
+        client.list({folder: 'active'}, function(err, freshbooksClients) {
+          if (err) {
+            console.log(err);
+            res.send(err + '', 400);
+            return;
+          } else {
+            User.find({'company': MasterUser.company}, function (err, users) {
+              if (err) {
+                console.log(err);
+                res.send('Users not found', 400);
+                return;
+              } else {
+                res.send({
+                  appUsers: freshbooksClients,
+                  actualUsers: users
+                });
+              }
+            });
+          }
+        });
+      }
     });
+  });
+};
+
+exports.saveFreshbooksUsers = function(req, res){
+  User.findById(req.session.user_id, function(err, MasterUser) {
+    if (err || !MasterUser) {
+      console.error(err);
+      res.send('User not found', 400);
+      return;
+    }
+    function saveClientIterator (item, cb) {
+      var user = new User;
+      user.name = item.first_name + item.last_name;
+      user.email = item.email;
+      user.phone = item.mobile || item.work_phone || item.home_phone;
+      user.state = item.p_state;
+      user.street = item.p_street1;
+      user.city = item.p_city;
+      user.postal = item.p_code;
+      user.notes = item.notes;
+      user.website = item.url;
+      user.type = 'user';
+      user.company = MasterUser.company;
+      user.save(function (err, user) {
+        if (err) {
+          cb(err);
+        }
+        cb(null);
+        MailService.sendUserRegisterMail(user);
+      });
+    };
+    function callback (err) {
+      if (err) {
+        console.error(err);
+        res.send('error saving Cliet', 500);
+        return;
+      }
+      res.send();
+    };
+    async.each(req.body, saveClientIterator, callback);
   });
 };
 

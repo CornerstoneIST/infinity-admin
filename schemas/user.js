@@ -42,7 +42,6 @@ var
   },
   email: {
     type: String,
-    unique: true,
     required: true
   },
   recovery_email: {
