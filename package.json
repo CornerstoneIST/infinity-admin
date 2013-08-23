@@ -16,5 +16,6 @@
     , "async": "*"
     , "bcrypt" : "*"
     , "freshbooks" : "*"
+    , "node-zendesk" : "*"
   }
 }

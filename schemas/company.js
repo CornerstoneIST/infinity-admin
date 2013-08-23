@@ -34,6 +34,9 @@ var
   },
   integration: {
     zendesk: {
+      username: {
+        type: String
+      },
       apiKey: {
         type: String
       },

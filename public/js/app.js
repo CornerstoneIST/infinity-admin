@@ -116,7 +116,7 @@ var MenuView = Backbone.Marionette.View.extend({
     App.EntriesApp.showItems();
   },
   settings: function () {
-    App.SettingsApp.initializeLayout();
+    App.SettingsApp.showLayout();
   }
 });
 

@@ -46,6 +46,10 @@ App.module("UsersApp", function (UsersApp, App, Backbone, Marionette, $, _) {
         'click #freshbooks': function () {
           UsersApp.importFreshbooks();
           return false;
+        },
+        'click #zendesk': function () {
+          UsersApp.importZendesk();
+          return false;
         }
       }
     }),
@@ -148,7 +152,7 @@ App.module("UsersApp", function (UsersApp, App, Backbone, Marionette, $, _) {
         var me = this
           , options = {
               type: 'get',
-              url: '/api/import-freshbooks',
+              url: '/api/import-' + me.options.type,
               success: function (res) {
                 me.availableList = new ImportListView({
                   collection: new Backbone.Collection(res.appUsers),
@@ -160,11 +164,16 @@ App.module("UsersApp", function (UsersApp, App, Backbone, Marionette, $, _) {
               error: function (err) {
                 if (err.responseText == "Freshbooks params not found") {
                   $('#modal').one('hidden', function () {
-                    App.SettingsApp.addApp('freshbooks')
+                    App.SettingsApp.setApp('freshbooks');
+                  })
+                  me.close();
+                } else if (err.responseText == "Zendesk params not found") {
+                  $('#modal').one('hidden', function () {
+                    App.SettingsApp.setApp('zendesk');
                   })
                   me.close();
                 } else {
-                  me.$('.alert').show().text('FreshBooks-' + err.responseText);
+                  me.$('.alert').show().text(me.options.type + '-' + err.responseText);
                 }
               }
           };
@@ -181,21 +190,31 @@ App.module("UsersApp", function (UsersApp, App, Backbone, Marionette, $, _) {
             var me = this
             , options = {
                 type: 'post',
-                url: '/api/freshbooks-users',
+                url: '/api/import-users/' + this.options.type,
                 success: function () {
                   $('#modal').one('hidden', function () {
                     App.modal.show(new SuccessView());
                   })
                 }
               };
-            Backbone.sync('create', this.selectedList.collection, options)
+            Backbone.sync('create', this.selectedList.collection, options);
           }
         }
       }
     }),
 
     ItemClientView = Backbone.Marionette.ItemView.extend({
-      template: _.template("<a style='width:244px;min-height: 20px;' href='#'> <%= first_name %> <%= last_name %> <small class='text-info pull-right'><%= organization %></small> </a>"),
+      template: function (data) {
+        if (data.organization) {
+          return _.template("<a style='width:244px;min-height: 20px;' href='#'> <%= data.first_name %> <%= data.last_name %> <small class='text-info pull-right'><%= data.organization %></small> </a>", {
+            data: data
+          })
+        } else {
+          return _.template("<a style='width:244px;min-height: 20px;' href='#'> <%= data.name %> <small class='text-info pull-right'><%= data.email %></small> </a>", {
+            data: data
+          });
+        }
+      },
       tagName: "li",
       initialize: function () {
         var me = this;
@@ -272,6 +291,7 @@ App.module("UsersApp", function (UsersApp, App, Backbone, Marionette, $, _) {
         , "users/new": "newItem"
         , "users/:id": "showItem"
         , "users/import/freshbooks": "importFreshbooks"
+        , "users/import/zendesk": "importZendesk"
       }
     });
   
@@ -296,9 +316,17 @@ App.module("UsersApp", function (UsersApp, App, Backbone, Marionette, $, _) {
   };
 
   UsersApp.importFreshbooks = function () {
-    UsersApp.showItems();
-    App.modal.show(new ImportView());
+    App.modal.show(new ImportView({
+      type: 'freshbooks'
+    }));
     Backbone.history.navigate('users/import/freshbooks');
+  };
+
+  UsersApp.importZendesk = function () {
+    App.modal.show(new ImportView({
+      type: 'zendesk'
+    }));
+    Backbone.history.navigate('users/import/zendesk');
   };
 
   UsersApp.showItems = function () {

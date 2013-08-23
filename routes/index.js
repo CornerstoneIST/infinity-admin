@@ -1,5 +1,4 @@
-var
-  fs = require('fs')
+var fs = require('fs')
   , config = require('../config/config').config
   , generatePassword = require('password-generator')
   , async = require('async')
@@ -12,7 +11,7 @@ var
   , Company = require('../schemas/company')
   , Ticket = require('../schemas/ticket');
 
-exports.index = function(req, res){
+exports.index = function(req, res) {
   res.render('index');
 };
 
@@ -146,14 +145,13 @@ exports.getcompany = function(req, res){
 };
 
 exports.sineapp = function(req, res){
-  Company.findById(req.body.companyId, function(err, company) {
+  Company.findById(req.body._id, function(err, company) {
     if (err || !company) {
       console.error(err);
       res.send('Company not found', 400);
       return;
     }
-    company.integration[req.body.app].apiKey = req.body.apiKey;
-    company.integration[req.body.app].subDomain = req.body.subDomain;
+    company.integration = req.body.integration;
     company.save(function (err, user) {
       if (err) {
         console.error(err);
@@ -348,7 +346,54 @@ exports.getclients = function(req, res){
     });
   });
 };
+exports.getZendeskUsers = function(req, res){
+  User.findById(req.session.user_id, function(err, MasterUser) {
+    if (err || !MasterUser) {
+      console.error(err);
+      res.send('User not found', 400);
+      return;
+    }
+    Company.findById(MasterUser.company, function(err, company) {
+      if (err || !company) {
+        console.error(err);
+        res.send('Company not found', 400);
+        return;
+      }
+      if (!company.integration.zendesk.subDomain || !company.integration.zendesk.apiKey || !company.integration.zendesk.username) {
+        res.send('Zendesk params not found', 400);
+        return;
+      } else {
 
+        var zendesk = require('node-zendesk')
+          , client = zendesk.createClient({
+              username:  company.integration.zendesk.username,
+              token:     company.integration.zendesk.apiKey,
+              remoteUri: company.integration.zendesk.subDomain + '/api/v2'
+            });
+        client.users.search({role: 'agent'}, function (err, req, zendeskUsers) {
+          if (err) {
+            console.log(err);
+            res.send(err.toString(), 400);
+            return;
+          } else {
+            User.find({'company': MasterUser.company}, function (err, users) {
+              if (err) {
+                console.log(err);
+                res.send('Users not found', 400);
+                return;
+              } else {
+                res.send({
+                  appUsers: zendeskUsers,
+                  actualUsers: users
+                });
+              }
+            });
+          }
+        });
+      }
+    });
+  });
+}
 exports.getFreshbooksClients = function(req, res){
   User.findById(req.session.user_id, function(err, MasterUser) {
     if (err || !MasterUser) {
@@ -393,7 +438,7 @@ exports.getFreshbooksClients = function(req, res){
   });
 };
 
-exports.saveFreshbooksUsers = function(req, res){
+exports.saveImportUsers = function(req, res){
   User.findById(req.session.user_id, function(err, MasterUser) {
     if (err || !MasterUser) {
       console.error(err);
@@ -402,15 +447,20 @@ exports.saveFreshbooksUsers = function(req, res){
     }
     function saveClientIterator (item, cb) {
       var user = new User;
-      user.name = item.first_name + item.last_name;
-      user.email = item.email;
-      user.phone = item.mobile || item.work_phone || item.home_phone;
-      user.state = item.p_state;
-      user.street = item.p_street1;
-      user.city = item.p_city;
-      user.postal = item.p_code;
+      if (req.params.app == 'zendesk') {
+        user.name = item.name;
+        user.phone = item.phone;
+      } else if (req.params.app == 'freshbooks') {
+        user.name = item.first_name + item.last_name;
+        user.phone = item.mobile || item.work_phone || item.home_phone;
+        user.state = item.p_state;
+        user.street = item.p_street1;
+        user.city = item.p_city;
+        user.postal = item.p_code;
+        user.website = item.url;
+      }
       user.notes = item.notes;
-      user.website = item.url;
+      user.email = item.email;
       user.type = 'user';
       user.company = MasterUser.company;
       user.save(function (err, user) {

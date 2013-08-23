@@ -4,39 +4,46 @@ App.module("SettingsApp", function(SettingsApp, App, Backbone, Marionette, $, _)
       className: "container-fluid",
       template: "#settings-template",
       events: {
-        'click a:not(.danger)': 'addApp',
-        'click a.danger': 'deleteApp'
+        'click a': 'setApp'
       },
       modelEvents: {
-        "change": function () {
+        "sync": function () {
           this.render();
         }
       },
-      addApp: function (e) {
-        SettingsApp.addApp($(e.target).attr('href'))
-        return false;
-      },
-      deleteApp: function (e) {
-        this.model.set('app', $(e.target).attr('href'), {silent: true});
-        App.modal.show(new DeleteAppView({
-          model: this.model
-        }));
-        return false;
+      setApp: function (e) {
+        e.preventDefault();
+        SettingsApp.setApp($(e.target).attr('href'), $(e.target).hasClass('danger') ? 'delete' : null)
       }
     }),
+
     SaveAppView = Backbone.Marionette.ItemView.extend({
-      template: "#save-app-template",
+      getTemplate: function () {
+        var me = this;
+        if (this.options.type == 'delete') {
+          return _.template($('#delete-app-template').html(), {
+            model: me.model,
+            app: me.options.app
+          });
+        }
+        return _.template($('#save-app-template').html(), {
+          model: me.model,
+          app: me.options.app
+        });
+      },
       className: "modal-dialog",
       events: {
         'click #confirm': 'saveApp'
       },
       saveApp: function () {
-        var options = {
-              type: 'post',
-              url: '/api/save-app',
-              data: this.$('form').serialize() + '&companyId=' + this.model.get('_id') + '&app=' + this.model.get('app')
-            },
-            error = false;
+        var error = false
+          , app = {
+              apiKey: this.$('#apiKey').val() || '',
+              subDomain: this.$('#subDomain').val() || ''
+            };
+        if (this.options.app == 'zendesk') {
+          app.username = this.$('#userName').val() || '';
+        }
         _.each(this.$('input'), function (inp) {
           if ($(inp).val() == '') {
             error = true;
@@ -46,62 +53,47 @@ App.module("SettingsApp", function(SettingsApp, App, Backbone, Marionette, $, _)
           this.$('.alert').show();
           return false;
         }
-        SettingsApp.Company.save({}, options);
+        if (!SettingsApp.Company.get('integration')) {
+          SettingsApp.Company.set('integration', {});
+        }
+
+        SettingsApp.Company.get('integration')[this.options.app] = app;
+        SettingsApp.Company.save({}, {url: '/api/save-app'});
       }
     }),
-    DeleteAppView = Backbone.Marionette.ItemView.extend({
-      template: "#delete-app-template",
-      className: "modal-dialog",
-      events: {
-        'click #confirm': 'deleteApp'
-      },
-      deleteApp: function () {
-        var
-          data = {
-            apiKey: '',
-            subDomain: '',
-            companyId: this.model.get('_id'),
-            app: this.model.get('app')
-          },
-          options = {
-            type: 'post',
-            url: '/api/save-app',
-          };
-        SettingsApp.Company.save(data, options);
-      }
-    }),
+
     Router = Marionette.AppRouter.extend({
       appRoutes: {
-        "settings": "initializeLayout"
+        "settings": "showLayout"
       }
     });
-  SettingsApp.addApp = function (appType) {
-    function addApp () {
-      SettingsApp.Company.set('app', appType, {silent: true});
-      App.modal.show(new SaveAppView({
-        model: SettingsApp.Company
-      }));
-    };
-    SettingsApp.initializeLayout(addApp);
+  SettingsApp.setApp = function (appType, type) {
+    if (!SettingsApp.Company) {
+      getMainCompany();
+    }
+    App.modal.show(new SaveAppView({
+      model: SettingsApp.Company,
+      app: appType,
+      type: type,
+    }));
   },
 
-  SettingsApp.initializeLayout = function (cb) {
-    var options = {
-          type: 'get',
-          url: '/api/get-company',
-          success: function (res, status, xhr) {
-            SettingsApp.Company = new Backbone.Model(res);
-            App.content.show(new Layout({
-              model: SettingsApp.Company
-            }));
-            if (cb) {
-              cb();
-            }
-          }
-      };
-    $.ajax(options);
+  SettingsApp.showLayout = function (cb) {
+    getMainCompany();
+    App.content.show(new Layout({
+      model: SettingsApp.Company
+    }));
     App.MenuView.setActive('settings');
     Backbone.history.navigate('settings');
+  };
+
+  function getMainCompany () {
+    var Company = Backbone.Model.extend({
+      urlRoot: '/api/get-company',
+      idAttribute: "_id"
+    });
+    SettingsApp.Company = new Company();
+    SettingsApp.Company.fetch();
   };
 
   App.addInitializer(function () {

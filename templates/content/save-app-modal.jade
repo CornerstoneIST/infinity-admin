@@ -2,16 +2,23 @@
   .modal-header
     button.close(type="button", data-dismiss="modal", aria-hidden="true") &times;
     h4.modal-title Add <%= app %>
+    <% var appData = model.get("integration") %>
   .modal-body
     form#addApp.form-horizontal
+      <% if (app == 'zendesk') { %>
+      .control-group
+        label.control-label(for="userName") Username
+        .controls
+          input#userName.span3(placeholder="example@mail.com", type="text", name="userName", required, value!='<%= appData && appData[app] ? appData[app].username : "" %>')
+      <% } %>
       .control-group
         label.control-label(for="apiKey") Api Key
         .controls
-          input#apiKey.span3(placeholder="Api Key", type="text", name="apiKey", required, value!='<%= typeof integration != "undefined" && integration[app] ? integration[app].apiKey : "" %>')
+          input#apiKey.span3(placeholder="Api Key", type="text", name="apiKey", required, value!='<%= appData && appData[app] ? appData[app].apiKey : "" %>')
       .control-group
         label.control-label(for="subDomain") Sub Domain
         .controls
-          input#subDomain.span3(placeholder="Domain", type="text", name="subDomain", required, value!='<%= typeof integration != "undefined" && integration[app] ? integration[app].subDomain : "" %>')
+          input#subDomain.span3(placeholder!='<%= app == "freshbooks" ? "https://example.freshbooks.com/api/2.1/xml-in" : "https://example.zendesk.com" %>', type="text", name="subDomain", required, value!='<%= appData && appData[app] ? appData[app].subDomain : "" %>')
     .alert.alert-error.hide
       |Fill all of the fields
   .modal-footer.form-actions
